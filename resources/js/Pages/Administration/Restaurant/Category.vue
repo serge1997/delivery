@@ -12,6 +12,10 @@
                                     <InputText class="p-1" placeholder="nom de la category" />
                                 </div>
                                 <div class="mb-3 d-flex flex-column">
+                                    <label for="form-label">Description</label>
+                                    <Textarea class="p-1" placeholder="nom de la promotion" />
+                                </div>
+                                <div class="mb-3 d-flex flex-column">
                                     <img class="w-25 image-thumbnail rounded-circle mb-3" :src="imageUrl" alt="">
                                     <input @change="handleImageUpload" class="d-none" type="file" id="restaurant-category-file" />
                                     <Button class="w-25" @click="onOuputFileWindow" label="image" icon="pi pi-image" />

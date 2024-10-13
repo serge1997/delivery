@@ -5,6 +5,7 @@ import Promotion from "../Pages/Administration/Restaurant/Promotion.vue";
 import Category from "../Pages/Administration/Restaurant/Category.vue";
 import FoodType from "../Pages/Administration/Restaurant/FoodType.vue";
 import RestaurantRegister from "../Pages/Register/RestaurantRegister.vue";
+import Establishment from "../Pages/Administration/Configuration/Establishment.vue";
 
 const routes = [
     {
@@ -31,6 +32,11 @@ const routes = [
         path: '/register/restaurant',
         component: RestaurantRegister,
         name: 'Register.Restaurant'
+    },
+    {
+        path: '/administration/configuration/establishment',
+        component: Establishment,
+        name: 'Config.Establishment'
     }
 ]
 

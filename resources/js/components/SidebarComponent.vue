@@ -36,7 +36,7 @@
                                     </router-link>
                                 </el-menu-item>
                                 <el-menu-item index="2-1-2">
-                                    <router-link class="text-dark text-decoration-none d-flex align-items-center gap-2" to="/administration/restaurant/category">
+                                    <router-link class="text-dark text-decoration-none d-flex align-items-center gap-2" :to="{ name: 'Config.Establishment'}">
                                         <i class="pi pi-home"></i>
                                         <span>Etablissement</span>
                                     </router-link>
