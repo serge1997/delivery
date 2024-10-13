@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row header">
-            <h2>Save your restaurant</h2>
+            <h2>LOGO</h2>
         </div>
         <div class="container mb-5">
             <div class="row">
@@ -27,12 +27,14 @@
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Votre Nom</label>
                             <InputText @blur="onBlurInputValidation" :class="inputInvalid" class="p-1 required" placeholder="Informez votre nom" />
+                            <small class="text-danger d-none">votre nom est obligatoire</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Votre Telephone</label>
                             <InputText @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez votre e-mail" />
+                            <small class="text-danger d-none">votre telephone est obligatoire</small>
                         </div>
                     </div>
                 </div>
@@ -49,12 +51,14 @@
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Nom du restaurant</label>
                             <InputText @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le nom du restaurant" />
+                            <small class="text-danger d-none">nom du restaurant est obligatoire</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Whatsapp du restaurant</label>
                             <InputText @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le whatsapp du restaurant" />
+                            <small class="text-danger d-none">whatsapp du restaurant est obligatoire</small>
                         </div>
                     </div>
                 </div>
@@ -69,22 +73,37 @@
                 <div class="row mb-2">
                     <div class="col-md-12">
                         <div class="mb-3 d-flex flex-column">
-                            <label for="exampleFormControlInput1" class="form-label">Numero de régistre</label>
+                            <label for="regist-number" class="form-label">Numero de régistre</label>
                             <InputText class="p-1" placeholder="Informez le numero de registre du restaurant" />
                         </div>
+                    </div>
+                </div>
+                <div class="row p-0 mb-3">
+                    <div class="col-md-4 px-4">
+                        <img style="max-width: 12rem;" class="img-thumbnail" :src="imageb64.logo" alt="">
+                    </div>
+                    <div class="col-md-4 px-4">
+                        <img style="max-width: 12rem;" class="img-thumbnail" :src="imageb64.cover" alt="">
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-4">
                         <div class="mb-3 d-flex flex-column w-100">
-                             <input class="d-none" type="file" id="restaurant-category-file" />
-                             <Button class="w-100 rounded-3 btn-file-upload" label="Logo" icon="pi pi-image" />
+                            <input @change="handleImageUpload" class="d-none" type="file" id="restaurant-logo-image" />
+                            <Button @click="openFileWindow" class="w-100 rounded-3 btn-file-upload" label="Logo" icon="pi pi-image" />
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3 d-flex flex-column">
-                             <input class="d-none" type="file" id="restaurant-category-file" />
-                             <Button class="w-100 btn-file-upload rounded-3" label="Image de couverture" icon="pi pi-image" />
+                            <input @change="handleImageUpload" class="d-none" type="file" id="restaurant-cover-image" />
+                            <Button @click="openFileWindow" class="w-100 btn-file-upload rounded-3" label="Image de couverture" icon="pi pi-image" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="mb-3 d-flex flex-column">
+                            <Button class="w-100 rounded-3" label="Enregistrer" />
                         </div>
                     </div>
                 </div>
@@ -93,6 +112,8 @@
     </div>
 </template>
 <script>
+import { ElMessage } from 'element-plus';
+import { ElNotification } from 'element-plus';
 export default {
     name: 'Register.Restaurant',
 
@@ -103,20 +124,75 @@ export default {
                 creator_phone: null,
                 name: null,
                 phone: null,
-                inputInvalid: null
+                inputInvalid: null,
+                cover: null,
+                logo: null
+            },
+            formErrosBeug: [
+                {creator_name: "Votre nom est obligatoire"}
+            ],
+            imageb64:{
+                logo: null,
+                cover: null,
+                accept: ['jpg', 'jpeg', 'png']
             }
         }
     },
     methods: {
         onBlurInputValidation(e) {
             let input = e.target;
+            let parent = input.parentElement;
             if (input.classList.contains('required') && !input.value){
                 input.classList.add('border-danger')
                 input.classList.add('required-input')
+                parent.querySelector('small').classList.remove('d-none')
             }else{
                 input.classList.remove('border-danger');
                 input.classList.remove('required-input')
+                parent.querySelector('small').classList.add('d-none')
             }
+        },
+        openFileWindow(e){
+            let parent = e.target.parentElement;
+            let div = parent.parentElement;
+            div.querySelector('input[type=file]').click()
+        },
+        handleImageUpload(e){
+            let file = e.target.files[0];
+            let extension = file.type.split('/').pop();
+            if (!this.imageb64.accept.includes(extension)){
+                return ElNotification({
+                    title: "Erreur",
+                    message: "Type de fichier non autorisé",
+                    type: "error"
+                })
+            }
+            let targetId = e.target.getAttribute('id');
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (targetId.includes("logo")){
+                    ElMessage({
+                        message: "Logo telechargé avec succés",
+                        type: "success"
+                    })
+                    this.restaurant.logo = file;
+                    return this.imageb64.logo = reader.result
+                }
+                ElMessage({
+                    message: "Couverture telechargée avec succés",
+                    type: "success"
+                })
+                this.restaurant.cover = file;
+                this.imageb64.cover = reader.result
+
+            }
+            reader.onerror = () => {
+                ElMessage({
+                    message: "Une erreure survenue en telechargeant l'image",
+                    type: "error"
+                })
+            }
+            reader.readAsDataURL(file)
         }
     }
 }
