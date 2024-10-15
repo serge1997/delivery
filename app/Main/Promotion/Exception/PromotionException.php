@@ -2,7 +2,7 @@
 namespace App\Main\Promotion\Exception;
 
 
-class PromotionExceedException extends \Exception
+class PromotionException extends \Exception
 {
     public function __construct($message = "", $code = 0)
     {

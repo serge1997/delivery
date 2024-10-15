@@ -11,7 +11,7 @@ class PromotionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,25 @@ class PromotionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'max:60'],
+            'description' => ['nullable', 'max:160']
         ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Le nom est obligatoire',
+            'description' => '160 caractere permis'
+        ];
+    }
+
+    public function name() : ?string
+    {
+        return $this->name;
+    }
+    public function description() : ?string
+    {
+        return $this->description;
     }
 }
