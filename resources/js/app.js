@@ -16,6 +16,7 @@ import Sidebar from 'primevue/sidebar';
 import Dialog from 'primevue/dialog';
 import NavbarComponent from './components/NavbarComponent.vue';
 import Textarea from 'primevue/textarea';
+import Provider from './core/Provider';
 
 const app = createApp(App);
 
@@ -30,4 +31,5 @@ app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)
     .use(ElementPlus)
+    .use(Provider)
     .mount('#app');

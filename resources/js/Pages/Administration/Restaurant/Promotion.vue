@@ -71,6 +71,9 @@ export default{
         onInactivatePromotion(){
             alert("Hey")
         }
+    },
+    mounted(){
+
     }
 }
 </script>
