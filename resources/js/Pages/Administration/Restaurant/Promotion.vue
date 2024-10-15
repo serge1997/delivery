@@ -34,7 +34,7 @@
                         <el-table class="m-auto" :data="promotions" style="width: 95%">
                             <el-table-column prop="name" label="Nom" />
                             <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
-                            <el-table-column prop="active" label="Active" />
+                            <el-table-column prop="is_active" label="Active" />
                             <el-table-column prop="created_at" label="Créer le" />
                             <el-table-column fixd="right" label="Actions">
                                 <template  #default>
@@ -67,11 +67,9 @@ export default{
             promotion:{
                 name: null,
                 description: null,
-                is_active: false
+                is_active: true
             },
-            promotions: [
-                {name: "promo1", active: "Oui", description: "Desc placeholder", created_at: "04/10/2024"}
-            ],
+            promotions: null,
             formErrors: null
         }
     },
@@ -80,9 +78,13 @@ export default{
             alert("Hey")
         },
         createPromotion(){
+            this.promotion.is_active == null ? this.promotion.is_active = false : this.promotion.is_active = true
             this.Api.post('/v1/promotion', this.promotion)
             .then(async response => {
                 this.Notify.success(await response.data.message);
+                this.formErrors = null;
+                this.visibleCreatePromotionModal = false;
+                this.listAllPromotions()
             })
             .catch(error => {
                 console.log(error)
@@ -90,10 +92,20 @@ export default{
                     this.formErrors = error.response.data.errors;
                 }
             })
+        },
+        listAllPromotions(){
+            this.Api.get('/v1/promotion')
+            .then(async response => {
+                this.promotions = await response.data.data;
+            })
+            .catch(error => {
+                console.log(error)
+                this.Notify.error(error.response.data.message)
+            })
         }
     },
     mounted(){
-        this.Notify.success("Hello")
+        this.listAllPromotions();
     }
 }
 </script>

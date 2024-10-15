@@ -48,7 +48,7 @@ class PromotionController extends Controller
 
         }catch(\Exception $e){
             return response()
-                ->json($this->errorResponse("Error: {$e->getMessage()}"));
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
 
@@ -63,7 +63,7 @@ class PromotionController extends Controller
                 ->json($this->successResponse($message, $data));
         }catch(\Exception $e){
             return response()
-                ->json($this->errorResponse("Error: {$e->getMessage()}"));
+                ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
         }
     }
 }

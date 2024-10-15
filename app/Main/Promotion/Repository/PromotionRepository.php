@@ -14,13 +14,13 @@ class PromotionRepository implements PromotionRepositoryInterface
     }
     public function listAll() : Collection
     {
-        throw new PromotionException("Method not implemented");
+        return Promotion::all();
     }
     public function find(int $id) : Promotion
     {
         return Promotion::find($id);
     }
-    public function findByName(string $name) : Promotion
+    public function findByName(string $name) : ?Promotion
     {
         return Promotion::where("name", $name)->first();
     }
