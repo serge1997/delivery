@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(PromotionController::class)->group(function() {
-    Route::prefix('promotion')->name('promotion.')->group(function () {
+    Route::prefix('v1/promotion')->name('promotion.')->group(function () {
         Route::post('/', 'onCreate')->name('create');
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');

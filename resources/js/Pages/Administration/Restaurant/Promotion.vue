@@ -9,14 +9,19 @@
                             <div class="col-md-10 m-auto">
                                 <div class="mb-3 d-flex flex-column">
                                     <label for="form-label">Nom</label>
-                                    <InputText class="p-1" placeholder="nom de la promotion" />
+                                    <InputText v-model="promotion.name" class="p-1" placeholder="nom de la promotion" />
+                                    <small v-if="formErrors && formErrors.name" class="text-danger" v-text="formErrors.name.toString()"></small>
                                 </div>
                                 <div class="mb-3 d-flex flex-column">
                                     <label for="form-label">Description</label>
-                                    <Textarea class="p-1" placeholder="nom de la promotion" />
+                                    <Textarea v-model="promotion.description" class="p-1" placeholder="nom de la promotion" />
+                                    <small v-if="formErrors && formErrors.description" class="text-danger" v-text="formErrors.description.toString()"></small>
                                 </div>
                                 <div class="mb-3 w-25 d-flex flex-column">
-                                    <el-checkbox v-model="promotion.active" label="Activer ?" size="large" border />
+                                    <el-checkbox v-model="promotion.is_active" label="Activer ?" size="large" border />
+                                </div>
+                                <div class="mb-3 w-25 d-flex flex-column">
+                                    <Button @click="createPromotion" icon="pi pi-save" />
                                 </div>
                             </div>
                         </div>
@@ -60,20 +65,35 @@ export default{
         return {
             visibleCreatePromotionModal: false,
             promotion:{
-                active: false
+                name: null,
+                description: null,
+                is_active: false
             },
             promotions: [
                 {name: "promo1", active: "Oui", description: "Desc placeholder", created_at: "04/10/2024"}
-            ]
+            ],
+            formErrors: null
         }
     },
     methods: {
         onInactivatePromotion(){
             alert("Hey")
+        },
+        createPromotion(){
+            this.Api.post('/v1/promotion', this.promotion)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+            })
+            .catch(error => {
+                console.log(error)
+                if (error.response.status == 422){
+                    this.formErrors = error.response.data.errors;
+                }
+            })
         }
     },
     mounted(){
-
+        this.Notify.success("Hello")
     }
 }
 </script>

@@ -23,7 +23,8 @@ class PromotionRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:60'],
-            'description' => ['nullable', 'max:160']
+            'description' => ['required', 'max:160'],
+            'is_active' => ['boolean']
         ];
     }
 
@@ -31,7 +32,9 @@ class PromotionRequest extends FormRequest
     {
         return [
             'name.required' => 'Le nom est obligatoire',
-            'description' => '160 caractere permis'
+            'description.required' => 'La descrition est obligatoire',
+            'description' => '160 caractere permis',
+            'is_active' => 'valeur invalide'
         ];
     }
 
@@ -42,5 +45,9 @@ class PromotionRequest extends FormRequest
     public function description() : ?string
     {
         return $this->description;
+    }
+    public function isActive() : bool
+    {
+        return $this->is_active;
     }
 }
