@@ -91,8 +91,9 @@ export default{
             .catch(error => {
                 console.log(error)
                 if (error.response.status == 422){
-                    this.formErrors = error.response.data.errors;
+                    return this.formErrors = error.response.data.errors;
                 }
+                this.Notify.error(error.response.data.message)
             })
         },
         listAllPromotions(){

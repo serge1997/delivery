@@ -29,4 +29,10 @@ class Promotion extends Model
             get: fn($value) => date('d/m/Y H:i:s', strtotime($value))
         );
     }
+    public function updatedAt() : Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => $value = null
+        );
+    }
 }

@@ -28,9 +28,12 @@ class PromotionRepository implements PromotionRepositoryInterface
     {
         throw new PromotionException("Method not implemented");
     }
-    public function update(array $data) : Promotion
+    public function update(Promotion $promotion) : Promotion
     {
-        throw new PromotionException("Method not implemented");
+        return $promotion->updae([
+            "name"=> $promotion->name,
+            "description" => $promotion->description
+        ]);
     }
     public function delete(int $id) : Promotion
     {
