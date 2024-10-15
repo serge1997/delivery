@@ -84,6 +84,8 @@ export default{
                 this.Notify.success(await response.data.message);
                 this.formErrors = null;
                 this.visibleCreatePromotionModal = false;
+                this.promotion.name = null;
+                this.promotion.description = null;
                 this.listAllPromotions()
             })
             .catch(error => {
