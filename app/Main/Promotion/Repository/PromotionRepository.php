@@ -24,9 +24,12 @@ class PromotionRepository implements PromotionRepositoryInterface
     {
         return Promotion::where("name", $name)->first();
     }
-    public function inactivate(int $id) : Promotion
+    public function handleUpdateIsActive(Promotion $promotion) : Promotion
     {
-        throw new PromotionException("Method not implemented");
+        $promotion->update([
+            "is_active"=> !$promotion->is_active
+        ]);
+        return $promotion;
     }
     public function update(Promotion $promotion) : Promotion
     {

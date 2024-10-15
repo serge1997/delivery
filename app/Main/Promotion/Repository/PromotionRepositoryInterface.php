@@ -10,7 +10,7 @@ interface PromotionRepositoryInterface
     public function listAll() : Collection;
     public function find(int $id) : Promotion;
     public function findByName(string $name) : ?Promotion;
-    public function inactivate(int $id) : Promotion;
+    public function handleUpdateIsActive(Promotion $promotion) : Promotion;
     public function update(Promotion $promotion) : Promotion;
     public function delete(int $id) : Promotion;
 }

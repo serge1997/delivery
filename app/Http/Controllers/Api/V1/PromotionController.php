@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PromotionRequest;
 use App\Main\Promotion\Actions\PromotionCreate;
 use App\Main\Promotion\Actions\PromotionList;
+use App\Main\Promotion\Actions\PromotionUpdate;
 use App\Traits\HttpResponse;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -62,6 +64,21 @@ class PromotionController extends Controller
             return response()
                 ->json($this->successResponse($message, $data));
         }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
+        }
+    }
+
+    public function onHandleUpdateIsActive(int $id)
+    {
+        try{
+            /** @var PromotionUpdate $promotionUpdate */
+            $message = "Status atualisé avec succes";
+            $promotionUpdate = $this->container->get(PromotionUpdate::class);
+            $promotion = $promotionUpdate->handleUpdateIsActive($id);
+            return response()
+                ->json($this->successResponse($message, $promotion));
+        }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
         }

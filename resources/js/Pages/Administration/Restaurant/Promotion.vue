@@ -8,6 +8,7 @@
                         <div class="row">
                             <div class="col-md-10 m-auto">
                                 <div class="mb-3 d-flex flex-column">
+                                    <input type="text" v-model="promotion.id">
                                     <label for="form-label">Nom</label>
                                     <InputText v-model="promotion.name" class="p-1" placeholder="nom de la promotion" />
                                     <small v-if="formErrors && formErrors.name" class="text-danger" v-text="formErrors.name.toString()"></small>
@@ -30,24 +31,28 @@
             </div>
             <div class="container mt-3">
                 <div class="row">
-                   <div class="col-md-10 m-auto">
+                   <div class="col-md-12 m-auto">
                         <el-table class="m-auto" :data="promotions" style="width: 95%">
                             <el-table-column prop="name" label="Nom" />
                             <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
-                            <el-table-column prop="is_active" label="Active" />
+                            <el-table-column prop="active_status" label="Active" />
                             <el-table-column prop="created_at" label="Créer le" />
                             <el-table-column fixd="right" label="Actions">
-                                <template  #default>
-                                    <el-button>
-                                        <i class="pi pi-trash text-danger"></i>
+                                <template  #default="scope">
+                                    <el-button @click="findPromotion(scope)">
+                                        <i class="pi pi-file-edit"></i>
                                     </el-button>
-                                    <el-popconfirm @confirm="onInactivatePromotion" title="voulez vous desactiver cette promotion" width="220">
+                                    <el-popconfirm @confirm="handleTogglePromotionStatus(scope)" :title="popPromoIsActiveMessage(scope.row.is_active)" width="220">
                                         <template #reference>
                                             <el-button>
-                                                <i class="pi pi-lock-open text-warning"></i>
+                                                <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
+                                                <i v-else class="pi pi-lock text-success"></i>
                                             </el-button>
                                         </template>
                                     </el-popconfirm>
+                                    <el-button disabled>
+                                        <i class="pi pi-trash text-danger"></i>
+                                    </el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -65,6 +70,7 @@ export default{
         return {
             visibleCreatePromotionModal: false,
             promotion:{
+                id: null,
                 name: null,
                 description: null,
                 is_active: true
@@ -74,8 +80,15 @@ export default{
         }
     },
     methods: {
-        onInactivatePromotion(){
-            alert("Hey")
+        handleTogglePromotionStatus(data){
+            this.Api.put(`/v1/promotion/status/${data.row.id}`)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.listAllPromotions()
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
         },
         createPromotion(){
             this.promotion.is_active == null ? this.promotion.is_active = false : this.promotion.is_active = true
@@ -104,6 +117,18 @@ export default{
             .catch(error => {
                 console.log(error)
                 this.Notify.error(error.response.data.message)
+            })
+        },
+        popPromoIsActiveMessage(status){
+            return status === 1 ?
+                "voulez vous desactiver cette promotion" :
+                    "voulez vous activer cette promotion"
+        },
+        findPromotion(data){
+            this.Api.get(`/v1/promotion/${data.row.id}`)
+            .then(async response => {
+                this.promotion = await response.data.data;
+                this.visibleCreatePromotionModal = true;
             })
         }
     },
