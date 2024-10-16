@@ -8,6 +8,5 @@ class CategoryUpdate
         private CategoryRepositoryInterface $categoryRepository
     )
     {
-
     }
 }

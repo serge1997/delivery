@@ -10,21 +10,24 @@
                                 <div class="mb-3 d-flex flex-column">
                                     <label for="form-label">Nom</label>
                                     <InputText v-model="category.name" class="p-1" placeholder="nom de la category" />
+                                    <small v-if="formErrors && formErrors.name" class="text-danger" v-text="formErrors.name.toString()"></small>
                                 </div>
                                 <div class="mb-3 d-flex flex-column">
                                     <label for="form-label">Description</label>
                                     <Textarea v-model="category.description" class="p-1" placeholder="nom de la promotion" />
+                                    <small v-if="formErrors && formErrors.description" class="text-danger" v-text="formErrors.description.toString()"></small>
                                 </div>
                                 <div class="mb-3 d-flex flex-column">
                                     <img class="w-25 image-thumbnail rounded-circle mb-3" :src="imageUrl" alt="">
                                     <input @change="handleImageUpload" class="d-none" type="file" id="restaurant-category-file" />
-                                    <Button class="w-25" @click="onOuputFileWindow" label="image" icon="pi pi-image" />
+                                    <Button class="w-25 mb-1" @click="onOuputFileWindow" label="image" icon="pi pi-image" />
+                                    <small v-if="formErrors && formErrors.image" class="text-danger" v-text="formErrors.image.toString()"></small>
                                 </div>
                                 <div class="mb-3 w-25 d-flex flex-column">
                                     <el-checkbox v-model="category.active" label="Activer ?" size="large" border />
                                 </div>
                                 <div class="mb-3 w-25 d-flex flex-column">
-                                    <Button icon="pi pi-save" />
+                                    <Button @click="handleCategoryFormSubmit" icon="pi pi-save" />
                                 </div>
                             </div>
                         </div>
@@ -77,7 +80,8 @@ export default{
             promotions: [
                 {name: "promo1", active: "Oui", description: "Desc placeholder", created_at: "04/10/2024"}
             ],
-            imageUrl: null
+            imageUrl: null,
+            formErrors: null
         }
     },
     methods: {
@@ -109,6 +113,18 @@ export default{
             }
             reader.readAsDataURL(file)
             //this.imageUrl = img
+        },
+        handleCategoryFormSubmit(){
+            this.Api.post('/v1/category', this.category)
+            .then(async response => {
+
+            })
+            .catch(error => {
+                if (error.response.status == 422){
+                    return this.formErrors = error.response.data.errors;
+                }
+                this.Notify.error(error.response.data.message)
+            })
         }
     }
 }

@@ -25,7 +25,7 @@ class CategoryRequest extends FormRequest
             'id' => ['nullable'],
             'name' => ['required', 'max:30'],
             'image' => ['required', 'file'],
-            'description' => ['nullable', 'max:160'],
+            'description' => ['required', 'max:160'],
             'is_active' => ['boolean']
         ];
     }

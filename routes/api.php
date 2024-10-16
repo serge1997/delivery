@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\PromotionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,5 +27,12 @@ Route::controller(PromotionController::class)->group(function() {
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'onUpdate')->name('update');
         Route::put('/status/{id}', 'onHandleUpdateIsActive')->name('updatestatus');
+    });
+});
+
+Route::controller(CategoryController::class)->group(function(){
+    Route::prefix('v1/category')->name('category.')->group(function () {
+        Route::post('/', 'store')->name('store');
+        Route::get('/', 'index')->name('index');
     });
 });

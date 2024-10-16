@@ -17,7 +17,7 @@ class CategoryCreate
         $category = $this->categoryRepository->findByName($request->name());
         if (empty($category)){
             return new CategoryResource(
-                $this->categoryRepository->create($request->validated())
+                $this->categoryRepository->create($request)
             );
         }
         throw new CategoryException("La categorie {$request->name()} exist déja");

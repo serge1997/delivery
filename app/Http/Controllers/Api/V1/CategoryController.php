@@ -38,8 +38,9 @@ class CategoryController extends Controller
             /** @var CategoryCreate $categoryCreate */
             $categoryCreate = $this->container->get(CategoryCreate::class);
             $category = $categoryCreate->run($request);
-
-            return response()->json();
+            $message = "Categorie enregistré avec succes";
+            return response()
+                ->json($this->successResponse($message, $category));
         }catch(\Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}", 500));

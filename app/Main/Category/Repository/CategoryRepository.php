@@ -3,12 +3,22 @@ namespace App\Main\Category\Repository;
 
 use App\Main\Category\Exception\CategoryException;
 use App\Models\Category;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function create(array $data) : Category
+    public function create(FormRequest $request) : Category
     {
-        return Category::create($data);
+        $category = new Category($request->all());
+        if ($request->hasFile("image") && $request->file("image")->isValid()) {
+            $image = $request->image();
+            $extension = $image->extension();
+            $imageName = md5($image->getClientOriginalName()) . strtotime("now") .".". $extension;
+            $image->move(public_path("images/categories"), $imageName);
+            $category->image = $imageName;
+        }
+        $category->save();
+        return $category;
     }
     public function listAll()
     {
