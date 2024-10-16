@@ -9,11 +9,11 @@
                             <div class="col-md-10 m-auto">
                                 <div class="mb-3 d-flex flex-column">
                                     <label for="form-label">Nom</label>
-                                    <InputText class="p-1" placeholder="nom de la category" />
+                                    <InputText v-model="category.name" class="p-1" placeholder="nom de la category" />
                                 </div>
                                 <div class="mb-3 d-flex flex-column">
                                     <label for="form-label">Description</label>
-                                    <Textarea class="p-1" placeholder="nom de la promotion" />
+                                    <Textarea v-model="category.description" class="p-1" placeholder="nom de la promotion" />
                                 </div>
                                 <div class="mb-3 d-flex flex-column">
                                     <img class="w-25 image-thumbnail rounded-circle mb-3" :src="imageUrl" alt="">
@@ -21,7 +21,10 @@
                                     <Button class="w-25" @click="onOuputFileWindow" label="image" icon="pi pi-image" />
                                 </div>
                                 <div class="mb-3 w-25 d-flex flex-column">
-                                    <el-checkbox v-model="promotion.active" label="Activer ?" size="large" border />
+                                    <el-checkbox v-model="category.active" label="Activer ?" size="large" border />
+                                </div>
+                                <div class="mb-3 w-25 d-flex flex-column">
+                                    <Button icon="pi pi-save" />
                                 </div>
                             </div>
                         </div>
@@ -65,8 +68,11 @@ export default{
     data(){
         return {
             visibleCreateCategoryModal: false,
-            promotion:{
-                active: false
+            category:{
+                active: true,
+                name: null,
+                description: null,
+                image: null,
             },
             promotions: [
                 {name: "promo1", active: "Oui", description: "Desc placeholder", created_at: "04/10/2024"}
@@ -84,7 +90,7 @@ export default{
         },
         handleImageUpload(e){
             let file = e.target.files[0];
-            let img = URL.createObjectURL(file);
+            this.category.image = file;
             const reader = new FileReader();
             reader.onload = () => {
                 this.imageUrl = reader.result
