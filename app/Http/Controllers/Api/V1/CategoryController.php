@@ -25,6 +25,10 @@ class CategoryController extends Controller
         try{
             /** @var CategoryList $categoryList */
             $categoryList = $this->container->get(CategoryList::class);
+            $categories = $categoryList->listAll();
+            $message = "List de toutes les categories";
+            return response()
+                ->json($this->successResponse($message, $categories));
         }catch(\Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
@@ -43,7 +47,7 @@ class CategoryController extends Controller
                 ->json($this->successResponse($message, $category));
         }catch(\Exception $e){
             return response()
-                ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
 

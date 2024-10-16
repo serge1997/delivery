@@ -25,8 +25,7 @@ class CategoryRequest extends FormRequest
             'id' => ['nullable'],
             'name' => ['required', 'max:30'],
             'image' => ['required', 'file'],
-            'description' => ['required', 'max:160'],
-            'is_active' => ['boolean']
+            'description' => ['required', 'max:160']
         ];
     }
 
@@ -37,8 +36,7 @@ class CategoryRequest extends FormRequest
             'image.required' => "l'image est obligatoire",
             'image.file'    => "fichier invalide",
             'description.required' => 'La descrition est obligatoire',
-            'description.max' => '160 caractere permis',
-            'is_active.boolean' => 'valeur invalide'
+            'description.max' => '160 caractere permis'
         ];
     }
 

@@ -115,9 +115,15 @@ export default{
             //this.imageUrl = img
         },
         handleCategoryFormSubmit(){
-            this.Api.post('/v1/category', this.category)
+            const data = new FormData();
+            data.append('name', this.category.name);
+            data.append('description', this.category.description);
+            data.append('image', this.category.image);
+            data.append('is_active', this.category.active);
+            this.Api.post('/v1/category', data)
             .then(async response => {
-
+                this.Notify.success(await response.data.message);
+                this.formErrors = null;
             })
             .catch(error => {
                 if (error.response.status == 422){
@@ -125,7 +131,19 @@ export default{
                 }
                 this.Notify.error(error.response.data.message)
             })
+        },
+        listAllCategories(){
+            this.Api.get('/v1/category')
+            .then(async response => {
+
+            })
+            .catch(error => {
+
+            })
         }
+    },
+    mounted(){
+        this.listAllCategories()
     }
 }
 </script>

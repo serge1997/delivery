@@ -17,6 +17,7 @@ class CategoryRepository implements CategoryRepositoryInterface
             $image->move(public_path("images/categories"), $imageName);
             $category->image = $imageName;
         }
+        $category->is_active = $request->isActive();
         $category->save();
         return $category;
     }
