@@ -65,6 +65,7 @@
 </template>
 <script>
 import { ElMessage } from 'element-plus';
+import { isNullOrWhiteSpace } from '../../../core/Utilities';
 export default{
     name: 'Administration.Category',
 
@@ -116,8 +117,8 @@ export default{
         },
         handleCategoryFormSubmit(){
             const data = new FormData();
-            data.append('name', this.category.name);
-            data.append('description', this.category.description);
+            data.append('name', isNullOrWhiteSpace(this.category.name) ? "" :this.category.name);
+            data.append('description', isNullOrWhiteSpace(this.category.description) ? "" : this.category.description);
             data.append('image', this.category.image);
             data.append('is_active', this.category.active);
             this.Api.post('/v1/category', data)
