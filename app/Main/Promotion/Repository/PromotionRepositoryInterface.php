@@ -11,6 +11,6 @@ interface PromotionRepositoryInterface
     public function find(int $id) : Promotion;
     public function findByName(string $name) : ?Promotion;
     public function handleUpdateIsActive(Promotion $promotion) : Promotion;
-    public function update(Promotion $promotion) : Promotion;
+    public function update($request) : Promotion;
     public function delete(int $id) : Promotion;
 }

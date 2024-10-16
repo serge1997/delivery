@@ -72,12 +72,27 @@ class PromotionController extends Controller
     public function onHandleUpdateIsActive(int $id)
     {
         try{
-            /** @var PromotionUpdate $promotionUpdate */
             $message = "Status atualisé avec succes";
+            /** @var PromotionUpdate $promotionUpdate */
             $promotionUpdate = $this->container->get(PromotionUpdate::class);
             $promotion = $promotionUpdate->handleUpdateIsActive($id);
             return response()
                 ->json($this->successResponse($message, $promotion));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
+        }
+    }
+    public function onUpdate(PromotionRequest $request)
+    {
+        try{
+            $request->validated();
+            $message = "Actualisée avec succes";
+            /** @var PromotionUpdate $promotionUpdate */
+            $promotionUpdate = $this->container->get(PromotionUpdate::class);
+            $data = $promotionUpdate->run($request);
+            return response()
+                ->json($this->successResponse($message, $data));
         }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}", 500));

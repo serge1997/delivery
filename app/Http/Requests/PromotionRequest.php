@@ -22,6 +22,7 @@ class PromotionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['nullable'],
             'name' => ['required', 'max:60'],
             'description' => ['required', 'max:160'],
             'is_active' => ['boolean']
@@ -49,5 +50,9 @@ class PromotionRequest extends FormRequest
     public function isActive() : bool
     {
         return $this->is_active;
+    }
+    public function id()
+    {
+        return $this->id;
     }
 }

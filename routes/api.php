@@ -24,6 +24,7 @@ Route::controller(PromotionController::class)->group(function() {
         Route::post('/', 'onCreate')->name('create');
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
+        Route::put('/', 'onUpdate')->name('update');
         Route::put('/status/{id}', 'onHandleUpdateIsActive')->name('updatestatus');
     });
 });

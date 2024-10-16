@@ -31,12 +31,14 @@ class PromotionRepository implements PromotionRepositoryInterface
         ]);
         return $promotion;
     }
-    public function update(Promotion $promotion) : Promotion
+    public function update($request) : Promotion
     {
-        return $promotion->updae([
-            "name"=> $promotion->name,
-            "description" => $promotion->description
+        $promotion = $this->find($request->id());
+        $promotion->update([
+            "name"=> $request->name(),
+            "description" => $request->description()
         ]);
+        return $promotion;
     }
     public function delete(int $id) : Promotion
     {

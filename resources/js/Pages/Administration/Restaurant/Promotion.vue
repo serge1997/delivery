@@ -3,12 +3,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="colmd-8">
-                    <Button @click="visibleCreatePromotionModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouvelle promotion" />
+                    <Button @click="visibleCreatePromotionModal = true; promotion.id = null" class="general-btn" icon="pi pi-plus-circle" label="Nouvelle promotion" />
                     <Dialog v-model:visible="visibleCreatePromotionModal" modal :style="{ width: '45rem', borderRadius: '4rem' }">
                         <div class="row">
                             <div class="col-md-10 m-auto">
                                 <div class="mb-3 d-flex flex-column">
-                                    <input type="text" v-model="promotion.id">
+                                    <input type="hidden" v-model="promotion.id">
                                     <label for="form-label">Nom</label>
                                     <InputText v-model="promotion.name" class="p-1" placeholder="nom de la promotion" />
                                     <small v-if="formErrors && formErrors.name" class="text-danger" v-text="formErrors.name.toString()"></small>
@@ -18,11 +18,11 @@
                                     <Textarea v-model="promotion.description" class="p-1" placeholder="nom de la promotion" />
                                     <small v-if="formErrors && formErrors.description" class="text-danger" v-text="formErrors.description.toString()"></small>
                                 </div>
-                                <div class="mb-3 w-25 d-flex flex-column">
+                                <div v-if="promotion.id == null" class="mb-3 w-25 d-flex flex-column">
                                     <el-checkbox v-model="promotion.is_active" label="Activer ?" size="large" border />
                                 </div>
                                 <div class="mb-3 w-25 d-flex flex-column">
-                                    <Button @click="createPromotion" icon="pi pi-save" />
+                                    <Button @click="handleFormSubmitAction" icon="pi pi-save" />
                                 </div>
                             </div>
                         </div>
@@ -63,6 +63,7 @@
     </NavbarComponent>
 </template>
 <script>
+import { isNull } from '../../../core/Utilities';
 export default{
     name: 'Administration.Promotion',
 
@@ -80,6 +81,12 @@ export default{
         }
     },
     methods: {
+        handleFormSubmitAction(){
+            if (isNull(this.promotion.id)){
+                return this.createPromotion();
+            }
+            return this.updatePromotion()
+        },
         handleTogglePromotionStatus(data){
             this.Api.put(`/v1/promotion/status/${data.row.id}`)
             .then(async response => {
@@ -102,7 +109,23 @@ export default{
                 this.listAllPromotions()
             })
             .catch(error => {
-                console.log(error)
+                if (error.response.status == 422){
+                    return this.formErrors = error.response.data.errors;
+                }
+                this.Notify.error(error.response.data.message)
+            })
+        },
+        updatePromotion(){
+            this.Api.put('/v1/promotion', this.promotion)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.formErrors = null;
+                this.visibleCreatePromotionModal = false;
+                this.promotion.name = null;
+                this.promotion.description = null;
+                this.listAllPromotions()
+            })
+            .catch(error => {
                 if (error.response.status == 422){
                     return this.formErrors = error.response.data.errors;
                 }
