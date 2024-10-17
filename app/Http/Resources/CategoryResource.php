@@ -19,6 +19,9 @@ class CategoryResource extends JsonResource
             "name"=> $this->name,
             "description" => $this->description,
             "image" => $this->image,
+            "is_active" => $this->is_active,
+            "active_status" => $this->is_active == true ? "Activé" : "Desactivé",
+            "created_at" => date('d/m/Y H:i:s', strtotime($this->created_at)),
         ];
     }
 }
