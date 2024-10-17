@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CategoryRequest extends FormRequest
 {
@@ -21,12 +22,20 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (request()->isMethod('POST')){
+            return [
+                'id' => ['nullable'],
+                'name' => ['required', 'max:30'],
+                'image' => ['required', 'file'],
+                'description' => ['required', 'max:160']
+            ];
+        }
         return [
             'id' => ['nullable'],
             'name' => ['required', 'max:30'],
-            'image' => ['required', 'file'],
             'description' => ['required', 'max:160']
         ];
+
     }
 
     public function messages(): array
@@ -36,7 +45,7 @@ class CategoryRequest extends FormRequest
             'image.required' => "l'image est obligatoire",
             'image.file'    => "fichier invalide",
             'description.required' => 'La descrition est obligatoire',
-            'description.max' => '160 caractere permis'
+            'description.max' => '160 caractere permis',
         ];
     }
 

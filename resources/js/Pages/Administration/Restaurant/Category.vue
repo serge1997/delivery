@@ -8,6 +8,7 @@
                         <div class="row">
                             <div class="col-md-10 m-auto">
                                 <div class="mb-3 d-flex flex-column">
+                                    <input type="hidden" v-model="category.id" />
                                     <label for="form-label">Nom</label>
                                     <InputText v-model="category.name" class="p-1" placeholder="nom de la category" />
                                     <small v-if="formErrors && formErrors.name" class="text-danger" v-text="formErrors.name.toString()"></small>
@@ -51,7 +52,7 @@
                             </el-table-column>
                             <el-table-column fixd="right" label="Actions">
                                 <template  #default="scope">
-                                    <el-button @click="findPromotion(scope)">
+                                    <el-button @click="findCategory(scope)">
                                         <i class="pi pi-file-edit"></i>
                                     </el-button>
                                     <el-popconfirm @confirm="handleTogglePromotionStatus(scope)" :title="popCategoryIsActiveMessage(scope.row.is_active)" width="220">
@@ -84,6 +85,7 @@ export default{
         return {
             visibleCreateCategoryModal: false,
             category:{
+                id: null,
                 active: true,
                 name: null,
                 description: null,
@@ -124,7 +126,7 @@ export default{
             reader.readAsDataURL(file)
             //this.imageUrl = img
         },
-        handleCategoryFormSubmit(){
+        createCategory(){
             const data = new FormData();
             data.append('name', isNullOrWhiteSpace(this.category.name) ? "" :this.category.name);
             data.append('description', isNullOrWhiteSpace(this.category.description) ? "" : this.category.description);
@@ -142,17 +144,33 @@ export default{
                 this.Notify.error(error.response.data.message)
             })
         },
+        updateCategory(){
+            this.Api.put('/v1/category', null ,this.category);
+            console.log(typeof this.category.image)
+        },
+        handleCategoryFormSubmit(){
+            when(!this.category.id, this.createCategory, this.updateCategory);
+        },
         listAllCategories(){
             this.Api.get('/v1/category')
             .then(async response => {
                 this.categories = await response.data.data;
             })
             .catch(error => {
-
+                this.Notify.error(error.response.data.message);
             })
         },
         findCategory(category){
-
+            console.log(category)
+            this.Api.get(`/v1/category/${category.row.id}`)
+            .then(async response => {
+                this.category = await response.data.data;
+                this.imageUrl = "/images/categories/" + this.category.image;
+                this.visibleCreateCategoryModal = true;
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message);
+            })
         },
         handleToggleCategoryStatus(category){
 

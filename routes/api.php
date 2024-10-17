@@ -34,5 +34,7 @@ Route::controller(CategoryController::class)->group(function(){
     Route::prefix('v1/category')->name('category.')->group(function () {
         Route::post('/', 'store')->name('store');
         Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::put('/', 'update')->name('update');
     });
 });

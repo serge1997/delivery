@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Main\Category\Actions\CategoryCreate;
 use App\Main\Category\Actions\CategoryList;
+use App\Main\Category\Actions\CategoryUpdate;
 use App\Traits\HttpResponse;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Psr\Container\ContainerInterface;
@@ -51,12 +53,28 @@ class CategoryController extends Controller
         }
     }
 
-    public function show() : JsonResponse
+    public function show(int $id) : JsonResponse
     {
         try{
             /** @var CategoryList $categoryList */
             $categoryList = $this->container->get(CategoryList::class);
+            $data = $categoryList->findById($id);
+            return response()
+                ->json($this->successResponse("Info sur une categorie", $data));
         }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
+        }
+    }
+    public function update(CategoryRequest $request) : JsonResponse
+    {
+        try{
+            /** @var CategoryUpdate $categoryUpdate */
+            $categoryUpdate = $this->container->get(CategoryUpdate::class);
+            $category = $categoryUpdate->run($request);
+            return response()
+                ->json($this->successResponse("categorie actualisée avec succes", $category));
+        }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
         }
