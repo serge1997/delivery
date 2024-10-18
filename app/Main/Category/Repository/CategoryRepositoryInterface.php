@@ -10,5 +10,7 @@ interface CategoryRepositoryInterface
     public function listAll();
     public function find(int $id);
     public function findByName(string $name);
-    public function update($request);
+    public function update(FormRequest $request);
+    public function updateImage($request);
+    public function handleUpdateIsActive(Category $category);
 }

@@ -22,7 +22,7 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->isMethod('POST')){
+        if ($this->isMethod('POST')){
             return [
                 'id' => ['nullable'],
                 'name' => ['required', 'max:30'],
@@ -30,11 +30,13 @@ class CategoryRequest extends FormRequest
                 'description' => ['required', 'max:160']
             ];
         }
-        return [
-            'id' => ['nullable'],
-            'name' => ['required', 'max:30'],
-            'description' => ['required', 'max:160']
-        ];
+        if ($this->isMethod('PUT')){
+            return [
+                'id' => ['required'],
+                'name' => ['required', 'max:30'],
+                'description' => ['required', 'max:160']
+            ];
+        }
 
     }
 

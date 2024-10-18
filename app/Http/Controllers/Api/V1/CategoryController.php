@@ -76,7 +76,34 @@ class CategoryController extends Controller
                 ->json($this->successResponse("categorie actualisée avec succes", $category));
         }catch(Exception $e){
             return response()
-                ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+    public function updateImage(Request $request) : JsonResponse
+    {
+        try{
+            /** @var CategoryUpdate $categoryUpdate */
+            $categoryUpdate = $this->container->get(CategoryUpdate::class);
+            $category = $categoryUpdate->updateImage($request);
+            return response()
+                ->json($this->successResponse("l'image actualisée avec succes", $category));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function updateIsActive($id) : JsonResponse
+    {
+        try{
+            /** @var CategoryUpdate $categoryUpdate */
+            $categoryUpdate = $this->container->get(CategoryUpdate::class);
+            $category = $categoryUpdate->handleIsActive($id);
+            return response()
+                ->json($this->successResponse("status actualisé avec succés", $category));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
 }

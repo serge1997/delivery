@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="colmd-8">
-                    <Button @click="visibleCreateCategoryModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouvelle category" />
+                    <Button @click="clearInputs" class="general-btn" icon="pi pi-plus-circle" label="Nouvelle category" />
                     <Dialog v-model:visible="visibleCreateCategoryModal" modal :style="{ width: '45rem', borderRadius: '4rem' }">
                         <div class="row">
                             <div class="col-md-10 m-auto">
@@ -19,13 +19,13 @@
                                     <small v-if="formErrors && formErrors.description" class="text-danger" v-text="formErrors.description.toString()"></small>
                                 </div>
                                 <div class="mb-3 d-flex flex-column">
-                                    <img class="w-25 image-thumbnail rounded-circle mb-3" :src="imageUrl" alt="">
+                                    <img v-if="!category.id" class="w-25 image-thumbnail rounded-circle mb-3" :src="imageUrl" alt="">
                                     <input @change="handleImageUpload" class="d-none" type="file" id="restaurant-category-file" />
-                                    <Button class="w-25 mb-1" @click="onOuputFileWindow" label="image" icon="pi pi-image" />
+                                    <Button v-if="!category.id" class="w-25 mb-1" @click="onOuputFileWindow" label="image" icon="pi pi-image" />
                                     <small v-if="formErrors && formErrors.image" class="text-danger" v-text="formErrors.image.toString()"></small>
                                 </div>
                                 <div class="mb-3 w-25 d-flex flex-column">
-                                    <el-checkbox v-model="category.active" label="Activer ?" size="large" border />
+                                    <el-checkbox v-model="category.is_active" label="Activer ?" size="large" border />
                                 </div>
                                 <div class="mb-3 w-25 d-flex flex-column">
                                     <Button @click="handleCategoryFormSubmit" icon="pi pi-save" />
@@ -35,12 +35,21 @@
                     </Dialog>
                 </div>
             </div>
+            <div class="row">
+                <Dialog v-model:visible="visibleUpdateImageModal" modal :style="{ width: '45rem', borderRadius: '4rem' }">
+                    <UpdateImageComponent
+                        :old-url="`/images/categories/${category.image}`"
+                        api-url="/v1/category/update/image"
+                        :entity-id="category.id"
+                     />
+                </Dialog>
+            </div>
             <div class="container mt-3">
                 <div class="row">
-                   <div class="col-md-10 m-auto">
+                   <div class="col-md-12 m-auto">
                         <el-table class="m-auto" :data="categories" style="width: 100%">
-                            <el-table-column prop="name" label="Nom" />
-                            <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
+                            <el-table-column prop="name" label="Nom" width="180"/>
+                            <el-table-column show-overflow-tooltip width="180" prop="description" label="Descrition"/>
                             <el-table-column prop="active_status" label="Active" />
                             <el-table-column prop="created_at" label="Créer le" />
                             <el-table-column label="images">
@@ -50,19 +59,22 @@
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column fixd="right" label="Actions">
+                            <el-table-column fixd="right" label="Actions" width="300">
                                 <template  #default="scope">
-                                    <el-button @click="findCategory(scope)">
+                                    <el-button @click="findCategory(scope); visibleCreateCategoryModal = true">
                                         <i class="pi pi-file-edit"></i>
                                     </el-button>
-                                    <el-popconfirm @confirm="handleTogglePromotionStatus(scope)" :title="popCategoryIsActiveMessage(scope.row.is_active)" width="220">
+                                    <el-popconfirm @confirm="handleToggleCategoryStatus(scope)" :title="popCategoryIsActiveMessage(scope.row.is_active)" width="220">
                                         <template #reference>
-                                            <el-button>
+                                            <el-button class="p-0">
                                                 <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
                                                 <i v-else class="pi pi-lock text-success"></i>
                                             </el-button>
                                         </template>
                                     </el-popconfirm>
+                                    <el-button @click="findCategory(scope);visibleUpdateImageModal=true">
+                                        <i class="pi pi-image"></i>
+                                    </el-button>
                                     <el-button class="d-none">
                                         <i class="pi pi-trash text-danger"></i>
                                     </el-button>
@@ -84,9 +96,10 @@ export default{
     data(){
         return {
             visibleCreateCategoryModal: false,
+            visibleUpdateImageModal: false,
             category:{
                 id: null,
-                active: true,
+                is_active: true,
                 name: null,
                 description: null,
                 image: null,
@@ -124,14 +137,18 @@ export default{
                 })
             }
             reader.readAsDataURL(file)
-            //this.imageUrl = img
         },
-        createCategory(){
+        formaData(){
             const data = new FormData();
             data.append('name', isNullOrWhiteSpace(this.category.name) ? "" :this.category.name);
             data.append('description', isNullOrWhiteSpace(this.category.description) ? "" : this.category.description);
             data.append('image', this.category.image);
-            data.append('is_active', this.category.active);
+            data.append('is_active', this.category.is_active);
+            data.append('id', this.category.id);
+            return data;
+        },
+        createCategory(){
+            const data = this.formaData();
             this.Api.post('/v1/category', data)
             .then(async response => {
                 this.Notify.success(await response.data.message);
@@ -145,8 +162,20 @@ export default{
             })
         },
         updateCategory(){
-            this.Api.put('/v1/category', null ,this.category);
-            console.log(typeof this.category.image)
+            this.Api.put('/v1/category', null, this.category)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.formErrors = null;
+                this.clearInputs(false);
+                this.visibleCreateCategoryModal = false;
+                this.listAllCategories()
+            })
+            .catch(error => {
+                if (error.response.status == 422){
+                    return this.formErrors = error.response.data.errors;
+                }
+                this.Notify.error(error.response.data.message)
+            })
         },
         handleCategoryFormSubmit(){
             when(!this.category.id, this.createCategory, this.updateCategory);
@@ -161,19 +190,34 @@ export default{
             })
         },
         findCategory(category){
-            console.log(category)
             this.Api.get(`/v1/category/${category.row.id}`)
             .then(async response => {
                 this.category = await response.data.data;
+                this.category.is_active = response.data.data.is_active == 1 ? true : false;
                 this.imageUrl = "/images/categories/" + this.category.image;
-                this.visibleCreateCategoryModal = true;
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message);
             })
         },
         handleToggleCategoryStatus(category){
-
+            this.Api.put(`/v1/category/status/${category.row.id}`)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.listAllCategories();
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message);
+            })
+        },
+        clearInputs(openModal = true){
+            this.category.name = null;
+            this.category.description = null;
+            this.category.is_active = false;
+            this.category.image = null;
+            this.imageUrl = null;
+            this.category.id = null;
+            when(openModal, this.visibleCreateCategoryModal = true);
         },
         popCategoryIsActiveMessage(status){
             return status === 1 ?

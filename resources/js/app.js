@@ -17,6 +17,7 @@ import Dialog from 'primevue/dialog';
 import NavbarComponent from './components/NavbarComponent.vue';
 import Textarea from 'primevue/textarea';
 import Provider from './core/Provider';
+import UpdateImageComponent from './components/UpdateImageComponent.vue';
 
 const app = createApp(App);
 
@@ -27,6 +28,7 @@ app.component('Sidebar', Sidebar)
 app.component('Dialog', Dialog)
 app.component('NavbarComponent', NavbarComponent);
 app.component('Textarea', Textarea)
+app.component('UpdateImageComponent', UpdateImageComponent);
 app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)

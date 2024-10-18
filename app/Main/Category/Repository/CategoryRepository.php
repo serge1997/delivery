@@ -3,10 +3,13 @@ namespace App\Main\Category\Repository;
 
 use App\Main\Category\Exception\CategoryException;
 use App\Models\Category;
+use App\Service\Base\BaseRepository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Traits\Conditionable;
 
-class CategoryRepository implements CategoryRepositoryInterface
+class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
 {
+    use Conditionable;
     public function create(FormRequest $request) : Category
     {
         $category = new Category($request->all());
@@ -33,8 +36,36 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::where('name', $name)->first();
     }
-    public function update($request)
+    public function update(FormRequest $request)
     {
-        throw new CategoryException("Method doesnt implmented");
+        $category = $this->find($request->id());
+        $category->update([
+            "name" => $request->name(),
+            "description" => $request->description(),
+            "is_active" => $request->isActive()
+        ]);
+        return $category;
+    }
+    public function updateImage($request)
+    {
+        $category = $this->find($request->id);
+        $image = $this->uploadImages($request, "image", "images/categories");
+        if (is_string($image)){
+            unlink("images/categories/".$category->image);
+            $category->update([
+                "image" => $image
+            ]);
+            return $category;
+        }
+        throw new CategoryException("Aucune image selectionnée");
+    }
+
+    public function handleUpdateIsActive(Category $category)
+    {
+        $category->update([
+            "is_active" => !$category->is_active
+        ]);
+
+        return $category;
     }
 }

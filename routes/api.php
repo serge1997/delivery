@@ -36,5 +36,7 @@ Route::controller(CategoryController::class)->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');
+        Route::post('/update/image', 'updateImage')->name('update.image');
+        Route::put('/status/{id}','updateIsActive')->name('update.status');
     });
 });
