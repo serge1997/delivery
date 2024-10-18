@@ -20,7 +20,7 @@ class FoodTypeResource extends JsonResource
             "description" => $this->description,
             "is_active" => $this->is_active,
             "active_status" => $this->is_active == true ? "Activé" : "Desactivé",
-            "created_at" => date('d/m/Y H:i:s', strtotime($this->created_at)),
+            "created_at" => date('d/m/Y H:i:s', strtotime($this->created_at))
         ];
     }
 }
