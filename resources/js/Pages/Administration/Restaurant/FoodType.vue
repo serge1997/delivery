@@ -38,17 +38,21 @@
                             <el-table-column prop="active_status" label="Active" />
                             <el-table-column prop="created_at" label="Créer le" />
                             <el-table-column fixd="right" label="Actions">
-                                <template  #default>
-                                    <el-button>
-                                        <i class="pi pi-trash text-danger"></i>
+                                <template  #default="scope">
+                                    <el-button @click="findFoodType(scope)">
+                                        <i class="pi pi-file-edit"></i>
                                     </el-button>
-                                    <el-popconfirm @confirm="onInactivatePromotion" title="voulez vous desactiver cette promotion" width="220">
+                                    <el-popconfirm @confirm="handleIsActive(scope)" :title="popMessage(scope.row.is_active, 'type de plat')" width="220">
                                         <template #reference>
-                                            <el-button>
-                                                <i class="pi pi-lock-open text-warning"></i>
+                                            <el-button class="p-0">
+                                                <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
+                                                <i v-else class="pi pi-lock text-success"></i>
                                             </el-button>
                                         </template>
                                     </el-popconfirm>
+                                    <el-button>
+                                        <i class="pi pi-trash text-danger"></i>
+                                    </el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -59,7 +63,7 @@
     </NavbarComponent>
 </template>
 <script>
-import { when } from '../../../core/Utilities';
+import { when, popUpConfirmMessage } from '../../../core/Utilities';
 
 export default{
     name: 'Administration.FoodType',
@@ -75,6 +79,7 @@ export default{
             },
             formErrors: null,
             foodTypes: null,
+            popMessage : popUpConfirmMessage,
         }
     },
     methods: {
@@ -86,7 +91,8 @@ export default{
             this.Api.send('/v1/food-type', method, this.foodType)
             .then(async response => {
                 this.Notify.success(await response.data.message);
-                this.visibleCreateFoodTypeModal = true;
+                this.visibleCreateFoodTypeModal = false;
+                this.listAllFoodTypes()
             })
             .catch(error => {
                 when(error.response.status === 422, 
@@ -102,6 +108,27 @@ export default{
             })
             .catch(error => {
                 this.Notify.error(`erreurs en listants les type de plats: ${error.response.data.message}`)
+            })
+        },
+        findFoodType(data){
+            this.Api.get(`/v1/food-type/${data.row.id}`)
+            .then(async response => {
+                this.foodType = await response.data.data;
+                this.foodType.is_active = this.foodType.is_active == 1 ? true : false;
+                this.visibleCreateFoodTypeModal = true;
+            })
+            .catch(error => {   
+                this.Notify.error(`${error.response.data.message}`)
+            })
+        },
+        handleIsActive(data){
+            this.Api.put(`/v1/food-type/status/${data.row.id}`)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.listAllFoodTypes();
+            })
+            .catch(error => {   
+                this.Notify.error(`${error.response.data.message}`)
             })
         }
     },

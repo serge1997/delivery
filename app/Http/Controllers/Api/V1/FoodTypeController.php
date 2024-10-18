@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Psr\Container\ContainerInterface;
 use App\Main\FoodType\Actions\FoodTypeList;
+use App\Main\FoodType\Actions\FoodTypeUpdate;
+
 class FoodTypeController extends Controller
 {
     use HttpResponse;
@@ -47,11 +49,41 @@ class FoodTypeController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
-    public function show() : JsonResponse
+    public function show(int $id) : JsonResponse
     {
         try{
             /** @var FoodTypeList $foodTypeList */
             $foodTypeList = $this->container->get(FoodTypeList::class);
+            $foodType = $foodTypeList->findById($id);
+            return response()
+                ->json($this->successResponse("Info du type de plat", $foodType));
+        }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function update(FoodTypeRequest $request) : JsonResponse
+    {
+        try{
+            /** @var FoodTypeUpdate $foodTypeList */
+            $foodTypeUpdate = $this->container->get(FoodTypeUpdate::class);
+            $foodType = $foodTypeUpdate->run($request);
+            return response()
+                ->json($this->successResponse("type de plat actualisé avec succes", $foodType));
+        }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+    public function handleIsActive(int $id) : JsonResponse
+    {
+        try{
+            /** @var FoodTypeUpdate $foodTypeList */
+            $foodTypeUpdate = $this->container->get(FoodTypeUpdate::class);
+            $foodType = $foodTypeUpdate->handleIsActive($id);
+            return response()
+                ->json($this->successResponse("status actualisé avec succes", $foodType));
         }catch(\Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);

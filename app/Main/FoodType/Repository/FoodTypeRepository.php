@@ -23,4 +23,23 @@ class FoodTypeRepository implements FoodTypeRepositoryInterface
     {
         return FoodType::all();
     }
+    public function update($request): FoodType
+    {
+        $foodType = $this->find($request->id());
+        $foodType->update([
+            'name'=> $request->name(),
+            'description' => $request->description(),
+            'is_active' => $request->isActive()
+
+        ]);
+        return $foodType;
+    }
+
+    public function handleIsActive(FoodType $foodType): FoodType
+    {
+        $foodType->update([
+            'is_active' => !$foodType->is_active
+        ]);
+        return $foodType;
+    }
 }
