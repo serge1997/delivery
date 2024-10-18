@@ -32,30 +32,24 @@
                </div>
             </div>
        </div>
-       <Dialog v-model:visible="visibleListAllCategoryModal" modal :style="{ width: '65rem', borderRadius: '4rem' }">
+       <Dialog v-model:visible="visibleListAllCategoryModal" modal :style="{ width: '75rem', borderRadius: '4rem' }">
             <div class="row">
-                <el-table class="m-auto mb-3" :data="promotions" style="width: 95%">
-                    <el-table-column sortable prop="name" label="Nom" />
-                    <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
-                    <el-table-column fixd="right" label="Actions">
-                        <template  #default>
-                            <el-popconfirm @confirm="onInactivatePromotion" title="voulez vous addicionner cette categorie ?" width="220">
-                                <template #reference>
-                                    <el-button>
-                                        <i class="pi pi-plus-circle text-success"></i>
-                                    </el-button>
-                                </template>
-                            </el-popconfirm>
-                        </template>
-                    </el-table-column>
-                </el-table>
+                <CategoryDatatableComponent 
+                    :categories="categories"
+                    :is-for-admin="false"
+                />
             </div>
         </Dialog>
     </div>
 </template>
 <script>
+import CategoryDatatableComponent from '../datatables/CategoryDatatableComponent.vue';
 export default{
     name: 'EstablishmentCategoryComponent',
+
+    components: {
+        CategoryDatatableComponent
+    },
 
     data(){
         return {
@@ -63,15 +57,22 @@ export default{
             promotion:{
                 active: false
             },
-            promotions: [
-                {name: "promo1", active: "Oui", description: "Desc placeholder", created_at: "04/10/2024"}
-            ]
+            categories: null,
         }
     },
     methods: {
         onInactivatePromotion(){
             alert("Hey")
+        },
+        listAllCategoriesActive(){
+            this.Api.get('/v1/category/actives')
+            .then(async response => {
+                this.categories = await response.data.data;
+            })
         }
+    },
+    mounted(){
+        this.listAllCategoriesActive();
     }
 }
 </script>

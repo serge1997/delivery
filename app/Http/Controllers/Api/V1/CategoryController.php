@@ -36,6 +36,20 @@ class CategoryController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
         }
     }
+    public function listAllActives() : JsonResponse
+    {
+        try{
+            /** @var CategoryList $categoryList */
+            $categoryList = $this->container->get(CategoryList::class);
+            $categories = $categoryList->listAllActives();
+            $message = "List de toutes les categories actives";
+            return response()
+                ->json($this->successResponse($message, $categories));
+        }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}", 500));
+        }
+    }
 
     public function store(CategoryRequest $request) : JsonResponse
     {

@@ -27,6 +27,7 @@ export default{
         apiUrl: String,
         entityId: Number
     },
+    emits: ['listAllEntities'],
 
     data(){
         return {
@@ -55,6 +56,7 @@ export default{
             this.Api.post(this.apiUrl,data)
             .then(async response => {
                 this.Notify.success(await response.data.message)
+                this.$emit('listAllEntities')
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message)

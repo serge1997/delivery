@@ -28,6 +28,10 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         return Category::all();
     }
+    public function listAllActives()
+    {
+        return Category::where('is_active', true)->get();
+    }
     public function find(int $id)
     {
         return Category::find($id);

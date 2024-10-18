@@ -8,6 +8,7 @@ interface CategoryRepositoryInterface
 {
     public function create(FormRequest $request) : Category;
     public function listAll();
+    public function listAllActives();
     public function find(int $id);
     public function findByName(string $name);
     public function update(FormRequest $request);

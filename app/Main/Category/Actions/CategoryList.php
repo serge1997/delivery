@@ -22,4 +22,10 @@ class CategoryList
             $this->categoryRepository->find($id)
         );
     }
+    public function listAllActives()
+    {
+        return CategoryResource::collection(
+            $this->categoryRepository->listAllActives()
+        );
+    }
 }

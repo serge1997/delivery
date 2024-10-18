@@ -41,47 +41,19 @@
                         :old-url="`/images/categories/${category.image}`"
                         api-url="/v1/category/update/image"
                         :entity-id="category.id"
+                        @list-all-entities="listAllCategories"
                      />
                 </Dialog>
             </div>
             <div class="container mt-3">
                 <div class="row">
-                   <div class="col-md-12 m-auto">
-                        <el-table class="m-auto" :data="categories" style="width: 100%">
-                            <el-table-column prop="name" label="Nom" width="180"/>
-                            <el-table-column show-overflow-tooltip width="180" prop="description" label="Descrition"/>
-                            <el-table-column prop="active_status" label="Active" />
-                            <el-table-column prop="created_at" label="Créer le" />
-                            <el-table-column label="images">
-                                <template #default="scope">
-                                    <div class="w-50">
-                                        <img class="w-50" :src="`/images/categories/${scope.row.image}`" alt="">
-                                    </div>
-                                </template>
-                            </el-table-column>
-                            <el-table-column fixd="right" label="Actions" width="300">
-                                <template  #default="scope">
-                                    <el-button @click="findCategory(scope); visibleCreateCategoryModal = true">
-                                        <i class="pi pi-file-edit"></i>
-                                    </el-button>
-                                    <el-popconfirm @confirm="handleToggleCategoryStatus(scope)" :title="popCategoryIsActiveMessage(scope.row.is_active)" width="220">
-                                        <template #reference>
-                                            <el-button class="p-0">
-                                                <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
-                                                <i v-else class="pi pi-lock text-success"></i>
-                                            </el-button>
-                                        </template>
-                                    </el-popconfirm>
-                                    <el-button @click="findCategory(scope);visibleUpdateImageModal=true">
-                                        <i class="pi pi-image"></i>
-                                    </el-button>
-                                    <el-button class="d-none">
-                                        <i class="pi pi-trash text-danger"></i>
-                                    </el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                   </div>
+                   <CategoryDatatableComponent 
+                        :categories="categories"
+                        :is-for-admin="true"
+                        @handle-toggle-category-status="handleToggleCategoryStatus"
+                        @find-category="findCategory"
+                        @findCategoryImage="findCategoryImage"
+                   />
                 </div>
            </div>
         </div>
@@ -90,8 +62,12 @@
 <script>
 import { ElMessage } from 'element-plus';
 import { isNullOrWhiteSpace, when } from '../../../core/Utilities';
+import CategoryDatatableComponent from '../../../components/datatables/CategoryDatatableComponent.vue';
 export default{
     name: 'Administration.Category',
+    components: {
+        CategoryDatatableComponent
+    },
 
     data(){
         return {
@@ -195,6 +171,19 @@ export default{
                 this.category = await response.data.data;
                 this.category.is_active = response.data.data.is_active == 1 ? true : false;
                 this.imageUrl = "/images/categories/" + this.category.image;
+                this.visibleCreateCategoryModal = true;
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message);
+            })
+        },
+        findCategoryImage(category){
+            this.Api.get(`/v1/category/${category.row.id}`)
+            .then(async response => {
+                this.category = await response.data.data;
+                this.category.is_active = response.data.data.is_active == 1 ? true : false;
+                this.imageUrl = "/images/categories/" + this.category.image;
+                this.visibleUpdateImageModal = true;
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message);
