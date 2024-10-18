@@ -35,6 +35,19 @@ class FoodTypeController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
+    public function listAllActives() : JsonResponse
+    {
+        try{
+            /** @var FoodTypeList $foodTypeList */
+            $foodTypeList = $this->container->get(FoodTypeList::class);
+            $response = $foodTypeList->listAllActives();
+            return response()
+                ->json($this->successResponse("List de tous les types de plats actives", $response));
+        }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
     public function store(FoodTypeRequest $request) : JsonResponse
     {
         try{

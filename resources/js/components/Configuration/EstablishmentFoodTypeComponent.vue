@@ -34,44 +34,46 @@
         </div>
         <Dialog v-model:visible="visibleListAllFoodTypeModal" modal :style="{ width: '65rem', borderRadius: '4rem' }">
              <div class="row">
-                 <el-table class="m-auto mb-3" :data="promotions" style="width: 95%">
-                     <el-table-column sortable prop="name" label="Nom" />
-                     <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
-                     <el-table-column fixd="right" label="Actions">
-                         <template  #default>
-                             <el-popconfirm @confirm="onInactivatePromotion" title="voulez vous addicionner cette categorie ?" width="220">
-                                 <template #reference>
-                                     <el-button>
-                                         <i class="pi pi-plus-circle text-success"></i>
-                                     </el-button>
-                                 </template>
-                             </el-popconfirm>
-                         </template>
-                     </el-table-column>
-                 </el-table>
+                <FoodTypeDatableComponent
+                   :food-types="foodTypes"
+                   :is-for-admin="false"
+                   @handle-is-active="handleIsActive"
+                />
              </div>
          </Dialog>
      </div>
  </template>
  <script>
+ import FoodTypeDatableComponent from '../datatables/FoodTypeDatableComponent.vue';
  export default{
-     name: 'EstablishmentFoodTypeComponent',
+    name: 'EstablishmentFoodTypeComponent',
 
-     data(){
-         return {
-            visibleListAllFoodTypeModal: false,
-            promotion:{
-                active: false
-            },
-            promotions: [
-                {name: "promo1", active: "Oui", description: "Desc placeholder", created_at: "04/10/2024"}
-            ]
-        }
-     },
-     methods: {
-         onInactivatePromotion(){
-             alert("Hey")
-         }
-     }
+    components: {
+       FoodTypeDatableComponent
+    },
+
+    data(){
+        return {
+           visibleListAllFoodTypeModal: false,
+           promotion:{
+               active: false
+           },
+           foodTypes: null
+       }
+    },
+    methods: {
+       onInactivatePromotion(){
+            alert("Hey")
+       },
+       listAllFoodTypes(){
+           this.Api.get('/v1/food-type/actives')
+           .then(async response => {
+               this.foodTypes = await response.data.data;
+           })
+       },
+    },
+    mounted(){
+        this.listAllFoodTypes();
+    }
  }
  </script>

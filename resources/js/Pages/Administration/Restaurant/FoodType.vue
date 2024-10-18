@@ -31,42 +31,26 @@
             </div>
             <div class="container mt-3">
                 <div class="row">
-                   <div class="col-md-12 m-auto">
-                        <el-table class="m-auto" :data="foodTypes" style="width: 95%">
-                            <el-table-column prop="name" label="Nom" />
-                            <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
-                            <el-table-column prop="active_status" label="Active" />
-                            <el-table-column prop="created_at" label="Créer le" />
-                            <el-table-column fixd="right" label="Actions">
-                                <template  #default="scope">
-                                    <el-button @click="findFoodType(scope)">
-                                        <i class="pi pi-file-edit"></i>
-                                    </el-button>
-                                    <el-popconfirm @confirm="handleIsActive(scope)" :title="popMessage(scope.row.is_active, 'type de plat')" width="220">
-                                        <template #reference>
-                                            <el-button class="p-0">
-                                                <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
-                                                <i v-else class="pi pi-lock text-success"></i>
-                                            </el-button>
-                                        </template>
-                                    </el-popconfirm>
-                                    <el-button>
-                                        <i class="pi pi-trash text-danger"></i>
-                                    </el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                   </div>
+                   <FoodTypeDatableComponent
+                        :food-types="foodTypes"
+                        :is-for-admin="true"
+                        @handle-is-active="handleIsActive"
+                        @find-food-type="findFoodType"
+                   />
                 </div>
            </div>
         </div>
     </NavbarComponent>
 </template>
 <script>
+import FoodTypeDatableComponent from '../../../components/datatables/FoodTypeDatableComponent.vue';
 import { when, popUpConfirmMessage } from '../../../core/Utilities';
 
 export default{
     name: 'Administration.FoodType',
+    components: {
+        FoodTypeDatableComponent
+    },
 
     data(){
         return {

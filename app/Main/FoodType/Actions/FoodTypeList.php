@@ -23,4 +23,11 @@ class FoodTypeList
             $this->foodTypeRepository->find($id)
         );
     }
+
+    public function listAllActives()
+    {
+        return FoodTypeResource::collection(
+            $this->foodTypeRepository->listAllActives()
+        );
+    }
 }

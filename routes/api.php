@@ -46,6 +46,7 @@ Route::controller(FoodTypeController::class)->group(function(){
     Route::prefix('v1/food-type')->name('food.type.')->group(function(){
         Route::post('/', 'store')->name('store');
         Route::get('/', 'index')->name('index');
+        Route::get('/actives', 'listAllActives')->name('listall.actives');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');
         Route::put('/status/{id}', 'handleIsActive')->name('update.status');
