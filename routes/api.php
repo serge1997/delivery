@@ -44,6 +44,7 @@ Route::controller(CategoryController::class)->group(function(){
 
 Route::controller(FoodTypeController::class)->group(function(){
     Route::prefix('v1/food-type')->name('food.type.')->group(function(){
-
+        Route::post('/', 'store')->name('store');
+        Route::get('/', 'index')->name('index');
     });
 });

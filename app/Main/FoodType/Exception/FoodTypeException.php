@@ -1,5 +1,5 @@
 <?php
-namespace App\Main\FoodType\Repository\Exception;
+namespace App\Main\FoodType\Exception;
 
 class FoodTypeException extends \Exception
 {
