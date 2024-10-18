@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\FoodTypeController;
 use App\Http\Controllers\Api\V1\PromotionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,5 +39,11 @@ Route::controller(CategoryController::class)->group(function(){
         Route::put('/', 'update')->name('update');
         Route::post('/update/image', 'updateImage')->name('update.image');
         Route::put('/status/{id}','updateIsActive')->name('update.status');
+    });
+});
+
+Route::controller(FoodTypeController::class)->group(function(){
+    Route::prefix('v1/food-type')->name('food.type.')->group(function(){
+
     });
 });

@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Main\Category\Actions\CategoryCreate;
 use App\Main\Category\Actions\CategoryList;
 use App\Main\Category\Actions\CategoryUpdate;
+use App\Main\FoodType\Actions\FoodTypeCreate;
+use App\Main\FoodType\Actions\FoodTypeList;
 use App\Main\Promotion\Actions\PromotionCreate;
 use App\Main\Promotion\Actions\PromotionList;
 use App\Main\Promotion\Actions\PromotionUpdate;
@@ -23,6 +25,8 @@ class ActionsServiceContainerProvider extends ServiceProvider
         $this->app->bind(CategoryCreate::class, CategoryCreate::class);
         $this->app->bind(CategoryList::class, CategoryList::class);
         $this->app->bind(CategoryUpdate::class, CategoryUpdate::class);
+        $this->app->bind(FoodTypeCreate::class, FoodTypeCreate::class);
+        $this->app->bind(FoodTypeList::class, FoodTypeList::class);
 
 
     }
