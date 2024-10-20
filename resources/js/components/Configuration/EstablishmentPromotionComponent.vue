@@ -34,44 +34,47 @@
         </div>
         <Dialog v-model:visible="visibleListAllPromotionModal" modal :style="{ width: '65rem', borderRadius: '4rem' }">
              <div class="row">
-                 <el-table class="m-auto mb-3" :data="promotions" style="width: 95%">
-                     <el-table-column sortable prop="name" label="Nom" />
-                     <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
-                     <el-table-column fixd="right" label="Actions">
-                         <template  #default>
-                             <el-popconfirm @confirm="onInactivatePromotion" title="voulez vous addicionner cette categorie ?" width="220">
-                                 <template #reference>
-                                     <el-button>
-                                         <i class="pi pi-plus-circle text-success"></i>
-                                     </el-button>
-                                 </template>
-                             </el-popconfirm>
-                         </template>
-                     </el-table-column>
-                 </el-table>
+                <PromotionDatatableComponent
+                    :promotions="promotions"
+                    :is-for-admin="false"
+                />
              </div>
          </Dialog>
      </div>
  </template>
  <script>
+ import PromotionDatatableComponent from '../datatables/PromotionDatatableComponent.vue';
  export default{
-     name: 'EstablishmentPromotionComponent',
+    name: 'EstablishmentPromotionComponent',
+    components: {
+       PromotionDatatableComponent
+    },
 
-     data(){
-         return {
-            visibleListAllPromotionModal: false,
-             promotion:{
-                 active: false
-             },
-             promotions: [
-                 {name: "promo1", active: "Oui", description: "Desc placeholder", created_at: "04/10/2024"}
-             ]
-         }
-     },
-     methods: {
-         onInactivatePromotion(){
-             alert("Hey")
-         }
-     }
+    data(){
+        return {
+           visibleListAllPromotionModal: false,
+            promotion:{
+                active: false
+            },
+            promotions: null
+        }
+    },
+    methods: {
+        onInactivatePromotion(){
+            alert("Hey")
+        },
+        listAllActivesPromotions(){
+            this.Api.get('/v1/promotion/actives')
+            .then(async response => {
+                this.promotions = await response.data.data;
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
+        }
+    },
+    mounted(){
+        this.listAllActivesPromotions();
+    }
  }
  </script>

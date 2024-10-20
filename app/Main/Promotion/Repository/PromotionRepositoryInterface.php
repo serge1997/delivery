@@ -8,6 +8,7 @@ interface PromotionRepositoryInterface
 {
     public function create(array $data): Promotion;
     public function listAll() : Collection;
+    public function listAllActives() : Collection;
     public function find(int $id) : Promotion;
     public function findByName(string $name) : ?Promotion;
     public function handleUpdateIsActive(Promotion $promotion) : Promotion;

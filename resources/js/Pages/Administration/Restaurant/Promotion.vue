@@ -31,32 +31,10 @@
             </div>
             <div class="container mt-3">
                 <div class="row">
-                   <div class="col-md-12 m-auto">
-                        <el-table class="m-auto" :data="promotions" style="width: 95%">
-                            <el-table-column prop="name" label="Nom" />
-                            <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
-                            <el-table-column prop="active_status" label="Active" />
-                            <el-table-column prop="created_at" label="Créer le" />
-                            <el-table-column fixd="right" label="Actions">
-                                <template  #default="scope">
-                                    <el-button @click="findPromotion(scope)">
-                                        <i class="pi pi-file-edit"></i>
-                                    </el-button>
-                                    <el-popconfirm @confirm="handleTogglePromotionStatus(scope)" :title="popPromoIsActiveMessage(scope.row.is_active)" width="220">
-                                        <template #reference>
-                                            <el-button>
-                                                <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
-                                                <i v-else class="pi pi-lock text-success"></i>
-                                            </el-button>
-                                        </template>
-                                    </el-popconfirm>
-                                    <el-button disabled>
-                                        <i class="pi pi-trash text-danger"></i>
-                                    </el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                   </div>
+                   <PromotionDatatableComponent
+                        :promotions="promotions"
+                        :is-for-admin="true"
+                    />
                 </div>
            </div>
         </div>
@@ -64,8 +42,13 @@
 </template>
 <script>
 import { isNull } from '../../../core/Utilities';
+import PromotionDatatableComponent from '../../../components/datatables/PromotionDatatableComponent.vue';
 export default{
     name: 'Administration.Promotion',
+
+    components: {
+        PromotionDatatableComponent
+    },
 
     data(){
         return {

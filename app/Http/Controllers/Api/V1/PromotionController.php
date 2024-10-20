@@ -54,6 +54,21 @@ class PromotionController extends Controller
         }
     }
 
+    public function listAllActives(): JsonResponse
+    {
+        try{
+            $message = "List de toutes les promotions actives";
+            /** @var PromotionList $promotionList */
+            $promotionList = $this->container->get(PromotionList::class);
+            $data = $promotionList->listAllActives();
+            return response()
+                ->json($this->successResponse($message, $data));
+        }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
     public function show(int $id): JsonResponse
     {
         try{

@@ -16,6 +16,10 @@ class PromotionRepository implements PromotionRepositoryInterface
     {
         return Promotion::all();
     }
+    public function listAllActives() : Collection
+    {
+        return Promotion::where('is_active', true)->get();
+    }
     public function find(int $id) : Promotion
     {
         return Promotion::find($id);

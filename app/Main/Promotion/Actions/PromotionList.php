@@ -23,4 +23,11 @@ class PromotionList
             $this->promotionRepository->find($id)
         );
     }
+
+    public function listAllActives()
+    {
+        return PromotionResource::collection(
+            $this->promotionRepository->listAllActives()
+        );
+    }
 }
