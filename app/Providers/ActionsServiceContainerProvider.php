@@ -11,6 +11,9 @@ use App\Main\FoodType\Actions\FoodTypeUpdate;
 use App\Main\Promotion\Actions\PromotionCreate;
 use App\Main\Promotion\Actions\PromotionList;
 use App\Main\Promotion\Actions\PromotionUpdate;
+use App\Main\Restaurant\Actions\RestaurantCreate;
+use App\Main\Restaurant\Actions\RestaurantList;
+use App\Main\Restaurant\Actions\RestaurantUpdate;
 use Illuminate\Support\ServiceProvider;
 
 class ActionsServiceContainerProvider extends ServiceProvider
@@ -29,6 +32,9 @@ class ActionsServiceContainerProvider extends ServiceProvider
         $this->app->bind(FoodTypeCreate::class, FoodTypeCreate::class);
         $this->app->bind(FoodTypeList::class, FoodTypeList::class);
         $this->app->bind(FoodTypeUpdate::class, FoodTypeUpdate::class);
+        $this->app->bind(RestaurantCreate::class, RestaurantCreate::class);
+        $this->app->bind(RestaurantList::class, RestaurantList::class);
+        $this->app->bind(RestaurantUpdate::class, RestaurantUpdate::class);
 
 
     }
