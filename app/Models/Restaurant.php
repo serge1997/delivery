@@ -13,12 +13,15 @@ class Restaurant extends Model
     protected $fillable = [
         'id',
         'name',
+        'password',
         'created_by_name',
         'created_by_phone',
         'created_by_email',
         'email',
         'whatsapp',
-        'register_number',
-        'is_active'
+        'enterprise_register_number',
+        'is_active',
+        'cover_image',
+        'logo'
     ];
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\FoodTypeController;
 use App\Http\Controllers\Api\V1\PromotionController;
+use App\Http\Controllers\Api\V1\RestaurantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,5 +53,14 @@ Route::controller(FoodTypeController::class)->group(function(){
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');
         Route::put('/status/{id}', 'handleIsActive')->name('update.status');
+    });
+});
+
+Route::controller(RestaurantController::class)->group(function() {
+    Route::prefix('v1/restaurant')->name('restaurant.')->group(function(){
+        Route::post('/', 'store')->name('store');
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::put('/', 'update')->name('update');
     });
 });

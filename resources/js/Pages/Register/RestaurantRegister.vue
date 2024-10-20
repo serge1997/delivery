@@ -26,14 +26,14 @@
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Votre Nom</label>
-                            <InputText @blur="onBlurInputValidation" :class="inputInvalid" class="p-1 required" placeholder="Informez votre nom" />
+                            <InputText @blur="onBlurInputValidation" v-model="restaurant.name" class="p-1 required" placeholder="Informez votre nom" />
                             <small class="text-danger d-none">votre nom est obligatoire</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Votre Telephone</label>
-                            <InputText @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez votre e-mail" />
+                            <InputText v-model="restaurant.creator_by_phone" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez votre e-mail" />
                             <small class="text-danger d-none">votre telephone est obligatoire</small>
                         </div>
                     </div>
@@ -41,8 +41,8 @@
                 <div class="row mb-2">
                     <div class="col-md-12">
                         <div class="mb-3 d-flex flex-column">
-                            <label for="exampleFormControlInput1" class="form-label">Votre E-mail</label>
-                            <InputText class="p-1" placeholder="Informez votre e-mail" />
+                            <label for="created_by_email" class="form-label">Votre E-mail</label>
+                            <InputText v-model="restaurant.created_by_email" class="p-1" placeholder="Informez votre e-mail" />
                         </div>
                     </div>
                 </div>
@@ -50,23 +50,30 @@
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Nom du restaurant</label>
-                            <InputText @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le nom du restaurant" />
+                            <InputText @blur="onBlurInputValidation" v-model="restaurant.name" class="p-1 required" placeholder="Informez le nom du restaurant" />
                             <small class="text-danger d-none">nom du restaurant est obligatoire</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
-                            <label for="exampleFormControlInput1" class="form-label">Whatsapp du restaurant</label>
-                            <InputText @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le whatsapp du restaurant" />
+                            <label for="whatsapp" class="form-label">Whatsapp du restaurant</label>
+                            <InputText v-model="restaurant.whatsapp" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le whatsapp du restaurant" />
                             <small class="text-danger d-none">whatsapp du restaurant est obligatoire</small>
                         </div>
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="col-md-12">
+                    <div class="col-sm-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">E-mail du restaurant</label>
-                            <InputText class="p-1" placeholder="Informez l'e-mail du restaurant" />
+                            <InputText v-model="restaurant.email" class="p-1" placeholder="Informez l'e-mail du restaurant" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3 d-flex flex-column">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <InputText v-model="restaurant.password" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le mot de passe" />
+                            <small class="text-danger d-none">mot de passe est obligatoire</small>
                         </div>
                     </div>
                 </div>
@@ -74,7 +81,7 @@
                     <div class="col-md-12">
                         <div class="mb-3 d-flex flex-column">
                             <label for="regist-number" class="form-label">Numero de régistre</label>
-                            <InputText class="p-1" placeholder="Informez le numero de registre du restaurant" />
+                            <InputText v-model="restaurant.enterprise_register_number" class="p-1" placeholder="Informez le numero de registre du restaurant" />
                         </div>
                     </div>
                 </div>
@@ -120,12 +127,16 @@ export default {
     data(){
         return {
             restaurant: {
-                creator_name: null,
-                creator_phone: null,
+                created_by_name: null,
+                creator_by_phone: null,
+                created_by_email: null,
+                enterprise_register_number: null,
+                is_active: null,
                 name: null,
-                phone: null,
-                inputInvalid: null,
-                cover: null,
+                email: null,
+                password: null,
+                whatsapp: null,
+                cover_image: null,
                 logo: null
             },
             formErrosBeug: [
