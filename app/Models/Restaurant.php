@@ -18,10 +18,15 @@ class Restaurant extends Model
         'created_by_phone',
         'created_by_email',
         'email',
+        'password',
         'whatsapp',
         'enterprise_register_number',
         'is_active',
         'cover_image',
-        'logo'
+        'logo',
+        'open_hour',
+        'close_hour',
+        'longitude',
+        'latitude'
     ];
 }

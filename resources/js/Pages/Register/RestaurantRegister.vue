@@ -25,14 +25,14 @@
                 <div class="row mb-2">
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
-                            <label for="exampleFormControlInput1" class="form-label">Votre Nom</label>
-                            <InputText @blur="onBlurInputValidation" v-model="restaurant.name" class="p-1 required" placeholder="Informez votre nom" />
+                            <label for="exampleFormControlInput1" class="form-label">Nom complet du responsable</label>
+                            <InputText @blur="onBlurInputValidation" v-model="restaurant.created_by_name" class="p-1 required" placeholder="Informez votre nom" />
                             <small class="text-danger d-none">votre nom est obligatoire</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
-                            <label for="exampleFormControlInput1" class="form-label">Votre Telephone</label>
+                            <label for="exampleFormControlInput1" class="form-label">Telephone du responsable</label>
                             <InputText v-model="restaurant.creator_by_phone" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez votre e-mail" />
                             <small class="text-danger d-none">votre telephone est obligatoire</small>
                         </div>
@@ -41,7 +41,7 @@
                 <div class="row mb-2">
                     <div class="col-md-12">
                         <div class="mb-3 d-flex flex-column">
-                            <label for="created_by_email" class="form-label">Votre E-mail</label>
+                            <label for="created_by_email" class="form-label">E-mail du responsable</label>
                             <InputText v-model="restaurant.created_by_email" class="p-1" placeholder="Informez votre e-mail" />
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2">
+                <div class="row mb-2 d-none">
                     <div class="col-md-12">
                         <div class="mb-3 d-flex flex-column">
                             <label for="regist-number" class="form-label">Numero de régistre</label>
@@ -110,7 +110,14 @@
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <div class="mb-3 d-flex flex-column">
-                            <Button class="w-100 rounded-3" label="Enregistrer" />
+                            <Button class="w-100 rounded-3 p-disabled" id="submitDataBtn" label="Enregistrer" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3 d-flex flex-column">
+                            <Button class="w-100 border" text>
+                                <router-link class="text-center text-dark w-100" :to="{name: 'RestaurantLogin'}">Sign-up</router-link>
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -151,8 +158,17 @@ export default {
     },
     methods: {
         onBlurInputValidation(e) {
+            let submitBtn = document.querySelector('#submitDataBtn')
+            let requiredInputs = document.querySelectorAll('.required');
             let input = e.target;
             let parent = input.parentElement;
+            requiredInputs.forEach(el => {
+                if (!el.value){
+                    submitBtn.classList.add('p-disabled')
+                }else{
+                    submitBtn.classList.remove('p-disabled')
+                }
+            })
             if (input.classList.contains('required') && !input.value){
                 input.classList.add('border-danger')
                 input.classList.add('required-input')
@@ -161,6 +177,7 @@ export default {
                 input.classList.remove('border-danger');
                 input.classList.remove('required-input')
                 parent.querySelector('small').classList.add('d-none')
+                submitBtn.removeAttribute('disabled')
             }
         },
         openFileWindow(e){

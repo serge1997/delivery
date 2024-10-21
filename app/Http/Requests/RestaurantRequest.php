@@ -33,7 +33,11 @@ class RestaurantRequest extends FormRequest
             'enterprise_register_number' => ['nullable'],
             'is_active' => ['nullable'],
             'cover_image' => ['nullable', 'file'],
-            'logo' => ['nullable', 'file']
+            'logo' => ['nullable', 'file'],
+            'open_hour' => ['nullable'],
+            'close_hour' => ['nullable'],
+            'longitude' => ['nullable'],
+            'latitude'  => ['nullable']
         ];
     }
 
