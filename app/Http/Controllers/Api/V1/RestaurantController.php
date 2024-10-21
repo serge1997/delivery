@@ -32,8 +32,12 @@ class RestaurantController extends Controller
     public function store(RestaurantRequest $request)
     {
         try{
+            $request->validated();
             /** @var RestaurantCreate $restaurantCreate */
             $restaurantCreate = $this->container->get(RestaurantCreate::class);
+            $restaurant = $restaurantCreate->run($request);
+            return response()
+                ->json($this->successResponse('établissement enregistré avec succes', $restaurant));
         }catch(\Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);

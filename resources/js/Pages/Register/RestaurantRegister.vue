@@ -26,14 +26,14 @@
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Nom complet du responsable</label>
-                            <InputText @blur="onBlurInputValidation" v-model="restaurant.created_by_name" class="p-1 required" placeholder="Informez votre nom" />
+                            <InputText @input="onInputValidation" @blur="onBlurInputValidation" v-model="restaurant.created_by_name" class="p-1 required" placeholder="Informez votre nom" />
                             <small class="text-danger d-none">votre nom est obligatoire</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Telephone du responsable</label>
-                            <InputText v-model="restaurant.creator_by_phone" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez votre e-mail" />
+                            <InputText @input="onInputValidation" v-model="restaurant.created_by_phone" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez votre e-mail" />
                             <small class="text-danger d-none">votre telephone est obligatoire</small>
                         </div>
                     </div>
@@ -50,15 +50,15 @@
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="exampleFormControlInput1" class="form-label">Nom du restaurant</label>
-                            <InputText @blur="onBlurInputValidation" v-model="restaurant.name" class="p-1 required" placeholder="Informez le nom du restaurant" />
+                            <InputText @input="onInputValidation" @blur="onBlurInputValidation" v-model="restaurant.name" class="p-1 required" placeholder="Informez le nom du restaurant" />
                             <small class="text-danger d-none">nom du restaurant est obligatoire</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3 d-flex flex-column">
-                            <label for="whatsapp" class="form-label">Whatsapp du restaurant</label>
-                            <InputText v-model="restaurant.whatsapp" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le whatsapp du restaurant" />
-                            <small class="text-danger d-none">whatsapp du restaurant est obligatoire</small>
+                            <label for="phone" class="form-label">Telephone du restaurant</label>
+                            <InputText @input="onInputValidation" v-model="restaurant.phone" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le telephone du restaurant" />
+                            <small class="text-danger d-none">telephone du restaurant est obligatoire</small>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     <div class="col-sm-6">
                         <div class="mb-3 d-flex flex-column">
                             <label for="password" class="form-label">Mot de passe</label>
-                            <InputText v-model="restaurant.password" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le mot de passe" />
+                            <InputText type="password" @input="onInputValidation" v-model="restaurant.password" @blur="onBlurInputValidation" class="p-1 required" placeholder="Informez le mot de passe" />
                             <small class="text-danger d-none">mot de passe est obligatoire</small>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <div class="mb-3 d-flex flex-column">
-                            <Button class="w-100 rounded-3 p-disabled" id="submitDataBtn" label="Enregistrer" />
+                            <Button @click="postRestaurant" class="w-100 rounded-3 p-disabled" id="submitDataBtn" label="Enregistrer" />
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -135,16 +135,17 @@ export default {
         return {
             restaurant: {
                 created_by_name: null,
-                creator_by_phone: null,
+                created_by_phone: null,
                 created_by_email: null,
                 enterprise_register_number: null,
                 is_active: null,
                 name: null,
                 email: null,
                 password: null,
-                whatsapp: null,
+                phone: null,
                 cover_image: null,
-                logo: null
+                logo: null,
+                is_active: false
             },
             formErrosBeug: [
                 {creator_name: "Votre nom est obligatoire"}
@@ -158,17 +159,8 @@ export default {
     },
     methods: {
         onBlurInputValidation(e) {
-            let submitBtn = document.querySelector('#submitDataBtn')
-            let requiredInputs = document.querySelectorAll('.required');
             let input = e.target;
             let parent = input.parentElement;
-            requiredInputs.forEach(el => {
-                if (!el.value){
-                    submitBtn.classList.add('p-disabled')
-                }else{
-                    submitBtn.classList.remove('p-disabled')
-                }
-            })
             if (input.classList.contains('required') && !input.value){
                 input.classList.add('border-danger')
                 input.classList.add('required-input')
@@ -177,8 +169,18 @@ export default {
                 input.classList.remove('border-danger');
                 input.classList.remove('required-input')
                 parent.querySelector('small').classList.add('d-none')
-                submitBtn.removeAttribute('disabled')
             }
+        },
+        onInputValidation(){
+            let submitBtn = document.querySelector('#submitDataBtn')
+            let requiredInputs = document.querySelectorAll('.required');
+            requiredInputs.forEach(el => {
+                if (!el.value){
+                    submitBtn.classList.add('p-disabled')
+                }else{
+                    submitBtn.classList.remove('p-disabled')
+                }
+            })
         },
         openFileWindow(e){
             let parent = e.target.parentElement;
@@ -221,6 +223,16 @@ export default {
                 })
             }
             reader.readAsDataURL(file)
+        },
+        postRestaurant(){
+            this.Api.post('/v1/restaurant', this.restaurant)
+            .then(async response => {
+                this.Notify.success(await response.data.message)
+                this.$router.push('/login/@auth-restaurant')
+            })
+            .catch(error => {
+                console.log(error);
+            })
         }
     }
 }

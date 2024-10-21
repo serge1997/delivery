@@ -29,7 +29,7 @@ class RestaurantRequest extends FormRequest
             'created_by_phone' => ['required'],
             'created_by_email' => ['nullable', 'email'],
             'email' => ['nullable', 'email'],
-            'whatsapp' => ['required'],
+            'phone' => ['required'],
             'enterprise_register_number' => ['nullable'],
             'is_active' => ['nullable'],
             'cover_image' => ['nullable', 'file'],
@@ -71,10 +71,6 @@ class RestaurantRequest extends FormRequest
     {
         return $this->created_by_email;
     }
-    public function whatsapp() : ?string
-    {
-        return $this->whatsapp;
-    }
     public function email() : ?string
     {
         return $this->email;
@@ -94,5 +90,9 @@ class RestaurantRequest extends FormRequest
     public function isActive() : bool
     {
         return $this->is_active;
+    }
+    public function phone() : string
+    {
+        return $this->phone;
     }
 }

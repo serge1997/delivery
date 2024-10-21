@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class Restaurant extends Model
 {
@@ -19,7 +21,7 @@ class Restaurant extends Model
         'created_by_email',
         'email',
         'password',
-        'whatsapp',
+        'phone',
         'enterprise_register_number',
         'is_active',
         'cover_image',
@@ -29,4 +31,11 @@ class Restaurant extends Model
         'longitude',
         'latitude'
     ];
+
+    public function password() : Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Hash::make($value)
+        );
+    }
 }
