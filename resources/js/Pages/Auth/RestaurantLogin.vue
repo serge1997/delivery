@@ -12,14 +12,14 @@
                     <div class="card-body">
                         <div class="mb-3 d-flex flex-column">
                             <label for="regist-number" class="form-label">Numero de telephone</label>
-                            <InputText @input="validateInputs" style="border: 1px solid #e5e7eb" class="p-2 required" placeholder="numero telephone" />
+                            <InputText v-model="auth.phone" @input="validateInputs" style="border: 1px solid #e5e7eb" class="p-2 required" placeholder="numero telephone" />
                         </div>
                         <div class="mb-4 d-flex flex-column">
                             <label for="regist-number" class="form-label">Mot de passe</label>
-                            <InputText @input="validateInputs" style="border: 1px solid #e5e7eb" type="password" class="p-2 required" placeholder="mot de passe" />
+                            <InputText v-model="auth.password" @input="validateInputs" style="border: 1px solid #e5e7eb" type="password" class="p-2 required" placeholder="mot de passe" />
                         </div>
                         <div class="mb-3d-flex flex-column">
-                            <Button class="w-100 rounded-3 p-disabled" id="submitDataBtn" label="Sign-up" />
+                            <Button @click="login" class="w-100 rounded-3 p-disabled" id="submitDataBtn" label="Sign-up" />
                             <Button class="w-100 border-0" text>
                                 <router-link class="text-center text-dark w-100" :to="{name: 'Register.Restaurant'}">Créer un compte</router-link>
                             </Button>
@@ -38,7 +38,10 @@ export default {
     },
     data(){
         return{
-
+            auth:{
+                phone: null,
+                password: null
+            }
         }
     },
     methods: {
@@ -54,6 +57,9 @@ export default {
                     submitBtn.classList.remove('p-disabled')
                 }
             })
+        },
+        login(){
+            this.Api.post('/v1/auth-restaurant/auth', this.auth)
         }
     }
 }

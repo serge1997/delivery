@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AuthRestaurantController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\FoodTypeController;
 use App\Http\Controllers\Api\V1\PromotionController;
@@ -62,5 +63,11 @@ Route::controller(RestaurantController::class)->group(function() {
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');
+    });
+});
+
+Route::controller(AuthRestaurantController::class)->group(function() {
+    Route::prefix('v1/auth-restaurant')->name('auth,restaurant')->group(function(){
+        Route::post('/auth', 'login')->name('login');
     });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Main\Auth\Restaurant\Actions\AuthRestaurantLogin;
 use App\Main\Category\Actions\CategoryCreate;
 use App\Main\Category\Actions\CategoryList;
 use App\Main\Category\Actions\CategoryUpdate;
@@ -35,6 +36,7 @@ class ActionsServiceContainerProvider extends ServiceProvider
         $this->app->bind(RestaurantCreate::class, RestaurantCreate::class);
         $this->app->bind(RestaurantList::class, RestaurantList::class);
         $this->app->bind(RestaurantUpdate::class, RestaurantUpdate::class);
+        $this->app->bind(AuthRestaurantLogin::class, AuthRestaurantLogin::class);
 
 
     }
