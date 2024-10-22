@@ -7,8 +7,8 @@
             <el-table-column v-if="isForAdmin" prop="created_at" label="Créer le"/>
             <el-table-column v-if="!isForAdmin" label="Actions" width="300">
                 <template  #default="scope">
-                    <el-button>
-                        <i class="pi pi-plus-circle text-success"></i>
+                    <el-button @click="$emit('removePromotionFromSeletected', scope)">
+                        <i style="font-size: .9em;"class="pi pi-trash text-danger"></i>
                     </el-button>
                 </template>
             </el-table-column>

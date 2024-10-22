@@ -18,7 +18,7 @@
                                 </Button>
                             </el-menu-item>
                             <el-menu-item index="1">Processing Center</el-menu-item>
-                            <el-sub-menu index="2">
+                            <el-sub-menu index="2" v-if="isAuthenticated">
                                 <template class="d-flex align-items-center" #title>
                                     <i class="pi pi-cog"></i>
                                     <span class="px-2">Configuation</span>
@@ -42,7 +42,7 @@
                                     </router-link>
                                 </el-menu-item>
                             </el-sub-menu>
-                            <el-sub-menu index="3">
+                            <el-sub-menu v-if="isAuthenticated" index="3">
                                 <template #title>
                                     <i class="pi pi-warehouse"></i>
                                     <span class="px-2">Administration</span>

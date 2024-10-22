@@ -25,8 +25,8 @@
             </el-table-column>
             <el-table-column v-if="!isForAdmin" fixd="right" label="Actions">
                 <template  #default="scope">
-                    <el-button @click="$emit('addFoodType', scope)">
-                        <i class="pi pi-plus-circle text-success"></i>
+                    <el-button @click="$emit('removeFoodType', scope)">
+                        <i style="font-size: .9em;"class="pi pi-trash text-danger"></i>
                     </el-button>
                 </template>
             </el-table-column>
@@ -47,8 +47,8 @@ export default {
         }
     },
     methods:{
-        
-        
+
+
     },
     mounted(){
 

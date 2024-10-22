@@ -35,8 +35,8 @@
             </el-table-column>
             <el-table-column v-if="!isForAdmin" fixd="right" label="Actions" width="100">
                 <template  #default="scope">
-                    <el-button>
-                        <i class="pi pi-plus-circle text-success"></i>
+                    <el-button @click="$emit('removeCategory', scope)">
+                        <i style="font-size: .9em;"class="pi pi-trash text-danger"></i>
                     </el-button>
                 </template>
             </el-table-column>

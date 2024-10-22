@@ -6,7 +6,7 @@ import App from './App.vue';
 import axios from 'axios';
 import PrimeVue from "primevue/config";
 import 'primeicons/primeicons.css'
-import "primevue/resources/themes/md-light-indigo/theme.css";
+import "primevue/resources/themes/aura-light-blue/theme.css";
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import Menubar from 'primevue/menubar';
@@ -18,6 +18,7 @@ import NavbarComponent from './components/NavbarComponent.vue';
 import Textarea from 'primevue/textarea';
 import Provider from './core/Provider';
 import UpdateImageComponent from './components/UpdateImageComponent.vue';
+import MultiSelect from 'primevue/multiselect';
 
 const app = createApp(App);
 
@@ -47,6 +48,7 @@ app.component('Dialog', Dialog)
 app.component('NavbarComponent', NavbarComponent);
 app.component('Textarea', Textarea)
 app.component('UpdateImageComponent', UpdateImageComponent);
+app.component('MultiSelect', MultiSelect);
 app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)

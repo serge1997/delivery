@@ -35,15 +35,26 @@
         <Dialog v-model:visible="visibleListAllPromotionModal" modal :style="{ width: '65rem', borderRadius: '4rem' }">
              <div class="row">
                 <PromotionDatatableComponent
-                    :promotions="promotions"
+                    :promotions="selectedPromotions"
                     :is-for-admin="false"
+                    @remove-promotion-from-seletected="removePromotionFromSeletected"
                 />
+             </div>
+             <div class="row p-2">
+                <div class="col-md-10">
+                    <label for="select-foodtypes" class="form-label fw-bold">Selectionnez vos promotions</label>
+                    <MultiSelect class="w-75" v-model="selectedPromotions" :options="promotions" option-label="name"></MultiSelect>
+                </div>
+                <div class="col-md-10 mt-3">
+                    <Button @click="clearInputs" class="general-btn" icon="pi pi-save" label="Enregistrer" />
+                </div>
              </div>
          </Dialog>
      </div>
  </template>
  <script>
- import PromotionDatatableComponent from '../datatables/PromotionDatatableComponent.vue';
+ import { when } from '../../core/Utilities';
+import PromotionDatatableComponent from '../datatables/PromotionDatatableComponent.vue';
  export default{
     name: 'EstablishmentPromotionComponent',
     components: {
@@ -56,7 +67,8 @@
             promotion:{
                 active: false
             },
-            promotions: null
+            promotions: null,
+            selectedPromotions: []
         }
     },
     methods: {
@@ -70,6 +82,11 @@
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message)
+            })
+        },
+        removePromotionFromSeletected(data){
+            this.selectedPromotions.forEach((el, index) => {
+                when(el.id === data.row.id, () => this.selectedPromotions.splice(index, 1))
             })
         }
     },

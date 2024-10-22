@@ -35,14 +35,25 @@
        <Dialog v-model:visible="visibleListAllCategoryModal" modal :style="{ width: '75rem', borderRadius: '4rem' }">
             <div class="row">
                 <CategoryDatatableComponent
-                    :categories="categories"
+                    :categories="selectedCategories"
                     :is-for-admin="false"
+                    @remove-category="removeCategory"
                 />
             </div>
+            <div class="row p-2">
+                <div class="col-md-10">
+                    <label for="select-foodtypes" class="form-label fw-bold">Selectionnez les categories</label>
+                    <MultiSelect class="w-75" v-model="selectedCategories" :options="categories" option-label="name"></MultiSelect>
+                </div>
+                <div class="col-md-10 mt-3">
+                    <Button @click="clearInputs" class="general-btn" icon="pi pi-save" label="Enregistrer" />
+                </div>
+             </div>
         </Dialog>
     </div>
 </template>
 <script>
+import { when } from '../../core/Utilities';
 import CategoryDatatableComponent from '../datatables/CategoryDatatableComponent.vue';
 export default{
     name: 'EstablishmentCategoryComponent',
@@ -58,6 +69,7 @@ export default{
                 active: false
             },
             categories: null,
+            selectedCategories: []
         }
     },
     methods: {
@@ -68,6 +80,11 @@ export default{
             this.Api.get('/v1/category/actives')
             .then(async response => {
                 this.categories = await response.data.data;
+            })
+        },
+        removeCategory(data){
+            this.selectedCategories.forEach((el, index) => {
+                when(el.id === data.row.id, () => this.selectedCategories.splice(index, 1))
             })
         }
     },
