@@ -30,5 +30,10 @@ export class ApiModule{
 
         return request;
     }
+    headers(){
+        return {
+            'Authorization': ''
+        }
+    }
 
 }

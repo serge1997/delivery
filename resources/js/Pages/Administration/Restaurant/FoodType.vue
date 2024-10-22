@@ -79,8 +79,8 @@ export default{
                 this.listAllFoodTypes()
             })
             .catch(error => {
-                when(error.response.status === 422, 
-                    this.formErrors = error.response.data.errors, 
+                when(error.response.status === 422,
+                    this.formErrors = error.response.data.errors,
                     this.Notify.error(error.response.data.message)
                 );
             })
@@ -101,7 +101,7 @@ export default{
                 this.foodType.is_active = this.foodType.is_active == 1 ? true : false;
                 this.visibleCreateFoodTypeModal = true;
             })
-            .catch(error => {   
+            .catch(error => {
                 this.Notify.error(`${error.response.data.message}`)
             })
         },
@@ -111,12 +111,13 @@ export default{
                 this.Notify.success(await response.data.message);
                 this.listAllFoodTypes();
             })
-            .catch(error => {   
+            .catch(error => {
                 this.Notify.error(`${error.response.data.message}`)
             })
         }
     },
     mounted(){
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.Auth.getToken()}`
         this.listAllFoodTypes();
     }
 }

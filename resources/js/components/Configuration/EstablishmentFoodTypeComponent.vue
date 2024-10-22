@@ -73,6 +73,7 @@
        },
     },
     mounted(){
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.Auth.getToken()}`
         this.listAllFoodTypes();
     }
  }

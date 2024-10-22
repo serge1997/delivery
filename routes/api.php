@@ -23,11 +23,28 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
     Route::controller(AuthRestaurantController::class)->group(function() {
         Route::prefix('v1/auth-restaurant')->name('auth,restaurant')->group(function(){
             Route::post('/logout', 'logout')->name('logout');
+        });
+    });
+
+    Route::controller(PromotionController::class)->group(function() {
+        Route::prefix('v1/promotion')->name('promotion.')->group(function () {
+            Route::get('/actives', 'listAllActives')->name('listall.actives');
+        });
+    });
+    Route::controller(CategoryController::class)->group(function(){
+        Route::prefix('v1/category')->name('category.')->group(function () {
+            Route::get('/actives', 'listAllActives')->name('listall.actives');
+        });
+    });
+
+    Route::controller(FoodTypeController::class)->group(function(){
+        Route::prefix('v1/food-type')->name('food.type.')->group(function(){
+            Route::get('/actives', 'listAllActives')->name('listall.actives');
         });
     });
 });
@@ -36,7 +53,6 @@ Route::controller(PromotionController::class)->group(function() {
     Route::prefix('v1/promotion')->name('promotion.')->group(function () {
         Route::post('/', 'onCreate')->name('create');
         Route::get('/', 'index')->name('index');
-        Route::get('/actives', 'listAllActives')->name('listall.actives');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'onUpdate')->name('update');
         Route::put('/status/{id}', 'onHandleUpdateIsActive')->name('updatestatus');
@@ -47,7 +63,6 @@ Route::controller(CategoryController::class)->group(function(){
     Route::prefix('v1/category')->name('category.')->group(function () {
         Route::post('/', 'store')->name('store');
         Route::get('/', 'index')->name('index');
-        Route::get('/actives', 'listAllActives')->name('listall.actives');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');
         Route::post('/update/image', 'updateImage')->name('update.image');
@@ -59,7 +74,6 @@ Route::controller(FoodTypeController::class)->group(function(){
     Route::prefix('v1/food-type')->name('food.type.')->group(function(){
         Route::post('/', 'store')->name('store');
         Route::get('/', 'index')->name('index');
-        Route::get('/actives', 'listAllActives')->name('listall.actives');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');
         Route::put('/status/{id}', 'handleIsActive')->name('update.status');

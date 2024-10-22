@@ -47,7 +47,7 @@
             </div>
             <div class="container mt-3">
                 <div class="row">
-                   <CategoryDatatableComponent 
+                   <CategoryDatatableComponent
                         :categories="categories"
                         :is-for-admin="true"
                         @handle-toggle-category-status="handleToggleCategoryStatus"
@@ -215,9 +215,8 @@ export default{
         },
     },
     mounted(){
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.Auth.getToken()}`
         this.listAllCategories()
-        let val = when(false, 10);
-        console.log(val);
     }
 }
 </script>

@@ -34,6 +34,9 @@ export default{
         return {
             componentIs: null,
         }
+    },
+    mounted(){
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.Auth.getToken()}`
     }
 }
 </script>
