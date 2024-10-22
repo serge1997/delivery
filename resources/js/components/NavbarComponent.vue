@@ -21,10 +21,15 @@
                     <div class="button-box cart-box-button">
                         <Button text icon="pi pi-cart-arrow-down"/>
                     </div>
-                    <div class="button-box">
+                    <div v-if="!isAuthenticated" class="button-box">
                         <Button class="d-flex gap-2" text>
                             <span><i class="pi pi-user"></i></span>
                             <span>Login</span>
+                        </Button>
+                    </div>
+                    <div v-else class="button-box">
+                        <Button @click="logout" class="d-flex gap-2 text-danger" text>
+                            <span><i class="pi pi-sign-out"></i></span>
                         </Button>
                     </div>
                 </div>
@@ -38,6 +43,7 @@
 <script>
 import SidebarComponent from './SidebarComponent.vue';
 export default {
+    inject: ['isAuthenticated'],
     name: 'NavbarComponent',
 
     components: {
@@ -58,6 +64,21 @@ export default {
                 },
             ]
         }
+    },
+    methods: {
+        logout(){
+            this.Api.post('/v1/auth-restaurant/logout')
+            .then(async response => {
+                this.Auth.logout();
+                location.reload()
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
+        }
+    },
+    mounted(){
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.Auth.getToken()}`
     }
 }
 </script>

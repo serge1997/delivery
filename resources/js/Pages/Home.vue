@@ -12,10 +12,14 @@ import RestaurantTypeComponent from '../components/RestaurantTypeComponent.vue';
 import RestaurantFilterComponent from '../components/RestaurantFilterComponent.vue';
 import RestaurantCardComponent from '../components/RestaurantCardComponent.vue';
 export default{
+    inject: ['check'],
     components: {
         RestaurantTypeComponent,
         RestaurantFilterComponent,
         RestaurantCardComponent
+    },
+
+    mounted() {
     }
 }
 </script>

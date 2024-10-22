@@ -11,6 +11,9 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3 d-flex flex-column">
+                            <small class="text-danger" v-text="errorMessage"></small>
+                        </div>
+                        <div class="mb-3 d-flex flex-column">
                             <label for="regist-number" class="form-label">Numero de telephone</label>
                             <InputText v-model="auth.phone" @input="validateInputs" style="border: 1px solid #e5e7eb" class="p-2 required" placeholder="numero telephone" />
                         </div>
@@ -41,7 +44,8 @@ export default {
             auth:{
                 phone: null,
                 password: null
-            }
+            },
+            errorMessage: null
         }
     },
     methods: {
@@ -60,7 +64,22 @@ export default {
         },
         login(){
             this.Api.post('/v1/auth-restaurant/auth', this.auth)
+            .then(async response => {
+                try{
+                    const result = await response.data.data;
+                    this.Auth.attempt(result.token, result.name, result.role);
+                    location.assign('/administration/configuration/establishment')
+                }catch(error) {
+                    this.Notify.error(error.message)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                this.errorMessage = error.response.data.message
+            })
         }
+    },
+    mounted(){
     }
 }
 </script>

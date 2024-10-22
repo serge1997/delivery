@@ -6,6 +6,15 @@
 <script>
 export default{
 
+    data(){
+        return {
+        }
+    },
+    provide(){
+        return {
+            isAuthenticated: this.Auth.isAuthenticated()
+        }
+    }
 }
 </script>
 <style>

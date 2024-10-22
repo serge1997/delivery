@@ -1,4 +1,5 @@
 import { ApiModule } from "./ApiModule";
+import { AuthService } from "./AuthService";
 import { Notify } from "./Notify";
 
 export class Container{
@@ -11,6 +12,7 @@ export class Container{
     resolve(){
         this.bind("Api", () => new ApiModule());
         this.bind("Notify", () => new Notify());
+        this.bind('AuthService', () => new AuthService());
     }
 
     bind(key, callback){

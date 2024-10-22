@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="w-100">
                        <el-menu class="p-2">
-                            <el-menu-item class="p-1 mt-3 mb-2" index="1">
+                            <el-menu-item v-if="!isAuthenticated" class="p-1 mt-3 mb-2" index="1">
                                 <Button severity="success" class="w-100 p-1 rounded-2" label="Enregistrer votre restaurant">
                                     <router-link class="text-decoration-none text-white w-100" :to="{ name: 'Register.Restaurant'} ">
                                         Enregistrer votre restaurant
@@ -68,11 +68,12 @@
 </template>
 <script>
 export default{
+    inject: ['isAuthenticated'],
     name: 'SidebarComponent',
 
     data(){
         return{
-            visibleSideBar: false
+            visibleSideBar: false,
         }
     }
 }

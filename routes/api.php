@@ -23,6 +23,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::controller(AuthRestaurantController::class)->group(function() {
+        Route::prefix('v1/auth-restaurant')->name('auth,restaurant')->group(function(){
+            Route::post('/logout', 'logout')->name('logout');
+        });
+    });
+});
+
 Route::controller(PromotionController::class)->group(function() {
     Route::prefix('v1/promotion')->name('promotion.')->group(function () {
         Route::post('/', 'onCreate')->name('create');
