@@ -97,13 +97,13 @@
                     <div class="col-md-4">
                         <div class="mb-3 d-flex flex-column w-100">
                             <input @change="handleImageUpload" class="d-none" type="file" id="restaurant-logo-image" />
-                            <Button @click="openFileWindow" class="w-100 rounded-3 btn-file-upload" label="Logo" icon="pi pi-image" />
+                            <Button @click="openFileWindow" class="w-100 rounded-3 btn-file-upload border-0" label="Logo" icon="pi pi-image" />
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3 d-flex flex-column">
                             <input @change="handleImageUpload" class="d-none" type="file" id="restaurant-cover-image" />
-                            <Button @click="openFileWindow" class="w-100 btn-file-upload rounded-3" label="Image de couverture" icon="pi pi-image" />
+                            <Button @click="openFileWindow" class="w-100 btn-file-upload rounded-3 border-0" label="Image de couverture" icon="pi pi-image" />
                         </div>
                     </div>
                 </div>

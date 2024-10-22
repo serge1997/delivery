@@ -37,7 +37,7 @@ export class ApiModule{
     headers(){
         return {
             headers: {
-                'Authorization': this.authService.getToken()
+                'Authorization': 'Bearer ' + this.authService.getToken()
             }
         }
     }
