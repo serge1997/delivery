@@ -86,6 +86,7 @@ Route::controller(RestaurantController::class)->group(function() {
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');
+        Route::get('/actives/list-actives', 'getAllActives')->name('actives');
     });
 });
 

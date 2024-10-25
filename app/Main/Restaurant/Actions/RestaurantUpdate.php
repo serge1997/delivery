@@ -8,4 +8,9 @@ class RestaurantUpdate
     public function __construct(
         private RestaurantRepositoryInterface $restaurantRepository
     ){}
+
+    public function updateImages($request)
+    {
+        $this->restaurantRepository->updateImages($request);
+    }
 }

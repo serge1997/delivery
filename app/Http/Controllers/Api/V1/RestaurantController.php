@@ -8,6 +8,8 @@ use App\Main\Restaurant\Actions\RestaurantCreate;
 use App\Main\Restaurant\Actions\RestaurantList;
 use App\Main\Restaurant\Actions\RestaurantUpdate;
 use App\Traits\HttpResponse;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Psr\Container\ContainerInterface;
 
@@ -44,7 +46,7 @@ class RestaurantController extends Controller
         }
     }
 
-    public function show(int $id)
+    public function show($id)
     {
         try{
             /** @var RestaurantList $restaurantList */
@@ -61,6 +63,32 @@ class RestaurantController extends Controller
             /** @var RestaurantUpdate $restaurantUpdate */
             $restaurantUpdate = $this->container->get(RestaurantUpdate::class);
         }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function updateImages(Request $request)
+    {
+        try{
+            /** @var RestaurantUpdate $restaurantUpdate */
+            $restaurantUpdate = $this->container->get(RestaurantUpdate::class);
+        }catch(Exception $e) {
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function getAllActives() : JsonResponse
+    {
+        try{
+
+            /** @var RestaurantList $restaurantList */
+            $restaurantList = $this->container->get(RestaurantList::class);
+            $response = $restaurantList->listAllActives();
+            return response()
+                ->json($this->successResponse('list de tous les restaurants actives', $response));
+        }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
