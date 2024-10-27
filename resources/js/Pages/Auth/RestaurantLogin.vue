@@ -67,7 +67,7 @@ export default {
             .then(async response => {
                 try{
                     const result = await response.data.data;
-                    this.Auth.attempt(result.token, result.name, result.role);
+                    this.Auth.attempt(result.token, result.id, result.name, result.role);
                     location.assign('/administration/configuration/establishment')
                 }catch(error) {
                     this.Notify.error(error.message)

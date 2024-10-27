@@ -24,10 +24,10 @@ class FoodTypeList
         );
     }
 
-    public function listAllActives()
+    public function listAllNotBelongsToCurrentRestaurant(int $restaurant_id)
     {
         return FoodTypeResource::collection(
-            $this->foodTypeRepository->listAllActives()
+            $this->foodTypeRepository->findAllNotBelongsToCurrentRestaurant($restaurant_id)
         );
     }
 }

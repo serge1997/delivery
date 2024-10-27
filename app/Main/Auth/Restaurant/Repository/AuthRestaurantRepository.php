@@ -20,6 +20,7 @@ class AuthRestaurantRepository implements AuthRestaurantRepositoryInterface
         $request->session()->put('auth_restaurant', $restaurant->id);
         $token = $restaurant->createToken('browser', ['role:restaurant'])->plainTextToken;
         $data = [
+            'id' => $restaurant->id,
             'token' => $token,
             'name' => $restaurant->name,
             'latidute' => $restaurant->latitude,

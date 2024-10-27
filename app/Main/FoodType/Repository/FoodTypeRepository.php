@@ -1,7 +1,9 @@
 <?php
 namespace App\Main\FoodType\Repository;
 use App\Models\FoodType;
-class FoodTypeRepository implements FoodTypeRepositoryInterface
+use App\Service\Base\BaseRepository;
+
+class FoodTypeRepository extends BaseRepository implements FoodTypeRepositoryInterface
 {
 
     public function create(array $data): FoodType
@@ -23,9 +25,14 @@ class FoodTypeRepository implements FoodTypeRepositoryInterface
     {
         return FoodType::all();
     }
-    public function listAllActives()
+    public function findAllNotBelongsToCurrentRestaurant(int $restaurant_id)
     {
-        return FoodType::where('is_active', true)->get();
+        return FoodType::where('is_active', true)
+            ->whereNotIn('id', function($query) use($restaurant_id){
+                $query->select('food_type_id')
+                    ->from('restaurants_food_types')
+                        ->where('restaurant_id', $restaurant_id);
+            })->get();
     }
     public function update($request): FoodType
     {

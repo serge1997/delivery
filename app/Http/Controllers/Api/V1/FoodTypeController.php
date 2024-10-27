@@ -35,12 +35,12 @@ class FoodTypeController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
-    public function listAllActives() : JsonResponse
+    public function listAllUncreatedByRestaurant(int $restaurant_id) : JsonResponse
     {
         try{
             /** @var FoodTypeList $foodTypeList */
             $foodTypeList = $this->container->get(FoodTypeList::class);
-            $response = $foodTypeList->listAllActives();
+            $response = $foodTypeList->listAllNotBelongsToCurrentRestaurant($restaurant_id);
             return response()
                 ->json($this->successResponse("List de tous les types de plats actives", $response));
         }catch(\Exception $e){

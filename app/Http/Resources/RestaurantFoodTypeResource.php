@@ -14,6 +14,13 @@ class RestaurantFoodTypeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->foodType->name,
+            'description' => $this->foodType->description,
+            "is_active" => $this->is_active,
+            "active_status" => $this->is_active == true ? "Activé" : "Desactivé",
+            "created_at" => date('d/m/Y H:i:s', strtotime($this->created_at))
+        ];
     }
 }

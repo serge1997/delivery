@@ -22,9 +22,8 @@ class RestaurantFoodTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'restaurant_id' => ['required'],
-            'food_type_id' => ['required'],
-            'is_active'  => ['nullable']
+            'restaurant_id' => ['required', 'integer'],
+            'food_types_id' => ['required', 'array']
         ];
     }
 
@@ -32,7 +31,8 @@ class RestaurantFoodTypeRequest extends FormRequest
     {
         return [
             'resaturant.id' => 'votre identificateur est obligatoire',
-            'food_type_id.required' => 'le type de plat est obligatoire'
+            'food_types_id.required' => 'le type de plat est obligatoire',
+            'food_types_id.array' => 'donnés invalide'
         ];
     }
 
@@ -41,8 +41,8 @@ class RestaurantFoodTypeRequest extends FormRequest
         return $this->restaurant_id;
     }
 
-    public function foodTypeId() : int
+    public function foodTypesId() : array
     {
-        return $this->food_tye_id;
+        return $this->food_types_id;
     }
 }

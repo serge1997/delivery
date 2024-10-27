@@ -1,6 +1,7 @@
 <?php
 namespace App\Main\RestaurantFoodType\Actions;
 
+use App\Http\Resources\RestaurantFoodTypeResource;
 use App\Main\RestaurantFoodType\Repository\RestaurantFoodTypeRepositoryInterface;
 
 class RestaurantFoodTypeList
@@ -12,5 +13,12 @@ class RestaurantFoodTypeList
     public function listAll()
     {
 
+    }
+
+    public function listByRestaurantId(int $id)
+    {
+        return RestaurantFoodTypeResource::collection(
+            $this->restaurantFoodTypeRepository->findByRestaurantId($id)
+        );
     }
 }

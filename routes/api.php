@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\FoodTypeController;
 use App\Http\Controllers\Api\V1\PromotionController;
 use App\Http\Controllers\Api\V1\RestaurantController;
+use App\Http\Controllers\Api\V1\RestaurantFoodTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,7 +45,16 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
     Route::controller(FoodTypeController::class)->group(function(){
         Route::prefix('v1/food-type')->name('food.type.')->group(function(){
-            Route::get('/actives', 'listAllActives')->name('listall.actives');
+            Route::get('/uncreated-by-restaurant/{restaurant_id}', 'listAllUncreatedByRestaurant')->name('listall.uncreated')->whereNumber('restaurant_id');
+        });
+    });
+
+    Route::controller(RestaurantFoodTypeController::class)->group(function(){
+        Route::prefix('v1/restaurant-food-type')->name('restaurant_food_type.')->group(function () {
+            Route::post('/', 'store')->name('store');
+            Route::get('/', 'index')->name('index');
+            Route::get('/{id}', 'show')->name('show')->whereNumber('id');
+            Route::get('/list-by-restaurant/{restaurant_id}', 'listByRestaurant')->name('bt-restaurant')->whereNumber('restauarnt_id');
         });
     });
 });
