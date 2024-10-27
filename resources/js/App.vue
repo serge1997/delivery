@@ -34,4 +34,8 @@ export default{
     transform: scale(1.03);
     background-color: #cbd5e1;
 }
+.file-upload{
+    background-color:#e4e4e7;
+    color: #4b5563;
+}
 </style>

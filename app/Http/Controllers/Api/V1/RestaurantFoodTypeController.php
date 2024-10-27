@@ -69,7 +69,7 @@ class RestaurantFoodTypeController extends Controller
     {
         try{
             /** @var RestaurantFoodTypeUpdate $restaurantFoodTypeUpdate */
-            $restaurantFoodTypeUpdate = $this->container->get(RestaurantFoodTypeUpdate::class);;
+            $restaurantFoodTypeUpdate = $this->container->get(RestaurantFoodTypeUpdate::class);
             $response = $restaurantFoodTypeUpdate->toggleIsActive($id);
             return response()
                 ->json($this->successResponse('status actualisé avec succes', $response));

@@ -8,7 +8,8 @@ import RestaurantRegister from "../Pages/Register/RestaurantRegister.vue";
 import Establishment from "../Pages/Administration/Configuration/Establishment.vue";
 import RestaurantLogin from "../Pages/Auth/RestaurantLogin.vue";
 import RestaurantProfile from "../Pages/Order/RestaurantProfile.vue";
-import component from "element-plus/es/components/tree-select/src/tree-select-option.mjs";
+import Menuitem from "../Pages/Administration/Configuration/Menuitem.vue";
+
 
 const routes = [
     {
@@ -36,7 +37,8 @@ const routes = [
         path: '/administration/configuration',
         meta: {requiresAuth: true},
         children: [
-            {path: 'establishment', component: Establishment, name: 'Config.Establishment'}
+            {path: 'establishment', component: Establishment, name: 'Config.Establishment'},
+            {path: 'menuitem', component: Menuitem, name: 'Config.Menuitem'}
         ]
     },
     {

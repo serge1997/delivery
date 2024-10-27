@@ -24,7 +24,7 @@
                                     <span class="px-2">Configuation</span>
                                 </template>
                                 <el-menu-item index="2-1-2">
-                                    <router-link class="text-dark text-decoration-none d-flex align-items-center gap-2" to="/administration/restaurant/category">
+                                    <router-link class="text-dark text-decoration-none d-flex align-items-center gap-2" :to="{ name: 'Config.Menuitem' }">
                                         <i class="pi pi-box"></i>
                                         <span>Plats</span>
                                     </router-link>

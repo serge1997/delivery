@@ -18,6 +18,7 @@ use App\Main\Restaurant\Actions\RestaurantUpdate;
 use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeCreate;
 use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeDelete;
 use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeList;
+use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeUpdate;
 use Illuminate\Support\ServiceProvider;
 
 class ActionsServiceContainerProvider extends ServiceProvider
@@ -43,6 +44,7 @@ class ActionsServiceContainerProvider extends ServiceProvider
         $this->app->bind(RestaurantFoodTypeCreate::class, RestaurantFoodTypeCreate::class);
         $this->app->bind(RestaurantFoodTypeList::class, RestaurantFoodTypeList::class);
         $this->app->bind(RestaurantFoodTypeDelete::class, RestaurantFoodTypeDelete::class);
+        $this->app->bind(RestaurantFoodTypeUpdate::class, RestaurantFoodTypeUpdate::class);
 
 
     }

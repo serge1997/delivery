@@ -19,6 +19,7 @@ import Textarea from 'primevue/textarea';
 import Provider from './core/Provider';
 import UpdateImageComponent from './components/UpdateImageComponent.vue';
 import MultiSelect from 'primevue/multiselect';
+import Dropdown from 'primevue/dropdown';
 
 const app = createApp(App);
 
@@ -49,6 +50,7 @@ app.component('NavbarComponent', NavbarComponent);
 app.component('Textarea', Textarea)
 app.component('UpdateImageComponent', UpdateImageComponent);
 app.component('MultiSelect', MultiSelect);
+app.component('Dropdown', Dropdown)
 app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)
