@@ -20,6 +20,7 @@ import Provider from './core/Provider';
 import UpdateImageComponent from './components/UpdateImageComponent.vue';
 import MultiSelect from 'primevue/multiselect';
 import Dropdown from 'primevue/dropdown';
+import OverlayPanel from 'primevue/overlaypanel';
 
 const app = createApp(App);
 
@@ -50,7 +51,8 @@ app.component('NavbarComponent', NavbarComponent);
 app.component('Textarea', Textarea)
 app.component('UpdateImageComponent', UpdateImageComponent);
 app.component('MultiSelect', MultiSelect);
-app.component('Dropdown', Dropdown)
+app.component('Dropdown', Dropdown);
+app.component('OverlayPanel', OverlayPanel)
 app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)

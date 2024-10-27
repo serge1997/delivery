@@ -1,6 +1,23 @@
 <template>
     <div class="row">
         <div class="col-md-10 m-auto">
+            <div class="row mb-3">
+                <OverlayPanel ref="overlay">
+                    <div>
+                        <h2>Hello world</h2>
+                    </div>
+                </OverlayPanel>
+                <div class="col-md-10 d-flex gap-2">
+                    <Button @click="showOverlay" class="d-flex gap-2 align-items-center border-red-btn-white rounded-pill" text>
+                        <span><i class="pi pi-box gold-btn-icon"></i></span>
+                        <span class="btn-text-small">Faites une promotions sur cet item</span>
+                    </Button>
+                    <Button class="d-flex gap-2 align-items-center border-red-btn-white rounded-pill" text>
+                        <span><i class="pi pi-table gold-btn-icon"></i></span>
+                        <span class="btn-text-small">Addicionez une category a cet item</span>
+                    </Button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-6 mb-3 d-flex flex-column">
                     <label for="form-label">Nom</label>
@@ -46,7 +63,9 @@
     </div>
 </template>
 <script>
+import { ref } from 'vue';
 import { isNull, when } from '../../core/Utilities';
+
 
 export default {
     name: 'CreateMenuitemComponent',
@@ -92,10 +111,21 @@ export default {
             .catch(error => {
                 this.Notify.error(error.response.data.message)
             })
-        }
+        },
     },
     mounted(){
         this.listRestaurantFoodTypes()
+    },
+    setup(){
+        const overlay = ref(null);
+
+        const showOverlay  = (event) => {
+            overlay.value.toggle(event)
+        };
+        return {
+            overlay,
+            showOverlay
+        };
     }
 }
 </script>

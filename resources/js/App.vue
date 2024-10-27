@@ -38,4 +38,15 @@ export default{
     background-color:#e4e4e7;
     color: #4b5563;
 }
+.gold-btn-icon{
+    color: #fbbf24;
+    font-size: 0.9em;
+}
+.border-red-btn-white{
+    border: 1px solid #a1a1aa;
+}
+.btn-text-small{
+    color: #4b5563;
+    font-size: 0.9em;
+}
 </style>
