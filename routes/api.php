@@ -84,9 +84,9 @@ Route::controller(RestaurantController::class)->group(function() {
     Route::prefix('v1/restaurant')->name('restaurant.')->group(function(){
         Route::post('/', 'store')->name('store');
         Route::get('/', 'index')->name('index');
-        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}', 'show')->name('show')->whereNumber('id');
         Route::put('/', 'update')->name('update');
-        Route::get('/actives/list-actives', 'getAllActives')->name('actives');
+        Route::get('/actives', 'getAllActives')->name('actives');
     });
 });
 

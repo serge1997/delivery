@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div v-for="restaurant in restaurants" class="col-md-3">
-            <div class="card w-100 border-0">
+            <div @click="toProfile(restaurant.id, restaurant.slug)" class="card w-100 border-0">
                 <div style="background-image: url('/images/restaurant-card.png'); height: 210px;" class="card-body rounded-2 p-0">
                     <div class="w-75 bg-white p-1 mt-4 restaurant-promo-box">
                         <small class="px-2">Jusqu'á 50% off</small>
@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         getAllActivesRestaurants(){
-            this.Api.get('/v1/restaurant/actives/list-actives')
+            this.Api.get('/v1/restaurant/actives')
             .then(async response => {
                 this.restaurants = await response.data.data;
             })
@@ -45,6 +45,9 @@ export default {
                 console.log(error)
                 this.Notify.error(error.response.data.message)
             })
+        },
+        toProfile(id, slug){
+            this.$router.push(`/order/profile/${id}/${slug}`)
         }
     },
     mounted(){

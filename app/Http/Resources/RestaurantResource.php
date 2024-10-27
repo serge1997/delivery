@@ -25,7 +25,8 @@ class RestaurantResource extends JsonResource
             'enterprise_register_number' => $this->enterprise_register_number,
             'is_active' => $this->is_active,
             'cover_image' => $this->cover_image,
-            'logo' => $this->logo
+            'logo' => $this->logo,
+            'slug' => str_replace(' ','-', strtolower($this->name)),
         ];
     }
 }

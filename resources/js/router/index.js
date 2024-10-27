@@ -7,6 +7,8 @@ import FoodType from "../Pages/Administration/Restaurant/FoodType.vue";
 import RestaurantRegister from "../Pages/Register/RestaurantRegister.vue";
 import Establishment from "../Pages/Administration/Configuration/Establishment.vue";
 import RestaurantLogin from "../Pages/Auth/RestaurantLogin.vue";
+import RestaurantProfile from "../Pages/Order/RestaurantProfile.vue";
+import component from "element-plus/es/components/tree-select/src/tree-select-option.mjs";
 
 const routes = [
     {
@@ -42,6 +44,11 @@ const routes = [
         children: [
             {path: '@auth-restaurant', component: RestaurantLogin, name: 'RestaurantLogin'}
         ]
+    },
+    {
+        path: '/order/profile/:id/:slug',
+        name: 'RestaurantProfile',
+        component: RestaurantProfile
     }
 ]
 
