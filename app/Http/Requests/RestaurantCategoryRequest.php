@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RestaurantFoodTypeRequest extends FormRequest
+class RestaurantCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class RestaurantFoodTypeRequest extends FormRequest
     {
         return [
             'restaurant_id' => ['required', 'integer'],
-            'food_types_id' => ['required', 'array']
+            'categories_id' => ['required', 'array']
         ];
     }
 
@@ -31,18 +31,18 @@ class RestaurantFoodTypeRequest extends FormRequest
     {
         return [
             'resaturant_id.id' => 'votre identificateur est obligatoire',
-            'food_types_id.required' => 'le type de plat est obligatoire',
-            'food_types_id.array' => 'donnés invalide'
+            'categories_id.required' => 'le type de plat est obligatoire',
+            'categories_id.array' => 'donnés invalide'
         ];
+    }
+
+    public function categoriesIds() : array
+    {
+        return $this->categories_id;
     }
 
     public function restaurantId() : int
     {
         return $this->restaurant_id;
-    }
-
-    public function foodTypesId() : array
-    {
-        return $this->food_types_id;
     }
 }
