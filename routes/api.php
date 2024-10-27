@@ -55,6 +55,8 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/{id}', 'show')->name('show')->whereNumber('id');
             Route::get('/list-by-restaurant/{restaurant_id}', 'listByRestaurant')->name('bt-restaurant')->whereNumber('restauarnt_id');
+            Route::delete('/{id}', 'delete')->name('delete')->whereNumber('id');
+            Route::put('/is-active/{id}', 'handleToggleIsActive')->name('toggle.isactive')->whereNumber('id');
         });
     });
 });

@@ -4,17 +4,17 @@ namespace App\Main\RestaurantFoodType\Actions;
 use App\Http\Resources\RestaurantFoodTypeResource;
 use App\Main\RestaurantFoodType\Repository\RestaurantFoodTypeRepositoryInterface;
 
-class RestaurantFoodTypeDelete
+class RestaurantFoodTypeUpdate
 {
     public function __construct(
         private RestaurantFoodTypeRepositoryInterface $restaurantFoodTypeRepository
-    )
-    {}
+    ){}
 
-    public function run(int $id)
+    public function toggleIsActive(int $id)
     {
         $restaurantFoodType = $this->restaurantFoodTypeRepository->find($id);
-        $this->restaurantFoodTypeRepository->delete($restaurantFoodType);
-        return new RestaurantFoodTypeResource($restaurantFoodType);
+        return new RestaurantFoodTypeResource(
+            $this->restaurantFoodTypeRepository->handleToggleIsActive($restaurantFoodType)
+        );
     }
 }

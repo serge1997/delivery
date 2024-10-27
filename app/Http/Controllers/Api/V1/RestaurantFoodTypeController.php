@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RestaurantFoodTypeRequest;
 use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeCreate;
+use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeDelete;
 use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeList;
+use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeUpdate;
 use App\Traits\HttpResponse;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -43,6 +45,34 @@ class RestaurantFoodTypeController extends Controller
             $message = "list de tous vos types de plats";
             return response()
                 ->json($this->successResponse($message, $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function delete(int $id)
+    {
+        try{
+            /** @var RestaurantFoodTypeDelete $restaurantFoodTypeDelete */
+            $restaurantFoodTypeDelete = $this->container->get(RestaurantFoodTypeDelete::class);
+            $response = $restaurantFoodTypeDelete->run($id);
+            return response()
+                ->json($this->successResponse('Type supprimé avec succes', $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function handleToggleIsActive(int $id)
+    {
+        try{
+            /** @var RestaurantFoodTypeUpdate $restaurantFoodTypeUpdate */
+            $restaurantFoodTypeUpdate = $this->container->get(RestaurantFoodTypeUpdate::class);;
+            $response = $restaurantFoodTypeUpdate->toggleIsActive($id);
+            return response()
+                ->json($this->successResponse('status actualisé avec succes', $response));
         }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);

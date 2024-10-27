@@ -14,6 +14,7 @@
                      <el-table class="m-auto" :data="restaurantFoodTypes" style="width: 95%">
                          <el-table-column prop="name" label="Nom" />
                          <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
+                         <el-table-column show-overflow-tooltip prop="active_status" label="status"/>
                          <el-table-column fixd="right" label="Actions">
                              <template  #default="scope">
                                  <el-popconfirm @confirm="deleteRestaurantFoodType(scope)" title="voulez vous supprimer ce type de plat ?" width="220">
@@ -23,13 +24,17 @@
                                          </el-button>
                                      </template>
                                  </el-popconfirm>
-                                 <el-popconfirm @confirm="onInactivatePromotion" title="voulez vous desactiver cette promotion" width="220">
+                                 <el-popconfirm @confirm="toggleActivateRestaurantFoodType(scope)" :title="popUpMessage(scope.row.is_active, 'type de plat')" width="220">
                                      <template #reference>
                                          <el-button>
-                                             <i class="pi pi-lock-open text-warning"></i>
+                                            <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
+                                            <i v-else class="pi pi-lock text-success"></i>
                                          </el-button>
                                      </template>
                                  </el-popconfirm>
+                                 <el-button>
+                                    <i class="pi pi-eye"></i>
+                                 </el-button>
                              </template>
                          </el-table-column>
                      </el-table>
@@ -61,6 +66,7 @@
  import { is, when } from '../../core/Utilities';
 import FoodTypeDatableComponent from '../datatables/FoodTypeDatableComponent.vue';
  export default{
+    inject: ['popUpMessage'],
     name: 'EstablishmentFoodTypeComponent',
 
     components: {
@@ -103,6 +109,8 @@ import FoodTypeDatableComponent from '../datatables/FoodTypeDatableComponent.vue
                 this.Notify.success(await response.data.message);
                 this.post_data.food_types_id = [];
                 this.visibleListAllFoodTypeModal = false;
+                this.listAllFoodTypes();
+                this.listRestaurantFoodTypes();
             })
             .catch(error => {
                 when(error.response.status === 422, this.Notify.error(error.response.data.message))
@@ -118,7 +126,25 @@ import FoodTypeDatableComponent from '../datatables/FoodTypeDatableComponent.vue
             })
         },
         deleteRestaurantFoodType(data){
-            alert(data.row.id)
+            this.Api.delete('/v1/restaurant-food-type/' + data.row.id)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.listAllFoodTypes();
+                this.listRestaurantFoodTypes();
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
+        },
+        toggleActivateRestaurantFoodType(data){
+            this.Api.put(`/v1/restaurant-food-type/is-active/${data.row.id}`)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.listRestaurantFoodTypes()
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
         }
     },
     mounted(){

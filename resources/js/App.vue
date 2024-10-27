@@ -4,6 +4,8 @@
     </div>
 </template>
 <script>
+import { popUpConfirmMessage } from './core/Utilities';
+
 export default{
 
     data(){
@@ -12,7 +14,8 @@ export default{
     },
     provide(){
         return {
-            isAuthenticated: this.Auth.isAuthenticated()
+            isAuthenticated: this.Auth.isAuthenticated(),
+            popUpMessage: popUpConfirmMessage
         }
     }
 }

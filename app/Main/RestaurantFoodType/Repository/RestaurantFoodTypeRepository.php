@@ -22,4 +22,19 @@ class RestaurantFoodTypeRepository extends BaseRepository implements RestaurantF
     {
         return RestaurantFoodType::where('restaurant_id', $id)->get();
     }
+    public function find(int $id)
+    {
+        return RestaurantFoodType::find($id);
+    }
+    public function delete(RestaurantFoodType $restaurantFoodType)
+    {
+        $restaurantFoodType->delete();
+    }
+    public function handleToggleIsActive(RestaurantFoodType $restaurantFoodType)
+    {
+        $restaurantFoodType->update([
+            'is_active' => !$restaurantFoodType->is_active
+        ]);
+        return $restaurantFoodType;
+    }
 }
