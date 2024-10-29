@@ -19,11 +19,12 @@ class RestaurantCategoryRepository implements RestaurantCategoryRepositoryInterf
             $restaurant->category_id = $categoryId;
             $restaurantCategory->save();
         }
+        return $this->findByRestaurantId($restaurant);
     }
 
-    public function findByRestaurantId(int $id)
+    public function findByRestaurantId(Restaurant $restaurant)
     {
-
+        return RestaurantCategory::where('restaurant_id', $restaurant->id)->get();
     }
 
     public function entityExist(int $restaurant_id, int $category_id) : bool

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AuthRestaurantController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\FoodTypeController;
 use App\Http\Controllers\Api\V1\PromotionController;
+use App\Http\Controllers\Api\V1\RestaurantCategoryController;
 use App\Http\Controllers\Api\V1\RestaurantController;
 use App\Http\Controllers\Api\V1\RestaurantFoodTypeController;
 use Illuminate\Http\Request;
@@ -59,6 +60,15 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
             Route::put('/is-active/{id}', 'handleToggleIsActive')->name('toggle.isactive')->whereNumber('id');
         });
     });
+
+    Route::controller(RestaurantCategoryController::class)->group(function() {
+        Route::prefix('restaurant-category')->name('restaurant-category.')->group(function() {
+            Route::post('/', 'store')->name('store');
+            Route::get('/', 'index')->name('index');
+            Route::get('/{restaurant_id}', 'listByRestaurant')->name('list.by.restaurant')->whereNumber('restaurant_id');
+        });
+    });
+
 });
 
 Route::controller(PromotionController::class)->group(function() {

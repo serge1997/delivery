@@ -10,7 +10,7 @@ class RestaurantCategory extends Model
     use HasFactory;
 
     protected $table = 'restaurants_categories';
-    
+
     protected $fillable = [
         'id',
         'restaurant_id',

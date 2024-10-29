@@ -35,7 +35,7 @@
        <Dialog v-model:visible="visibleListAllCategoryModal" modal :style="{ width: '75rem', borderRadius: '4rem' }">
             <div class="row">
                 <CategoryDatatableComponent
-                    :categories="selectedCategories"
+                    :categories="post_data.categories_id"
                     :is-for-admin="false"
                     @remove-category="removeCategory"
                 />
@@ -43,10 +43,10 @@
             <div class="row p-2">
                 <div class="col-md-10">
                     <label for="select-foodtypes" class="form-label fw-bold">Selectionnez les categories</label>
-                    <MultiSelect class="w-75" v-model="selectedCategories" :options="categories" option-label="name"></MultiSelect>
+                    <MultiSelect class="w-75" v-model="post_data.categories_id" :options="categories" option-label="name"></MultiSelect>
                 </div>
                 <div class="col-md-10 mt-3">
-                    <Button @click="clearInputs" class="general-btn" icon="pi pi-save" label="Enregistrer" />
+                    <Button @click="createRestaurantCategories" class="general-btn" icon="pi pi-save" label="Enregistrer" />
                 </div>
              </div>
         </Dialog>
@@ -65,11 +65,12 @@ export default{
     data(){
         return {
             visibleListAllCategoryModal: false,
-            promotion:{
-                active: false
+            post_data:{
+                restaurant_id: this.Auth.authId(),
+                categories_id: []
             },
             categories: null,
-            selectedCategories: []
+            restaurantCategories: null
         }
     },
     methods: {
@@ -85,6 +86,15 @@ export default{
         removeCategory(data){
             this.selectedCategories.forEach((el, index) => {
                 when(el.id === data.row.id, () => this.selectedCategories.splice(index, 1))
+            })
+        },
+        createRestaurantCategories(){
+            this.Api.post('/v1/restaurant-category', this.post_data)
+            .then(async response => {
+                this.Notify.success(await response.data)
+            })
+            .catch(error => {
+
             })
         }
     },
