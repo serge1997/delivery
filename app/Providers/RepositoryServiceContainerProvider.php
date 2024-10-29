@@ -12,6 +12,8 @@ use App\Main\Promotion\Repository\PromotionRepository;
 use App\Main\Promotion\Repository\PromotionRepositoryInterface;
 use App\Main\Restaurant\Repository\RestaurantRepository;
 use App\Main\Restaurant\Repository\RestaurantRepositoryInterface;
+use App\Main\RestaurantCategory\Repository\RestaurantCategoryRepository;
+use App\Main\RestaurantCategory\Repository\RestaurantCategoryRepositoryInterface;
 use App\Main\RestaurantFoodType\Repository\RestaurantFoodTypeRepository;
 use App\Main\RestaurantFoodType\Repository\RestaurantFoodTypeRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +31,7 @@ class RepositoryServiceContainerProvider extends ServiceProvider
         $this->app->bind(RestaurantRepositoryInterface::class, RestaurantRepository::class);
         $this->app->bind(AuthRestaurantRepositoryInterface::class, AuthRestaurantRepository::class);
         $this->app->bind(RestaurantFoodTypeRepositoryInterface::class, RestaurantFoodTypeRepository::class);
+        $this->app->bind(RestaurantCategoryRepositoryInterface::class, RestaurantCategoryRepository::class);
     }
 
     /**

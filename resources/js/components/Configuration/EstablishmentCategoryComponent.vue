@@ -84,17 +84,18 @@ export default{
             })
         },
         removeCategory(data){
-            this.selectedCategories.forEach((el, index) => {
-                when(el.id === data.row.id, () => this.selectedCategories.splice(index, 1))
+            this.post_data.categories_id.forEach((el, index) => {
+                when(el.id === data.row.id, () => this.post_data.categories_id.splice(index, 1))
             })
         },
         createRestaurantCategories(){
+            this.post_data.categories_id = this.post_data.categories_id.map(cat => cat.id);
             this.Api.post('/v1/restaurant-category', this.post_data)
             .then(async response => {
-                this.Notify.success(await response.data)
+                this.Notify.success(await response.data.message)
             })
             .catch(error => {
-
+                this.Notify.error(error.response.data.message)
             })
         }
     },

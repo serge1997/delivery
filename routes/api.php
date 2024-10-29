@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
     });
 
     Route::controller(RestaurantCategoryController::class)->group(function() {
-        Route::prefix('restaurant-category')->name('restaurant-category.')->group(function() {
+        Route::prefix('v1/restaurant-category')->name('restaurant-category.')->group(function() {
             Route::post('/', 'store')->name('store');
             Route::get('/', 'index')->name('index');
             Route::get('/{restaurant_id}', 'listByRestaurant')->name('list.by.restaurant')->whereNumber('restaurant_id');

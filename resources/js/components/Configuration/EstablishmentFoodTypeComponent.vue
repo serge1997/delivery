@@ -98,8 +98,8 @@ import FoodTypeDatableComponent from '../datatables/FoodTypeDatableComponent.vue
             })
         },
         removeFoodType(data){
-            this.selectedFoodTypes.forEach((el, index) => {
-                when(el.id === data.row.id, () => this.selectedFoodTypes.splice(index, 1))
+            this.post_data.food_types_id.forEach((el, index) => {
+                when(el.id === data.row.id, () => this.post_data.food_types_id.splice(index, 1))
             })
         },
         createRestaurantFoodTypes(){

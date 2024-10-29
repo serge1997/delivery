@@ -15,6 +15,7 @@ use App\Main\Promotion\Actions\PromotionUpdate;
 use App\Main\Restaurant\Actions\RestaurantCreate;
 use App\Main\Restaurant\Actions\RestaurantList;
 use App\Main\Restaurant\Actions\RestaurantUpdate;
+use App\Main\RestaurantCategory\Actions\RestaurantCategoryCreate;
 use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeCreate;
 use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeDelete;
 use App\Main\RestaurantFoodType\Actions\RestaurantFoodTypeList;

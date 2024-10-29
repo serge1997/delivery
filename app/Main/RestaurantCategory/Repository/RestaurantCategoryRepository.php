@@ -16,7 +16,7 @@ class RestaurantCategoryRepository implements RestaurantCategoryRepositoryInterf
                 throw new RestaurantCategoryException("category exists déjá");
             }
             $restaurantCategory->restaurant_id = $restaurant->id;
-            $restaurant->category_id = $categoryId;
+            $restaurantCategory->category_id = $categoryId;
             $restaurantCategory->save();
         }
         return $this->findByRestaurantId($restaurant);
