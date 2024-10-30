@@ -65,7 +65,8 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
         Route::prefix('v1/restaurant-category')->name('restaurant-category.')->group(function() {
             Route::post('/', 'store')->name('store');
             Route::get('/', 'index')->name('index');
-            Route::get('/{restaurant_id}', 'listByRestaurant')->name('list.by.restaurant')->whereNumber('restaurant_id');
+            Route::get('/list-by-restaurant/{restaurant_id}', 'getByRestaurant')->name('list.by.restaurant')->whereNumber('restaurant_id');
+            Route::delete('/{id}', 'delete')->name('delete')->whereNumber('id');
         });
     });
 

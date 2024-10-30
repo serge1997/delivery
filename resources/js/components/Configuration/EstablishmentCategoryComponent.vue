@@ -11,15 +11,20 @@
             </div>
             <div class="row mt-3">
                <div class="col-md-12 m-auto">
-                    <el-table class="m-auto" :data="promotions" style="width: 95%">
-                        <el-table-column prop="name" label="Nom" />
+                    <el-table class="m-auto" :data="restaurantCategories" style="width: 95%">
+                        <el-table-column prop="category" label="Nom" />
                         <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
+                        <el-table-column show-overflow-tooltip prop="active_status" label="status"/>
                         <el-table-column fixd="right" label="Actions">
-                            <template  #default>
-                                <el-button>
-                                    <i class="pi pi-trash text-danger"></i>
-                                </el-button>
-                                <el-popconfirm @confirm="onInactivatePromotion" title="voulez vous desactiver cette promotion" width="220">
+                            <template  #default="scope">
+                                <el-popconfirm @confirm="deleteRestaurantCategory(scope)" title="voulez-vous supprimer cette category ?" width="220">
+                                   <template #reference>
+                                        <el-button>
+                                            <i class="pi pi-trash text-danger"></i>
+                                        </el-button>
+                                   </template>
+                                </el-popconfirm>
+                                <el-popconfirm @confirm="onInactivateCategory(scope)" title="voulez vous desactiver cette promotion" width="220">
                                     <template #reference>
                                         <el-button>
                                             <i class="pi pi-lock-open text-warning"></i>
@@ -93,15 +98,39 @@ export default{
             this.Api.post('/v1/restaurant-category', this.post_data)
             .then(async response => {
                 this.Notify.success(await response.data.message)
+                this.listByRestaurant();
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message)
             })
+        },
+        listByRestaurant(){
+            this.Api.get('/v1/restaurant-category/list-by-restaurant/' + this.post_data.restaurant_id)
+            .then(async response => {
+                this.restaurantCategories = await response.data.data;
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
+        },
+        deleteRestaurantCategory(data){
+            this.Api.delete(`/v1/restaurant-category/${data.row.id}`)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.listByRestaurant();
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
+        },
+        onInactivateCategory(data){
+
         }
     },
     mounted(){
         window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.Auth.getToken()}`
         this.listAllCategoriesActive();
+        this.listByRestaurant();
     }
 }
 </script>

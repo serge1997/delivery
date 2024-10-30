@@ -27,8 +27,19 @@ class RestaurantCategoryRepository implements RestaurantCategoryRepositoryInterf
         return RestaurantCategory::where('restaurant_id', $restaurant->id)->get();
     }
 
+    public function find(int $id)
+    {
+        return RestaurantCategory::find($id);
+    }
+
     public function entityExist(int $restaurant_id, int $category_id) : bool
     {
         return RestaurantCategory::where([['restaurant_id', $restaurant_id], ['category_id', $category_id]])->exists();
+    }
+
+    public function delete(RestaurantCategory $restaurantCategory)
+    {
+        $restaurantCategory->delete();
+        return $restaurantCategory;
     }
 }
