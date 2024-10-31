@@ -7,6 +7,7 @@ use App\Http\Requests\RestaurantCategoryRequest;
 use App\Main\RestaurantCategory\Actions\RestaurantCategoryCreate;
 use App\Main\RestaurantCategory\Actions\RestaurantCategoryDelete;
 use App\Main\RestaurantCategory\Actions\RestaurantCategoryList;
+use App\Main\RestaurantCategory\Actions\RestaurantCategoryUpdate;
 use App\Traits\HttpResponse;
 use Exception;
 use Illuminate\Http\Request;
@@ -58,6 +59,20 @@ class RestaurantCategoryController extends Controller
             $response = $restaurantCategoryDelete->remove($id);
             return response()
                 ->json($this->successResponse('Categorie supprimée avec succes', $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function handleToggleIsActive(int $id)
+    {
+        try{
+            /** @var RestaurantCategoryUpdate $restaurantCategoryUpdate */
+            $restaurantCategoryUpdate = $this->container->get(RestaurantCategoryUpdate::class);
+            $response = $restaurantCategoryUpdate->handleToggleIsActive($id);
+            return response()
+                ->json($this->successResponse('status actualisé avec succes', $response));
         }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);

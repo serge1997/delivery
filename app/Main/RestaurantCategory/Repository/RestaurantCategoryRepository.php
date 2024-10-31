@@ -42,4 +42,11 @@ class RestaurantCategoryRepository implements RestaurantCategoryRepositoryInterf
         $restaurantCategory->delete();
         return $restaurantCategory;
     }
+    public function toggleIsActive(RestaurantCategory $restaurantCategory)
+    {
+        $restaurantCategory->update([
+            'is_active' => !$restaurantCategory->is_active
+        ]);
+        return $restaurantCategory;
+    }
 }

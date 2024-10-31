@@ -41,6 +41,7 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
     Route::controller(CategoryController::class)->group(function(){
         Route::prefix('v1/category')->name('category.')->group(function () {
             Route::get('/actives', 'listAllActives')->name('listall.actives');
+            Route::get('/uncreated-by-restaurant/{restaurant_id}', 'getAllNotBelongsToCurrentRestaurant')->name('listall.uncreated')->whereNumber('restaurant_id');
         });
     });
 
@@ -67,6 +68,7 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/list-by-restaurant/{restaurant_id}', 'getByRestaurant')->name('list.by.restaurant')->whereNumber('restaurant_id');
             Route::delete('/{id}', 'delete')->name('delete')->whereNumber('id');
+            Route::put('/is-active/{id}', 'handleToggleIsActive')->name('toggle.isactive')->whereNumber('id');
         });
     });
 

@@ -120,4 +120,17 @@ class CategoryController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
+    public function getAllNotBelongsToCurrentRestaurant(int $restaurant_id)
+    {
+        try{
+            /** @var CategoryList $categoryList */
+            $categoryList = $this->container->get(CategoryList::class);
+            $response = $categoryList->listAllNotBelongsToCurrentRestaurant($restaurant_id);
+            return response()
+                ->json($this->successResponse('list de tous les categories non crée', $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
 }

@@ -72,4 +72,14 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
         return $category;
     }
+
+    public function findAllNotBelongsToCurrentRestaurant(int $restaurant_id)
+    {
+        return Category::where("is_active", true)
+            ->whereNotIn('id', function($query) use($restaurant_id){
+                $query->select('category_id')
+                    ->from('restaurants_categories')
+                        ->where('restaurant_id', $restaurant_id);
+            })->get();
+    }
 }

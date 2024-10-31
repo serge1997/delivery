@@ -14,4 +14,5 @@ interface CategoryRepositoryInterface
     public function update(FormRequest $request);
     public function updateImage($request);
     public function handleUpdateIsActive(Category $category);
+    public function findAllNotBelongsToCurrentRestaurant(int $restaurant_id);
 }

@@ -28,4 +28,10 @@ class CategoryList
             $this->categoryRepository->listAllActives()
         );
     }
+    public function listAllNotBelongsToCurrentRestaurant(int $restaurant_id)
+    {
+        return CategoryResource::collection(
+            $this->categoryRepository->findAllNotBelongsToCurrentRestaurant($restaurant_id)
+        );
+    }
 }

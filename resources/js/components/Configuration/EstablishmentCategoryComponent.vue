@@ -24,10 +24,11 @@
                                         </el-button>
                                    </template>
                                 </el-popconfirm>
-                                <el-popconfirm @confirm="onInactivateCategory(scope)" title="voulez vous desactiver cette promotion" width="220">
+                                <el-popconfirm @confirm="toggleActivateCategory(scope)" title="voulez vous desactiver cette promotion" width="220">
                                     <template #reference>
                                         <el-button>
-                                            <i class="pi pi-lock-open text-warning"></i>
+                                            <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
+                                            <i v-else class="pi pi-lock text-success"></i>
                                         </el-button>
                                     </template>
                                 </el-popconfirm>
@@ -82,8 +83,8 @@ export default{
         onInactivatePromotion(){
             alert("Hey")
         },
-        listAllCategoriesActive(){
-            this.Api.get('/v1/category/actives')
+        listAllUncreated(){
+            this.Api.get(`/v1/category/uncreated-by-restaurant/${this.post_data.restaurant_id}`)
             .then(async response => {
                 this.categories = await response.data.data;
             })
@@ -97,6 +98,7 @@ export default{
             this.post_data.categories_id = this.post_data.categories_id.map(cat => cat.id);
             this.Api.post('/v1/restaurant-category', this.post_data)
             .then(async response => {
+                this.visibleListAllCategoryModal = false;
                 this.Notify.success(await response.data.message)
                 this.listByRestaurant();
             })
@@ -118,18 +120,26 @@ export default{
             .then(async response => {
                 this.Notify.success(await response.data.message);
                 this.listByRestaurant();
+                this.listAllUncreated();
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message)
             })
         },
-        onInactivateCategory(data){
-
+        toggleActivateCategory(data){
+            this.Api.put(`/v1/restaurant-category/is-active/${data.row.id}`)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+                this.listByRestaurant();
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
         }
     },
     mounted(){
         window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.Auth.getToken()}`
-        this.listAllCategoriesActive();
+        this.listAllUncreated();
         this.listByRestaurant();
     }
 }

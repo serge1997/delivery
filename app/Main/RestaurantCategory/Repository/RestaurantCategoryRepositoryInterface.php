@@ -11,4 +11,5 @@ interface RestaurantCategoryRepositoryInterface
     public function find(int $id);
     public function entityExist(int $restaurant_id, int $category_id) : bool;
     public function delete(RestaurantCategory $restaurantCategory);
+    public function toggleIsActive(RestaurantCategory $restaurantCategory);
 }
