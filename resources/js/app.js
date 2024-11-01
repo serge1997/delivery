@@ -21,6 +21,8 @@ import UpdateImageComponent from './components/UpdateImageComponent.vue';
 import MultiSelect from 'primevue/multiselect';
 import Dropdown from 'primevue/dropdown';
 import OverlayPanel from 'primevue/overlaypanel';
+import Tag from 'primevue/tag';
+import Chip from 'primevue/chip';
 
 const app = createApp(App);
 
@@ -53,6 +55,8 @@ app.component('UpdateImageComponent', UpdateImageComponent);
 app.component('MultiSelect', MultiSelect);
 app.component('Dropdown', Dropdown);
 app.component('OverlayPanel', OverlayPanel)
+app.component('Tag', Tag)
+app.component('Chip', Chip)
 app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)

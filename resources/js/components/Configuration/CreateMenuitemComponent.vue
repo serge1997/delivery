@@ -2,20 +2,34 @@
     <div class="row">
         <div class="col-md-10 m-auto">
             <div class="row mb-3">
-                <OverlayPanel ref="overlay">
-                    <div>
-                        <h2>Hello world</h2>
-                    </div>
+                <OverlayPanel ref="overlay_category">
+                    <ul class="list-group border-0">
+                        <li @click="selectCategory" v-for="category in categories" class="list-group-item list-category-item d-flex gap-3 align-items-center border-0" :data-id="category.id" :data-name="category.category">
+                            <span class="w-25">
+                                <img class="w-50 rounded-circle" :src="`/images/categories/${category.image}`" alt="">
+                            </span>
+                            <span class="w-50">
+                                {{category.category}}
+                            </span>
+                        </li>
+                    </ul>
                 </OverlayPanel>
                 <div class="col-md-10 d-flex gap-2">
-                    <Button @click="showOverlay" class="d-flex gap-2 align-items-center border-red-btn-white rounded-pill" text>
+                    <Button class="d-flex gap-2 align-items-center border-red-btn-white rounded-pill" text>
                         <span><i class="pi pi-box gold-btn-icon"></i></span>
                         <span class="btn-text-small">Faites une promotions sur cet item</span>
                     </Button>
-                    <Button class="d-flex gap-2 align-items-center border-red-btn-white rounded-pill" text>
+                    <Button @click="toggleOverlayCategory" class="d-flex gap-2 align-items-center border-red-btn-white rounded-pill" text>
                         <span><i class="pi pi-table gold-btn-icon"></i></span>
                         <span class="btn-text-small">Addicionez une category a cet item</span>
                     </Button>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-8" v-if="isCategorySelect">
+                    <small class="btn-text-small">Category selecionnée: </small>
+                    <Tag class="rounded-3" icon="pi pi-check" severity="success" :value="selectedCategoryName"></Tag>
+                    <Tag @click="isCategorySelect = !isCategorySelect; menuitem.category_id = null" class="bg-transparent text-danger cursor-p" icon="pi pi-times"/>
                 </div>
             </div>
             <div class="row">
@@ -57,7 +71,7 @@
                 </div>
             </div>
             <div class="row">
-                <Button label="Enregistrer" />
+                <Button @click="createMenuitem" class="rounded-pill" label="Enregistrer" />
             </div>
         </div>
     </div>
@@ -79,11 +93,16 @@ export default {
                 image: null,
                 price: null,
                 description: null,
+                category_id: null,
                 restaurant_id: this.Auth.authId()
             },
             formErrors: null,
             imageUrl: null,
-            foodTypes: null
+            foodTypes: null,
+            categories: null,
+            isCategorySelect: false,
+            overlay_category: ref(null),
+            selectedCategoryName: null
         }
     },
     methods: {
@@ -112,20 +131,56 @@ export default {
                 this.Notify.error(error.response.data.message)
             })
         },
+        listRestaurantCategoryByRestaurant(){
+            this.Api.get(`/v1/restaurant-category/list-by-restaurant/${this.menuitem.restaurant_id}`)
+            .then(async response => {
+                this.categories = await response.data.data;
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
+        },
+        toggleOverlayCategory(event){
+            this.overlay_category.toggle(event);
+        },
+        selectCategory(event){
+            let evTarget = event.target;
+            this.isCategorySelect = true;
+            let self = this;
+            when(evTarget.nodeName !== 'LI',
+                () => {
+                    self.selectedCategoryName = evTarget.parentElement.getAttribute('data-name')
+                    self.menuitem.category_id = evTarget.parentElement.getAttribute('data-id')
+                },
+                () => {
+                    self.selectedCategoryName = evTarget.getAttribute('data-name')
+                    self.menuitem.category_id = evTarget.getAttribute('data-id')
+                }
+            )
+            this.toggleOverlayCategory(event)
+        },
+        createMenuitem(){
+            console.log(this.menuitem)
+        }
     },
     mounted(){
         this.listRestaurantFoodTypes()
+        this.listRestaurantCategoryByRestaurant();
+        this.overlay_category = this.$refs.overlay_category;
     },
     setup(){
-        const overlay = ref(null);
-
-        const showOverlay  = (event) => {
-            overlay.value.toggle(event)
-        };
         return {
-            overlay,
-            showOverlay
+
         };
     }
 }
 </script>
+<style>
+.list-category-item{
+    cursor: pointer;
+    transition: 0.3 ease-in-out;
+}
+.list-category-item:hover{
+    background-color: aliceblue;
+}
+</style>
