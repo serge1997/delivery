@@ -1,19 +1,25 @@
 <template>
    <NavbarComponent>
         <div class="container-fluid">
-            <RestaurantProfileSidebar
-                :name="name"
-           />
+            <div class="row">
+                <RestaurantProfileSidebar
+                    :name="name"
+                />
+                <RestaurantMenuitemCardComponent
+                />
+            </div>
         </div>
    </NavbarComponent>
 </template>
 <script>
 import RestaurantProfileSidebar from '../../components/Order/RestaurantProfileSidebar.vue';
+import RestaurantMenuitemCardComponent from '../../components/Order/RestaurantMenuitemCardComponent.vue';
 export default {
     name: 'RestaurantProfile',
 
     components: {
-        RestaurantProfileSidebar
+        RestaurantProfileSidebar,
+        RestaurantMenuitemCardComponent
     },
     data(){
         return {
