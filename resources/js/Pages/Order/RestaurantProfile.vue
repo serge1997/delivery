@@ -5,25 +5,39 @@
                 <RestaurantProfileSidebar
                     :name="name"
                 />
-                <RestaurantMenuitemCardComponent
+                <MenuitemCardComponent
+                    @show-menuitem="showMenuitem"
                 />
+            </div>
+            <div class="row">
+                <Dialog v-model:visible="visibleShowMenuitemModal" :style="{ width: '85rem', borderRadius: '4rem' }">
+                    <MenuitemShowComponent />
+                </Dialog>
             </div>
         </div>
    </NavbarComponent>
 </template>
 <script>
 import RestaurantProfileSidebar from '../../components/Order/RestaurantProfileSidebar.vue';
-import RestaurantMenuitemCardComponent from '../../components/Order/RestaurantMenuitemCardComponent.vue';
+import MenuitemCardComponent from '../../components/Order/MenuitemCardComponent.vue';
+import MenuitemShowComponent from '../../components/Order/MenuitemShowComponent.vue';
 export default {
     name: 'RestaurantProfile',
 
     components: {
         RestaurantProfileSidebar,
-        RestaurantMenuitemCardComponent
+        MenuitemCardComponent,
+        MenuitemShowComponent
     },
     data(){
         return {
-            name: this.$route.params.slug
+            name: this.$route.params.slug,
+            visibleShowMenuitemModal: false
+        }
+    },
+    methods: {
+        showMenuitem(){
+            this.visibleShowMenuitemModal = true;
         }
     }
 }

@@ -6,7 +6,7 @@
 
                 </div>
             </div>
-            <div class="card col-sm-5 cursor-p food-card border-0 border-bottom">
+            <div @click="$emit('showMenuitem')" class="card col-sm-5 cursor-p food-card border-0 border-bottom">
                 <div class="card-body d-flex justify-content gap-1">
                     <div class="food-card-text-content w-75 d-flex flex-column">
                         <div class="food-name">
@@ -38,7 +38,18 @@
 </template>
 <script>
 export default {
-    name: 'RestaurantMenuitemCardComponent'
+    name: 'MenuitemCardComponent',
+    props: {
+        visibleShowMenuitemModal: Boolean
+    },
+    data(){
+        return {
+
+        }
+    },
+    methods: {
+
+    }
 }
 </script>
 <style>

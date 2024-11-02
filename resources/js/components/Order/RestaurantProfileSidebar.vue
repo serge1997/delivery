@@ -19,11 +19,8 @@
             </div>
             <div class="w-100">
                 <ul class="list-group">
-                    <li class="list-group-item border-0 fw-bold">
-                        Planche de fromage
-                    </li>
-                    <li class="list-group-item border-0 fw-bold">
-                        Salades
+                    <li v-for="type in foodTypes"class="list-group-item border-0 fw-bold cursor-p">
+                        {{ type.name }}
                     </li>
                 </ul>
             </div>
@@ -39,13 +36,25 @@ export default {
     },
     data() {
         return {
-
+            foodTypes: null
         }
     },
     methods: {
         goToHome(){
             this.$router.push('/')
+        },
+        listRestaurantFoodTypes(){
+            this.Api.get(`/v1/restaurant-food-type/list-by-restaurant/${this.Auth.authId()}`)
+            .then(async response => {
+                this.foodTypes = await response.data.data
+            })
+            .catch(error => {
+
+            })
         }
+    },
+    mounted(){
+        this.listRestaurantFoodTypes();
     }
 }
 </script>
