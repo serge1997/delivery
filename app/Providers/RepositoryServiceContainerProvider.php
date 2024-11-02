@@ -8,6 +8,8 @@ use App\Main\Category\Repository\CategoryRepository;
 use App\Main\Category\Repository\CategoryRepositoryInterface;
 use App\Main\FoodType\Repository\FoodTypeRepository;
 use App\Main\FoodType\Repository\FoodTypeRepositoryInterface;
+use App\Main\Menuitem\Repository\MenuitemRepository;
+use App\Main\Menuitem\Repository\MenuitemRepositoryInterface;
 use App\Main\Promotion\Repository\PromotionRepository;
 use App\Main\Promotion\Repository\PromotionRepositoryInterface;
 use App\Main\Restaurant\Repository\RestaurantRepository;
@@ -32,6 +34,7 @@ class RepositoryServiceContainerProvider extends ServiceProvider
         $this->app->bind(AuthRestaurantRepositoryInterface::class, AuthRestaurantRepository::class);
         $this->app->bind(RestaurantFoodTypeRepositoryInterface::class, RestaurantFoodTypeRepository::class);
         $this->app->bind(RestaurantCategoryRepositoryInterface::class, RestaurantCategoryRepository::class);
+        $this->app->bind(MenuitemRepositoryInterface::class, MenuitemRepository::class);
     }
 
     /**
