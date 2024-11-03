@@ -4,6 +4,7 @@
             <div class="row">
                 <RestaurantProfileSidebar
                     :name="name"
+                    :url-param-id="id"
                 />
                 <MenuitemCardComponent
                     @show-menuitem="showMenuitem"
@@ -32,6 +33,7 @@ export default {
     data(){
         return {
             name: this.$route.params.slug,
+            id: this.$route.params.id,
             visibleShowMenuitemModal: false
         }
     },
@@ -39,6 +41,9 @@ export default {
         showMenuitem(){
             this.visibleShowMenuitemModal = true;
         }
+    },
+    mounted(){
+        console.log(this.$route.params)
     }
 }
 </script>

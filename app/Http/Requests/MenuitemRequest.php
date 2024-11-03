@@ -11,7 +11,7 @@ class MenuitemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,27 @@ class MenuitemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => ['nullable'],
+            'name' => ['required'],
+            'price' => ['required'],
+            'image' => ['required', 'file'],
+            'description' => ['required'],
+            'restaurant_food_type_id' => ['required'],
+            'restaurant_category_id' => ['nullable'],
+            'restaurant_promotion_id' => ['nullable'],
+            'is_active' => ['nullable']
+        ];
+    }
+
+    public function messages() : array
+    {
+        return [
+            'name.required' => 'nom est obligatoire',
+            'description.required' => 'description est obligatoire',
+            'price.required' => 'prix est obligatoire',
+            'image.required' => 'image est obligatoire',
+            'image.file' => 'type de donné invalide',
+            'restaurant_food_type_id.required' => 'type de plat est obligatoire'
         ];
     }
 }

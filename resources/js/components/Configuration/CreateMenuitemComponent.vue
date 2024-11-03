@@ -36,22 +36,26 @@
                 <div class="col-md-6 mb-3 d-flex flex-column">
                     <label for="form-label">Nom</label>
                     <InputText v-model="menuitem.name" class="p-1" placeholder="nom de la promotion" />
+                    <small class="text-danger" v-if="formErrors && formErrors.name" v-text="formErrors.name.toString()"></small>
                 </div>
                 <div class="col-md-6 mb-3 d-flex flex-column">
                     <label for="form-label">Prix</label>
                     <InputText v-model="menuitem.price"  class="p-1" placeholder="nom de la promotion" />
+                    <small class="text-danger" v-if="formErrors && formErrors.price" v-text="formErrors.price.toString()"></small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 mb-3 d-flex flex-column">
                     <label for="form-label">Type de plats</label>
                     <Dropdown :options="foodTypes" optionLabel="name" v-model="menuitem.food_type_id" placeholder="nom de la promotion" />
+                    <small class="text-danger" v-if="formErrors && formErrors.restaurant_food_type_id" v-text="formErrors.restaurant_food_type_id.toString()"></small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 mb-3 d-flex flex-column">
                     <label for="form-label">Descrition du plat</label>
                     <Textarea v-model="menuitem.description" class="p-1" placeholder="Descrition du plat" />
+                    <small class="text-danger" v-if="formErrors && formErrors.description" v-text="formErrors.description.toString()"></small>
                 </div>
             </div>
             <div class="row mb-3">
@@ -96,19 +100,26 @@ export default {
                 category_id: null,
                 restaurant_id: this.Auth.authId()
             },
-            formErrors: null,
+            formErrors: {},
             imageUrl: null,
             foodTypes: null,
             categories: null,
             isCategorySelect: false,
             overlay_category: ref(null),
-            selectedCategoryName: null
+            selectedCategoryName: null,
+            post_data: new FormData()
         }
     },
     methods: {
         handleImageUpload(e){
             let file = e.target.files[0];
-
+            let file_extension = file.type.split('/').pop();
+            let extensions = ['png', 'jpeg', 'jpg'];
+            if (!extensions.includes(file_extension)){
+                let error = `extension non autorisé, seulement (${extensions.toString()})`;
+                this.formErrors.image = error;
+                return this.Notify.error(error);
+            }
             const reader = new FileReader();
             reader.onload = () => {
                 this.imageUrl = reader.result;
@@ -160,7 +171,26 @@ export default {
             this.toggleOverlayCategory(event)
         },
         createMenuitem(){
-            console.log(this.menuitem)
+           try{
+               this.post_data.append('category_id', this.menuitem.category_id ?? '');
+               this.post_data.append('description', this.menuitem.description ?? '');
+               this.post_data.append('name', this.menuitem.name ?? '');
+               this.post_data.append('restaurant_food_type_id', this.menuitem.food_type_id ?? '');
+               this.post_data.append('price', this.menuitem.price ?? '');
+               this.post_data.append('image', this.menuitem.image);
+
+               this.Api.post('/v1/menuitem', this.post_data)
+               .then(async response => {
+                    this.formErrors = null;
+                    this.Notify.success(await response.data.message);
+               })
+               .catch(error => {
+                    when(error.response.status == 500, this.Notify.error(error.response.data.message))
+                    this.formErrors = error.response.data.errors;
+               })
+           }catch(error){
+                console.log(error)
+           }
         }
     },
     mounted(){

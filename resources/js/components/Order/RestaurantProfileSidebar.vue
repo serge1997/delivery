@@ -32,7 +32,8 @@ export default {
     name: 'RestaurantProfileSidebar',
 
     props: {
-        name: String
+        name: String,
+        urlParamId: Number
     },
     data() {
         return {
@@ -44,7 +45,7 @@ export default {
             this.$router.push('/')
         },
         listRestaurantFoodTypes(){
-            this.Api.get(`/v1/restaurant-food-type/list-by-restaurant/${this.Auth.authId()}`)
+            this.Api.get(`/v1/restaurant-food-type/list-by-restaurant/${this.urlParamId}`)
             .then(async response => {
                 this.foodTypes = await response.data.data
             })
