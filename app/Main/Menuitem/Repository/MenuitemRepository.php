@@ -28,4 +28,16 @@ class MenuitemRepository extends BaseRepository implements MenuitemRepositoryInt
         return Menuitem::where([['is_active', true], ['restaurant_id', $restaurant_id]])
             ->get();
     }
+    public function update(Menuitem $menuitem, $request)
+    {
+        $data = [];
+        if($menuitem->price != $request->price) $data['price'] = $request->price;
+        if($menuitem->name != $request->name) $data['name'] = $request->name;
+        if($menuitem->description != $request->description) $data['description'] = $request->description;
+        if($menuitem->restaurant_food_type_id != $request->restaurant_food_type_id) $data['restaurant_food_type_id'] = $request->restaurant_food_type_id;
+        if($menuitem->restaurant_category_id != $request->restaurant_category_id) $data['restaurant_category_id'] = $request->restaurant_category_id;
+        $menuitem->update($data);
+
+        return $menuitem;
+    }
 }

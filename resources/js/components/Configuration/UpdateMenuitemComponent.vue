@@ -28,8 +28,10 @@
             <div class="row mb-3">
                 <div class="col-md-8" v-if="menuitem.category || isCategorySelect">
                     <small class="btn-text-small">Category: </small>
-                    <Tag class="rounded-3" icon="pi pi-check" :severity="menuitem.category.includes('Non infor') ? 'danger' : 'success'" :value="menuitem.category"></Tag>
-                    <Tag @click="isCategorySelect = !isCategorySelect; menuitem.category_id = null" class="bg-transparent text-danger cursor-p" icon="pi pi-times"/>
+                    <Tag class="rounded-3" icon="pi pi-check"
+                        :severity="menuitem.category.includes('Non infor') && selectedCategoryName == null ? 'danger' : 'success'"
+                        :value="selectedCategoryName ?? menuitem.category"
+                    />
                 </div>
             </div>
             <div class="row">
@@ -46,7 +48,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 mb-3 d-flex flex-column gap-2">
-                    <label for="form-label">Type de plats <Tag v-if="menuitem.food_type" class="rounded-3" icon="pi pi-check" :severity="menuitem.food_type.includes('Non infor') ? 'danger' : 'success'" :value="`${selected_food_type ? selected_food_type.name : menuitem.food_type}`"></Tag></label>
+                    <label for="form-label">Type de plats <Tag v-if="menuitem.food_type" class="rounded-3" icon="pi pi-check" :severity="menuitem.food_type.includes('Non infor') && selected_food_type == null ? 'danger' : 'success'" :value="`${selected_food_type ? selected_food_type.name : menuitem.food_type}`"></Tag></label>
                     <Dropdown @change="onSelectFoodType" :options="foodTypes" optionLabel="name" v-model="selected_food_type" placeholder="nom de la promotion" />
                     <small class="text-danger" v-if="formErrors && formErrors.restaurant_food_type_id" v-text="formErrors.restaurant_food_type_id.toString()"></small>
                 </div>
@@ -70,7 +72,7 @@
                     <img v-if="!imageUrl" class="w-25 image-thumbnail rounded-circle mb-3" :src="`/images/menuitems/${menuitem.image}`" alt="menu item image">
                     <img v-else class="w-25 image-thumbnail rounded-circle mb-3" :src="imageUrl" alt="">
                     <input @change="handleImageUpload" class="d-none" type="file" id="menuitem-image-input" />
-                    <Button text class="w-25 mb-1 d-flex flex-column file-upload rounded-3" @click="onOuputFileWindow">
+                    <Button text class="w-25 mb-1 d-flex flex-column file-upload rounded-3 d-none" @click="onOuputFileWindow">
                         <span class="fw-light d-flex gap-2">
                             <span><i class="pi pi-image"></i></span>
                             <span>Upload image</span>

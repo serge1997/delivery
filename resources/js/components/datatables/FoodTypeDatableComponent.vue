@@ -12,7 +12,7 @@
                     </el-button>
                     <el-popconfirm @confirm="$emit('handleIsActive', scope)" :title="popMessage(scope.row.is_active, 'type de plat')" width="200">
                         <template #reference>
-                            <el-button class="p-0">
+                            <el-button>
                                 <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
                                 <i v-else class="pi pi-lock text-success"></i>
                             </el-button>

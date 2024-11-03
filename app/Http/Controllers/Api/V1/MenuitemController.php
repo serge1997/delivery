@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MenuitemRequest;
 use App\Main\Menuitem\Actions\MenuitemCreate;
 use App\Main\Menuitem\Actions\MenuitemList;
+use App\Main\Menuitem\Actions\MenuitemUpdate;
 use App\Traits\HttpResponse;
 use Exception;
 use Illuminate\Http\Request;
@@ -69,6 +70,20 @@ class MenuitemController extends Controller
             $response = $menuitemList->listById($id);
             return response()
                 ->json($this->successResponse("list d'un item de menu", $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function update(MenuitemRequest $request)
+    {
+        try{
+            /** @var MenuitemUpdate $menuitemUpdate  */
+            $menuitemUpdate = $this->container->get(MenuitemUpdate::class);
+            $response = $menuitemUpdate->run($request);
+            return response()
+                ->json($this->successResponse("l'item du menu actualisé avec succes", $response));
         }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);

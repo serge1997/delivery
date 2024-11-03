@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
             Route::get('/list-by-auth-restaurant', 'getAllByAuthRestaurant')->name('list.by.restaurant');
             Route::get('/list-active-by-restaurant/{restaurant_id}', 'getAllActivesByRestaurant')->name('list.active.by.restaurant')->whereNumber('restaurant_id');
             Route::get('/{id}', 'show')->name('show')->whereNumber('id');
+            Route::put('/', 'update')->name('update');
         });
     });
 
