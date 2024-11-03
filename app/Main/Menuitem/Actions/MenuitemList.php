@@ -16,4 +16,10 @@ class MenuitemList
             $this->menuitemRepository->findAllByAuthRestaurant($restaurant_id)
         );
     }
+    public function listAllActivesByRestaurant(int $restaurant_id)
+    {
+        return MenuitemResource::collection(
+            $this->menuitemRepository->findAllActivesByRestaurant($restaurant_id)
+        );
+    }
 }

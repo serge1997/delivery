@@ -37,11 +37,25 @@ class MenuitemController extends Controller
     {
         try{
             /** @var MenuitemList $menuitemList */
-            $auth_restaurant_id = $request->session()->get('auth_restaurant');
             $menuitemList = $this->container->get(MenuitemList::class);
+            $auth_restaurant_id = $request->session()->get('auth_restaurant');
             $response = $menuitemList->listAllByAuthRestaurant($auth_restaurant_id);
             return response()
                 ->json($this->successResponse('list de menu par restaurant', $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function getAllActivesByRestaurant(int $restaurant_id)
+    {
+        try{
+            /** @var MenuitemList $menuitemList */
+            $menuitemList = $this->container->get(MenuitemList::class);
+            $response = $menuitemList->listAllActivesByRestaurant($restaurant_id);
+            return response()
+                ->json($this->successResponse('list de menu active par restaurant', $response));
         }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);

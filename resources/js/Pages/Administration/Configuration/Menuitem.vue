@@ -1,22 +1,31 @@
 <template>
     <NavbarComponent>
-        <div class="row">
-            <div class="col-md-10 m-auto">
-                <Button @click="visibleCreateMenuitemModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouveaux item de votre menu" />
+        <div class="container-fluid">
+            <div class="row mb-3">
+                <div class="col-md-10 m-auto">
+                    <Button @click="visibleCreateMenuitemModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouveaux item de votre menu" />
+                </div>
+                <Dialog v-model:visible="visibleCreateMenuitemModal" header="Nouveau item" modal maximizable :style="{ width: '75rem', borderRadius: '4rem' }">
+                    <CreateMenuitemComponent />
+                </Dialog>
             </div>
-            <Dialog v-model:visible="visibleCreateMenuitemModal" header="Nouveau item" modal maximizable :style="{ width: '75rem', borderRadius: '4rem' }">
-                <CreateMenuitemComponent />
-            </Dialog>
+            <div class="row">
+                <MenuitemsDatableComponent
+                    :menuitems="menuitems"
+                />
+            </div>
         </div>
     </NavbarComponent>
 </template>
 <script>
 import CreateMenuitemComponent from '../../../components/Configuration/CreateMenuitemComponent.vue';
+import MenuitemsDatableComponent from '../../../components/datatables/MenuitemsDatableComponent.vue';
 export default {
     name: 'Menuitem',
 
     components: {
-        CreateMenuitemComponent
+        CreateMenuitemComponent,
+        MenuitemsDatableComponent
     },
 
     data(){

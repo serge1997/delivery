@@ -8,6 +8,7 @@
                 />
                 <MenuitemCardComponent
                     @show-menuitem="showMenuitem"
+                    :restaurant-param-id="id"
                 />
             </div>
             <div class="row">

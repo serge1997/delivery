@@ -183,7 +183,7 @@ export default {
                this.post_data.append('restaurant_category_id', this.menuitem.category_id ?? '');
                this.post_data.append('description', this.menuitem.description ?? '');
                this.post_data.append('name', this.menuitem.name ?? '');
-               this.post_data.append('restaurant_food_type_id', this.menuitem.food_type_id.id ?? '');
+               this.post_data.append('restaurant_food_type_id', this.menuitem.food_type_id != null ? this.menuitem.food_type_id.id : '');
                this.post_data.append('price', this.menuitem.price ?? '');
                this.post_data.append('image', this.menuitem.image);
                this.post_data.append('restaurant_id', this.menuitem.restaurant_id ?? '');

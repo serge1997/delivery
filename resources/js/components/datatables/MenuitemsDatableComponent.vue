@@ -1,18 +1,19 @@
 <template>
     <div class="col-md-12 m-auto">
-        <el-table class="m-auto" :data="categories" style="width: 100%">
+        <el-table class="m-auto" :data="menuitems" style="width: 100%">
             <el-table-column prop="name" label="Nom"/>
             <el-table-column show-overflow-tooltip prop="description" label="Descrition"/>
-            <el-table-column v-if="isForAdmin" prop="active_status" label="Active" />
-            <el-table-column v-if="isForAdmin" prop="created_at" label="Créer le" />
+            <el-table-column prop="price" label="Prix"/>
+            <el-table-column prop="food_type" label="Group"/>
+            <el-table-column prop="active_status" label="Active" />
             <el-table-column label="images" width="200">
                 <template #default="scope">
                     <div class="w-50">
-                        <img class="w-50" :src="`/images/categories/${scope.row.image}`" alt="">
+                        <img class="w-50" :src="`/images/menuitems/${scope.row.image}`" alt="">
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column v-if="isForAdmin" fixd="right" label="Actions" width="300">
+            <el-table-column fixd="right" label="Actions" width="300">
                 <template  #default="scope">
                     <el-button @click="$emit('findCategory', scope)">
                         <i class="pi pi-file-edit"></i>
@@ -33,24 +34,16 @@
                     </el-button>
                 </template>
             </el-table-column>
-            <el-table-column v-if="!isForAdmin" fixd="right" label="Actions" width="100">
-                <template  #default="scope">
-                    <el-button @click="$emit('removeCategory', scope)">
-                        <i style="font-size: .9em;"class="pi pi-trash text-danger"></i>
-                    </el-button>
-                </template>
-            </el-table-column>
         </el-table>
     </div>
 </template>
 <script>
 import { popUpConfirmMessage } from '../../core/Utilities';
 export default {
-    name: 'CategoryDatatableComponent',
+    name: 'MenuitemsDatatableComponent',
 
     props: {
-        categories: Object,
-        isForAdmin: Boolean
+        menuitems: Object,
     },
     data(){
         return {

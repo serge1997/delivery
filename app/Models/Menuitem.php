@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Menuitem extends Model
 {
@@ -23,4 +24,9 @@ class Menuitem extends Model
         'restaurant_promotion_id',
         'is_active'
     ];
+
+    public function restaurantFoodType() : BelongsTo
+    {
+        return $this->belongsTo(RestaurantFoodType::class, 'restaurant_food_type_id');
+    }
 }

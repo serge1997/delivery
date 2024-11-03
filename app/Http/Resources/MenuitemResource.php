@@ -14,6 +14,16 @@ class MenuitemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'price' => $this->price . " FCFA",
+            'image' => $this->image,
+            'food_type' => $this->when($this->restaurant_food_type_id !== null, fn() => optional($this->restaurantFoodType)->foodType->name ?? null, 'Non informé'),
+            "is_active" => $this->is_active,
+            "active_status" => $this->is_active == true ? "Activé" : "Desactivé",
+            "created_at" => date('d/m/Y H:i:s', strtotime($this->created_at))
+        ];
     }
 }

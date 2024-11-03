@@ -18,4 +18,10 @@ class MenuitemRepository extends BaseRepository implements MenuitemRepositoryInt
         return Menuitem::where('restaurant_id', $restaurant_id)
             ->get();
     }
+
+    public function findAllActivesByRestaurant(int $restaurant_id)
+    {
+        return Menuitem::where([['is_active', true], ['restaurant_id', $restaurant_id]])
+            ->get();
+    }
 }
