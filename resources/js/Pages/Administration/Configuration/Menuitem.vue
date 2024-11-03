@@ -21,8 +21,23 @@ export default {
 
     data(){
         return {
-            visibleCreateMenuitemModal: false
+            visibleCreateMenuitemModal: false,
+            menuitems: null
         }
+    },
+    methods: {
+        listAuthMenuitens(){
+            this.Api.get('/v1/menuitem/list-by-auth-restaurant')
+            .then(async response => {
+                this.menuitems = await response.data.data;
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
+        }
+    },
+    mounted(){
+        this.listAuthMenuitens();
     }
 }
 </script>

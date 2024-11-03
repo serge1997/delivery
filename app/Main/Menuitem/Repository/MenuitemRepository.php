@@ -13,4 +13,9 @@ class MenuitemRepository extends BaseRepository implements MenuitemRepositoryInt
         $menuitem->save();
         return $menuitem;
     }
+    public function findAllByAuthRestaurant(int $restaurant_id)
+    {
+        return Menuitem::where('restaurant_id', $restaurant_id)
+            ->get();
+    }
 }

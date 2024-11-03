@@ -9,7 +9,7 @@ class Menuitem extends Model
 {
     use HasFactory;
 
-    protected $table = 'menuitems';
+    protected $table = 'menu_items';
 
     protected $fillable = [
         'id',
@@ -17,6 +17,7 @@ class Menuitem extends Model
         'price',
         'image',
         'description',
+        'restaurant_id',
         'restaurant_food_type_id',
         'restaurant_category_id',
         'restaurant_promotion_id',

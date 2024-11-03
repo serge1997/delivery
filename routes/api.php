@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
     Route::controller(MenuitemController::class)->group(function(){
         Route::prefix('v1/menuitem')->name('menuitem.')->group(function(){
             Route::post('/', 'store')->name('store');
+            Route::get('/list-by-auth-restaurant', 'getAllByAuthRestaurant')->name('list.by.restaurant');
         });
     });
 

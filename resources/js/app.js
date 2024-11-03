@@ -45,18 +45,18 @@ router.beforeEach((to, from, next) => {
 })
 
 app.component('MenuBar', Menubar);
-app.component('InputText', InputText)
-app.component('Button', Button)
-app.component('Sidebar', Sidebar)
-app.component('Dialog', Dialog)
+app.component('InputText', InputText);
+app.component('Button', Button);
+app.component('Sidebar', Sidebar);
+app.component('Dialog', Dialog);
 app.component('NavbarComponent', NavbarComponent);
 app.component('Textarea', Textarea)
 app.component('UpdateImageComponent', UpdateImageComponent);
 app.component('MultiSelect', MultiSelect);
 app.component('Dropdown', Dropdown);
-app.component('OverlayPanel', OverlayPanel)
-app.component('Tag', Tag)
-app.component('Chip', Chip)
+app.component('OverlayPanel', OverlayPanel);
+app.component('Tag', Tag);
+app.component('Chip', Chip);
 app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)

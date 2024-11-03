@@ -58,6 +58,13 @@
                     <small class="text-danger" v-if="formErrors && formErrors.description" v-text="formErrors.description.toString()"></small>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3 w-25 d-flex flex-column">
+                        <el-checkbox v-model="menuitem.is_active" label="Activer ?" size="large" border />
+                    </div>
+                </div>
+            </div>
             <div class="row mb-3">
                 <div class="mb-3 d-flex flex-column">
                     <img v-if="!menuitem.id" class="w-25 image-thumbnail rounded-circle mb-3" :src="imageUrl" alt="">
@@ -98,7 +105,8 @@ export default {
                 price: null,
                 description: null,
                 category_id: null,
-                restaurant_id: this.Auth.authId()
+                restaurant_id: this.Auth.authId(),
+                is_active: false
             },
             formErrors: {},
             imageUrl: null,
@@ -172,16 +180,19 @@ export default {
         },
         createMenuitem(){
            try{
-               this.post_data.append('category_id', this.menuitem.category_id ?? '');
+               this.post_data.append('restaurant_category_id', this.menuitem.category_id ?? '');
                this.post_data.append('description', this.menuitem.description ?? '');
                this.post_data.append('name', this.menuitem.name ?? '');
-               this.post_data.append('restaurant_food_type_id', this.menuitem.food_type_id ?? '');
+               this.post_data.append('restaurant_food_type_id', this.menuitem.food_type_id.id ?? '');
                this.post_data.append('price', this.menuitem.price ?? '');
                this.post_data.append('image', this.menuitem.image);
+               this.post_data.append('restaurant_id', this.menuitem.restaurant_id ?? '');
+               this.post_data.append('is_active', this.menuitem.is_active == true ? 1 : '');
 
                this.Api.post('/v1/menuitem', this.post_data)
                .then(async response => {
                     this.formErrors = null;
+                    this.clearInputs();
                     this.Notify.success(await response.data.message);
                })
                .catch(error => {
@@ -191,6 +202,17 @@ export default {
            }catch(error){
                 console.log(error)
            }
+        },
+        clearInputs(){
+            this.menuitem.category_id = null;
+            this.menuitem.food_type_id = null;
+            this.menuitem.name = null;
+            this.menuitem.description = null;
+            this.menuitem.price = null;
+            this.isCategorySelect = false;
+            this.imageUrl = null;
+            this.menuitem.is_active = false;
+            this.post_data = new FormData();
         }
     },
     mounted(){

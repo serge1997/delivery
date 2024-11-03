@@ -25,12 +25,13 @@ class MenuitemRequest extends FormRequest
             'id' => ['nullable'],
             'name' => ['required'],
             'price' => ['required'],
+            'restaurant_id' => ['required'],
             'image' => ['required', 'file'],
             'description' => ['required'],
             'restaurant_food_type_id' => ['required'],
             'restaurant_category_id' => ['nullable'],
             'restaurant_promotion_id' => ['nullable'],
-            'is_active' => ['nullable']
+            'is_active' => ['boolean']
         ];
     }
 
@@ -38,6 +39,7 @@ class MenuitemRequest extends FormRequest
     {
         return [
             'name.required' => 'nom est obligatoire',
+            'restaurant_id.required' => 'votre indentificateur non informé',
             'description.required' => 'description est obligatoire',
             'price.required' => 'prix est obligatoire',
             'image.required' => 'image est obligatoire',

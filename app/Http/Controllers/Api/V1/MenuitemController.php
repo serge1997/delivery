@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MenuitemRequest;
 use App\Main\Menuitem\Actions\MenuitemCreate;
+use App\Main\Menuitem\Actions\MenuitemList;
 use App\Traits\HttpResponse;
+use Exception;
 use Illuminate\Http\Request;
 use Psr\Container\ContainerInterface;
 
@@ -27,6 +29,20 @@ class MenuitemController extends Controller
             return response()
                 ->json($this->successResponse('item enregistré avec success', $response));
         }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+    public function getAllByAuthRestaurant(Request $request)
+    {
+        try{
+            /** @var MenuitemList $menuitemList */
+            $auth_restaurant_id = $request->session()->get('auth_restaurant');
+            $menuitemList = $this->container->get(MenuitemList::class);
+            $response = $menuitemList->listAllByAuthRestaurant($auth_restaurant_id);
+            return response()
+                ->json($this->successResponse('list de menu par restaurant', $response));
+        }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
