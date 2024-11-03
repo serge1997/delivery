@@ -22,4 +22,10 @@ class MenuitemList
             $this->menuitemRepository->findAllActivesByRestaurant($restaurant_id)
         );
     }
+    public function listById(int $id)
+    {
+        return new MenuitemResource(
+            $this->menuitemRepository->find($id)
+        );
+    }
 }

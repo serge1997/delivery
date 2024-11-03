@@ -15,7 +15,7 @@
             </el-table-column>
             <el-table-column fixd="right" label="Actions" width="300">
                 <template  #default="scope">
-                    <el-button @click="$emit('findCategory', scope)">
+                    <el-button @click="$emit('findMenuitem', scope)">
                         <i class="pi pi-file-edit"></i>
                     </el-button>
                     <el-popconfirm @confirm="$emit('handleToggleCategoryStatus', scope)" :title="popMessage(scope.row.is_active, 'categorie')" width="220">

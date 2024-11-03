@@ -29,4 +29,9 @@ class Menuitem extends Model
     {
         return $this->belongsTo(RestaurantFoodType::class, 'restaurant_food_type_id');
     }
+
+    public function restaurantCategory() : BelongsTo
+    {
+        return $this->belongsTo(RestaurantCategory::class,'restaurant_category_id');
+    }
 }

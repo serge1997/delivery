@@ -12,7 +12,15 @@
             <div class="row">
                 <MenuitemsDatableComponent
                     :menuitems="menuitems"
+                    @find-menuitem="findMenuitem"
                 />
+            </div>
+            <div class="row">
+                <Dialog v-model:visible="visibleUpdateMenuitemModal" header="Actualisez votre menu" modal maximizable :style="{ width: '75rem', borderRadius: '4rem' }">
+                    <UpdateMenuitemComponent
+                        :menuitem="menuitem"
+                    />
+                </Dialog>
             </div>
         </div>
     </NavbarComponent>
@@ -20,18 +28,22 @@
 <script>
 import CreateMenuitemComponent from '../../../components/Configuration/CreateMenuitemComponent.vue';
 import MenuitemsDatableComponent from '../../../components/datatables/MenuitemsDatableComponent.vue';
+import UpdateMenuitemComponent from '../../../components/Configuration/UpdateMenuitemComponent.vue';
 export default {
     name: 'Menuitem',
 
     components: {
         CreateMenuitemComponent,
-        MenuitemsDatableComponent
+        MenuitemsDatableComponent,
+        UpdateMenuitemComponent
     },
 
     data(){
         return {
             visibleCreateMenuitemModal: false,
-            menuitems: null
+            visibleUpdateMenuitemModal: false,
+            menuitems: null,
+            menuitem: null
         }
     },
     methods: {
@@ -39,6 +51,16 @@ export default {
             this.Api.get('/v1/menuitem/list-by-auth-restaurant')
             .then(async response => {
                 this.menuitems = await response.data.data;
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
+        },
+        findMenuitem(param){
+            this.Api.get(`/v1/menuitem/${param.row.id}`)
+            .then(async response => {
+                this.menuitem = await response.data.data
+                this.visibleUpdateMenuitemModal = true;
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message)

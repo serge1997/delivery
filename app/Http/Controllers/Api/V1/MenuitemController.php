@@ -61,4 +61,17 @@ class MenuitemController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
+    public function show(int $id)
+    {
+        try{
+            /** @var MenuitemList $menuitemList */
+            $menuitemList = $this->container->get(MenuitemList::class);
+            $response = $menuitemList->listById($id);
+            return response()
+                ->json($this->successResponse("list d'un item de menu", $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
 }
