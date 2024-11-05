@@ -21,12 +21,25 @@ class MenuitemRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->isMethod("post")) {
+            return [
+                'id' => ['nullable'],
+                'name' => ['required'],
+                'price' => ['required'],
+                'restaurant_id' => ['required'],
+                'image' => ['required', 'file'],
+                'description' => ['required', 'min:65'],
+                'restaurant_food_type_id' => ['required'],
+                'restaurant_category_id' => ['nullable'],
+                'restaurant_promotion_id' => ['nullable'],
+                'is_active' => ['boolean']
+            ];
+        }
         return [
-            'id' => ['nullable'],
+            'id' => ['required'],
             'name' => ['required'],
             'price' => ['required'],
             'restaurant_id' => ['required'],
-            'image' => ['required', 'file'],
             'description' => ['required', 'min:65'],
             'restaurant_food_type_id' => ['required'],
             'restaurant_category_id' => ['nullable'],

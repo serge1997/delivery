@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-6 mb-3 d-flex flex-column">
                     <label for="form-label">Prix</label>
-                    <InputText v-model="menuitem.price"  class="p-1" placeholder="nom de la promotion" />
+                    <InputText v-model="menuitem.price" id="menuitem_price"  class="p-1" placeholder="nom de la promotion" />
                     <small class="text-danger" v-if="formErrors && formErrors.price" v-text="formErrors.price.toString()"></small>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <div class="row">
-                <Button @click="createMenuitem" class="rounded-pill" label="Enregistrer" />
+                <Button @click="updateMenuitem" class="rounded-pill" label="Enregistrer" />
             </div>
         </div>
     </div>
@@ -109,7 +109,9 @@ export default {
             selectedCategoryName: null,
             post_data: new FormData(),
             selected_food_type: null,
-            imageUrl: null
+            category_id: null,
+            imageUrl: null,
+            put_data: null
         }
     },
     methods: {
@@ -163,7 +165,7 @@ export default {
             when(evTarget.nodeName !== 'LI',
                 () => {
                     self.selectedCategoryName = evTarget.parentElement.getAttribute('data-name')
-                    self.menuitem.category_id = evTarget.parentElement.getAttribute('data-id')
+                    self.category_id = evTarget.parentElement.getAttribute('data-id')
                 },
                 () => {
                     self.selectedCategoryName = evTarget.getAttribute('data-name')
@@ -210,6 +212,23 @@ export default {
         },
         onSelectFoodType(){
 
+        },
+        updateMenuitem() {
+            //use reflect to handle update prop object menuitem attribute
+            Reflect.set(this.menuitem, 'restaurant_food_type_id', this.selected_food_type.id ??menuitem.restaurant_food_type_id);
+            this.put_data = {
+                ...this.menuitem,
+                food_type: this.selected_food_type.id,
+                category_id: this.category_id
+            }
+            console.log(this.put_data)
+            this.Api.put('/v1/menuitem', null, this.menuitem)
+            .then(async response => {
+                this.Notify.success(await response.data.message)
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
         }
     },
     mounted(){
