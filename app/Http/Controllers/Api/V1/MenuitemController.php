@@ -102,4 +102,17 @@ class MenuitemController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
+    public function getAllByRestaurantFoodType(int $restaurant_food_type_id)
+    {
+        try{
+            /** @var MenuitemList $menuitemList */
+            $menuitemList = $this->container->get(MenuitemList::class);
+            $response = $menuitemList->listAllByRestaurantFoodType($restaurant_food_type_id);
+            return response()
+                ->json($this->successResponse("tous les menu par type de plats", $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 404);
+        }
+    }
 }

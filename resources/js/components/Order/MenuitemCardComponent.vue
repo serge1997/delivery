@@ -1,5 +1,11 @@
 <template>
     <div class="col-sm-10">
+        <div class="row mb-3 mobile-food-type-box">
+            <ListFoodTypeMobileComponent
+                :food-types="foodTypes"
+                @list-by-resraurant-food-type="listByResraurantFoodType"
+            />
+        </div>
        <div class="row p-3 space-1 d-flex gap-2 mb-3">
             <div v-for="item in menuitems" @click="$emit('showMenuitem', item.id)" class="card col-sm-5 cursor-p food-card border-0 border-bottom">
                 <div class="card-body d-flex justify-content gap-1">
@@ -32,11 +38,16 @@
     </div>
 </template>
 <script>
+import ListFoodTypeMobileComponent from './ListFoodTypeMobileComponent.vue';
 export default {
     name: 'MenuitemCardComponent',
+    components: {
+        ListFoodTypeMobileComponent
+    },
     props: {
         visibleShowMenuitemModal: Boolean,
-        restaurantParamId: Number
+        restaurantParamId: Number,
+        foodTypes: Object
     },
     data(){
         return {
@@ -46,6 +57,15 @@ export default {
     methods: {
         listActivesMenuitems(){
             this.Api.get(`/v1/menuitem/list-active-by-restaurant/${this.restaurantParamId}`)
+            .then(async response => {
+                this.menuitems = await response.data.data;
+            })
+            .catch(error => {
+                this.Notity.error(error.response.data.message);
+            })
+        },
+        listByResraurantFoodType(id){
+            this.Api.get(`/v1/menuitem/list-by-restaurant-food-type/${id}`)
             .then(async response => {
                 this.menuitems = await response.data.data;
             })
@@ -78,5 +98,10 @@ export default {
 }
 .food-card-description{
     color:#71717a
+}
+@media only screen and (min-width: 900px) {
+    .mobile-food-type-box{
+        display: none;
+    }
 }
 </style>

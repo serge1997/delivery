@@ -3,6 +3,7 @@ namespace App\Main\Menuitem\Repository;
 
 use App\Service\Base\BaseRepository;
 use App\Models\Menuitem;
+use App\Models\RestaurantFoodType;
 class MenuitemRepository extends BaseRepository implements MenuitemRepositoryInterface
 {
     public function create($request)
@@ -47,5 +48,12 @@ class MenuitemRepository extends BaseRepository implements MenuitemRepositoryInt
             'is_active' => !$menuitem->is_active
         ]);
         return $menuitem;
+    }
+
+    public function findAllByRestaurantFoodType(RestaurantFoodType $restaurant_food_type)
+    {
+        return $restaurant_food_type->menuitems()
+            ->where('is_active', true)
+                ->get();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RestaurantFoodType extends Model
 {
@@ -26,5 +27,9 @@ class RestaurantFoodType extends Model
     public function foodType() : BelongsTo
     {
         return $this->belongsTo(FoodType::class);
+    }
+    public function menuitems() : HasMany
+    {
+        return $this->hasMany(Menuitem::class, 'restaurant_food_type_id');
     }
 }

@@ -19,6 +19,7 @@ class RestaurantFoodTypeResource extends JsonResource
             'name' => $this->foodType->name,
             'description' => $this->foodType->description,
             "is_active" => $this->is_active,
+            "count_menuitems" => $this->menuitems->count(),
             "active_status" => $this->is_active == true ? "Activé" : "Desactivé",
             "created_at" => date('d/m/Y H:i:s', strtotime($this->created_at))
         ];

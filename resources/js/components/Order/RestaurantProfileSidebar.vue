@@ -33,29 +33,20 @@ export default {
 
     props: {
         name: String,
-        urlParamId: Number
+        urlParamId: Number,
+        foodTypes: Object
     },
     data() {
         return {
-            foodTypes: null
         }
     },
     methods: {
         goToHome(){
             this.$router.push('/')
         },
-        listRestaurantFoodTypes(){
-            this.Api.get(`/v1/restaurant-food-type/list-by-restaurant/${this.urlParamId}`)
-            .then(async response => {
-                this.foodTypes = await response.data.data
-            })
-            .catch(error => {
-
-            })
-        }
     },
     mounted(){
-        this.listRestaurantFoodTypes();
+
     }
 }
 </script>

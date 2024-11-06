@@ -5,10 +5,12 @@
                 <RestaurantProfileSidebar
                     :name="name"
                     :url-param-id="id"
+                    :food-types="foodTypes"
                 />
                 <MenuitemCardComponent
                     @show-menuitem="showMenuitem"
                     :restaurant-param-id="id"
+                    :food-types="foodTypes"
                 />
             </div>
             <div class="row">
@@ -38,7 +40,8 @@ export default {
             name: this.$route.params.slug,
             id: this.$route.params.id,
             visibleShowMenuitemModal: false,
-            menuitem: null
+            menuitem: null,
+            foodTypes: null
         }
     },
     methods: {
@@ -51,10 +54,19 @@ export default {
             .catch(error => {
                 this.Notity.error(error.response.data.message);
             })
+        },
+        listRestaurantFoodTypes(){
+            this.Api.get(`/v1/restaurant-food-type/list-by-restaurant/${this.id}`)
+            .then(async response => {
+                this.foodTypes = await response.data.data
+            })
+            .catch(error => {
+
+            })
         }
     },
     mounted(){
-        console.log(this.$route.params)
+        this.listRestaurantFoodTypes();
     }
 }
 </script>

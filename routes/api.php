@@ -33,7 +33,6 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
             Route::post('/', 'store')->name('store');
             Route::get('/list-by-auth-restaurant', 'getAllByAuthRestaurant')->name('list.by.restaurant');
             Route::get('/list-active-by-restaurant/{restaurant_id}', 'getAllActivesByRestaurant')->name('list.active.by.restaurant')->whereNumber('restaurant_id');
-            Route::get('/{id}', 'show')->name('show')->whereNumber('id');
             Route::put('/', 'update')->name('update');
             Route::put('/is-active/{id}', 'toggleIsActive')->name('is.active')->whereNumber('id');
         });
@@ -129,6 +128,8 @@ Route::controller(RestaurantController::class)->group(function() {
 Route::controller(MenuitemController::class)->group(function(){
     Route::prefix('v1/menuitem')->name('menuitem.')->group(function(){
         Route::get('/list-active-by-restaurant/{restaurant_id}', 'getAllActivesByRestaurant')->name('list.active.by.restaurant')->whereNumber('restaurant_id');
+        Route::get('/{id}', 'show')->name('show')->whereNumber('id');
+        Route::get('/list-by-restaurant-food-type/{restaurant_food_type_id}', 'getAllByRestaurantFoodType')->name('list.by.restaurant.food.type')->whereNumber('restaurant_food_type_id');
     });
 });
 
