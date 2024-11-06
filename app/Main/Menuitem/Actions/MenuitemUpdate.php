@@ -23,4 +23,15 @@ class MenuitemUpdate
             $this->menuitemRepository->update($menuitem, $request)
         );
     }
+
+    public function handleToggleIsActive(int $id)
+    {
+        $menuitem = $this->menuitemRepository->find($id);
+        if (!$menuitem) {
+            throw new MenuitemException("Identificateur introuvable");
+        }
+        return new MenuitemResource(
+            $this->menuitemRepository->toggleIsActive($menuitem)
+        );
+    }
 }

@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-md-6 mb-3 d-flex flex-column">
                     <label for="form-label">Nom</label>
-                    <InputText v-model="menuitem.name" class="p-1" placeholder="nom de la promotion" />
+                    <InputText v-model="menuitem.name" id="menuitem_name" class="p-1" placeholder="nom de la promotion" />
                     <small class="text-danger" v-if="formErrors && formErrors.name" v-text="formErrors.name.toString()"></small>
                 </div>
                 <div class="col-md-6 mb-3 d-flex flex-column">
@@ -56,14 +56,14 @@
             <div class="row">
                 <div class="col-md-12 mb-3 d-flex flex-column">
                     <label for="form-label">Descrition du plat</label>
-                    <Textarea v-model="menuitem.description" class="p-1" placeholder="Descrition du plat" />
+                    <Textarea v-model="menuitem.description" id="menuitem_description" class="p-1" placeholder="Descrition du plat" />
                     <small class="text-danger" v-if="formErrors && formErrors.description" v-text="formErrors.description.toString()"></small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-8">
                     <div class="mb-3 w-25 d-flex flex-column">
-                        <el-checkbox v-model="menuitem.is_active" label="Activer ?" size="large" border />
+                        <el-checkbox v-model="menuitem.is_active" id="menuitem_is_active" label="Activer ?" size="large" border />
                     </div>
                 </div>
             </div>
@@ -214,17 +214,22 @@ export default {
 
         },
         updateMenuitem() {
-            //use reflect to handle update prop object menuitem attribute
-            Reflect.set(this.menuitem, 'restaurant_food_type_id', this.selected_food_type.id ??menuitem.restaurant_food_type_id);
+            let menuitem_price = document.getElementById('menuitem_price').value;
+            let menuitem_is_active = document.getElementById('menuitem_is_active').checked ? true : false;
             this.put_data = {
-                ...this.menuitem,
-                food_type: this.selected_food_type.id,
-                category_id: this.category_id
+                id: this.menuitem.id,
+                restaurant_id: this.menuitem.restaurant_id,
+                price: menuitem_price.replaceAll(/\D/g, ''),
+                name: document.getElementById('menuitem_name').value,
+                description: document.getElementById('menuitem_description').value,
+                restaurant_food_type_id: this.selected_food_type ? this.selected_food_type.id : this.menuitem.restaurant_food_type_id,
+                restaurant_category_id: this.category_id ?? this.menuitem.restaurant_category_id,
+                is_active: menuitem_is_active
             }
-            console.log(this.put_data)
-            this.Api.put('/v1/menuitem', null, this.menuitem)
+            this.Api.put('/v1/menuitem', null, this.put_data)
             .then(async response => {
                 this.Notify.success(await response.data.message)
+                this.$emit('listAllMenuitem');
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message)

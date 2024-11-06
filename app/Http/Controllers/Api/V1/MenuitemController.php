@@ -89,4 +89,17 @@ class MenuitemController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
+    public function toggleIsActive(int $id)
+    {
+        try{
+            /** @var MenuitemUpdate $menuitemUpdate */
+            $menuitemUpdate = $this->container->get(MenuitemUpdate::class);
+            $data = $menuitemUpdate->handleToggleIsActive($id);
+            return response()
+                ->json($this->successResponse('status actualisé avec succes', $data));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
 }

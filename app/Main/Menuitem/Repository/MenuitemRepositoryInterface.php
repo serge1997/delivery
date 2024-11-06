@@ -10,4 +10,5 @@ interface MenuitemRepositoryInterface
     public function findAllByAuthRestaurant(int $restaurant_id);
     public function findAllActivesByRestaurant(int $restaurant_id);
     public function update(Menuitem $menuitem, $request);
+    public function toggleIsActive(Menuitem $menuitem);
 }

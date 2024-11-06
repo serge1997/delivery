@@ -18,7 +18,7 @@
                     <el-button @click="$emit('findMenuitem', scope)">
                         <i class="pi pi-file-edit"></i>
                     </el-button>
-                    <el-popconfirm @confirm="$emit('handleToggleCategoryStatus', scope)" :title="popMessage(scope.row.is_active, 'categorie')" width="220">
+                    <el-popconfirm @confirm="$emit('handleToggleMenuitemStatus', scope)" :title="popMessage(scope.row.is_active, 'item')" width="220">
                         <template #reference>
                             <el-button>
                                 <i v-if="scope.row.is_active" class="pi pi-lock-open text-warning"></i>
