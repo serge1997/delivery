@@ -42,4 +42,16 @@ export class AuthService{
     authId(){
         return this.toJson().id;
     }
+    hasRole(role){
+        return this.toJson().role === role;
+    }
+    isRestaurant(){
+        return this.toJson().role === 'restaurant';
+    }
+    isCustomer(){
+        return this.toJson().role === 'customer';
+    }
+    isAdmin(){
+        return this.toJson().role === 'admin';
+    }
 }

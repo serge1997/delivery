@@ -13,7 +13,9 @@
             </div>
             <div class="row">
                 <Dialog v-model:visible="visibleShowMenuitemModal" :style="{ width: '85rem', borderRadius: '4rem' }">
-                    <MenuitemShowComponent />
+                    <MenuitemShowComponent
+                        :menuitem="menuitem"
+                    />
                 </Dialog>
             </div>
         </div>
@@ -35,12 +37,20 @@ export default {
         return {
             name: this.$route.params.slug,
             id: this.$route.params.id,
-            visibleShowMenuitemModal: false
+            visibleShowMenuitemModal: false,
+            menuitem: null
         }
     },
     methods: {
-        showMenuitem(){
-            this.visibleShowMenuitemModal = true;
+        showMenuitem(id){
+            this.Api.get(`/v1/menuitem/${id}`)
+            .then(async response => {
+                this.menuitem = await response.data.data;
+                this.visibleShowMenuitemModal = true;
+            })
+            .catch(error => {
+                this.Notity.error(error.response.data.message);
+            })
         }
     },
     mounted(){

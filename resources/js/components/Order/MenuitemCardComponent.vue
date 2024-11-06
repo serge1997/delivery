@@ -1,7 +1,7 @@
 <template>
     <div class="col-sm-10">
        <div class="row p-3 space-1 d-flex gap-2 mb-3">
-            <div v-for="item in menuitems" @click="$emit('showMenuitem')" class="card col-sm-5 cursor-p food-card border-0 border-bottom">
+            <div v-for="item in menuitems" @click="$emit('showMenuitem', item.id)" class="card col-sm-5 cursor-p food-card border-0 border-bottom">
                 <div class="card-body d-flex justify-content gap-1">
                     <div class="food-card-text-content w-75 d-flex flex-column">
                         <div class="food-name">
