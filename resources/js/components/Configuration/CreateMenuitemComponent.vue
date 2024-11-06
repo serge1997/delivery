@@ -194,6 +194,7 @@ export default {
                     this.formErrors = null;
                     this.clearInputs();
                     this.Notify.success(await response.data.message);
+                    this.$emit('listMenuitemsByRestaurant')
                })
                .catch(error => {
                     when(error.response.status == 500, this.Notify.error(error.response.data.message))

@@ -19,8 +19,8 @@
             </div>
             <div class="w-100">
                 <ul class="list-group">
-                    <li v-for="type in foodTypes"class="list-group-item border-0 fw-bold cursor-p">
-                        {{ type.name }}
+                    <li v-for="type in foodTypes" class="list-group-item border-0 fw-bold cursor-p" @click="$emit('listMenuitemsByResraurantFoodType', type.id)">
+                        {{ type.name }}({{ type.count_menuitems }})
                     </li>
                 </ul>
             </div>

@@ -37,4 +37,13 @@ class RestaurantFoodTypeRepository extends BaseRepository implements RestaurantF
         ]);
         return $restaurantFoodType;
     }
+
+    public function findAllByRestaurantHasMenuitems(int $restaurant_id)
+    {
+        //lista somente os que tem menu item
+        return RestaurantFoodType::selectRaw('DISTINCT(restaurants_food_types.id) as distinct_id, restaurants_food_types.*')
+            ->join('menu_items', 'menu_items.restaurant_food_type_id', '=', 'restaurants_food_types.id')
+                ->where([['menu_items.is_active', true], ['menu_items.restaurant_id', $restaurant_id]])
+                    ->get();
+    }
 }

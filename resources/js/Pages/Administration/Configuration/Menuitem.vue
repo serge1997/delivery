@@ -6,7 +6,9 @@
                     <Button @click="visibleCreateMenuitemModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouveaux item de votre menu" />
                 </div>
                 <Dialog v-model:visible="visibleCreateMenuitemModal" header="Nouveau item" modal maximizable :style="{ width: '75rem', borderRadius: '4rem' }">
-                    <CreateMenuitemComponent />
+                    <CreateMenuitemComponent
+                        @list-menuitems-by-restaurant="listAuthMenuitens"
+                    />
                 </Dialog>
             </div>
             <div class="row">

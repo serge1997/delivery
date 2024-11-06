@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex mobile-food-type-box-div mt-2 overflow-scroll m-auto mb-2 p-1">
-        <div class="w-100" v-for="type in foodTypes">
-            <Button @click="$emit('listByResraurantFoodType', type.id)" class="mobile-food-type-btn" text>
+        <div class="w-100 d-flex justify-content-start" v-for="type in foodTypes">
+            <Button @click="$emit('listMenuitemsByResraurantFoodType', type.id)" class="mobile-food-type-btn w-100 d-flex justify-content-start" text>
                 <span>{{ type.name }}({{ type.count_menuitems }})</span>
             </Button>
         </div>
@@ -16,9 +16,7 @@ export default {
 }
 </script>
 <style scoped>
-.btn {
-    white-space: nowrap;
-}
+
 .mobile-food-type-btn{
     color: #52525b;
     white-space: nowrap;

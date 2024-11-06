@@ -136,6 +136,7 @@ Route::controller(MenuitemController::class)->group(function(){
 Route::controller(RestaurantFoodTypeController::class)->group(function(){
     Route::prefix('v1/restaurant-food-type')->name('restaurant_food_type.')->group(function () {
         Route::get('/list-by-restaurant/{restaurant_id}', 'listByRestaurant')->name('list.by.restaurant')->whereNumber('restauarnt_id');
+        Route::get('/list-by-restaurant/has-menuitems/{restaurant_id}', 'listAllByRestaurantHasMenuitems')->name('list.all.by.restaurant-has-menuitems')->whereNumber('restaurant_id');
     });
 });
 

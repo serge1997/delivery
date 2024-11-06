@@ -129,6 +129,8 @@ export default{
             .then(async response => {
                 this.Notify.success(await response.data.message);
                 this.formErrors = null;
+                this.listAllCategories();
+                this.visibleCreateCategoryModal = false;
             })
             .catch(error => {
                 if (error.response.status == 422){

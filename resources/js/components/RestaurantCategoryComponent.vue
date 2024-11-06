@@ -1,10 +1,10 @@
 <template>
     <div class="container-fluid mt-2" id="restaurant-type-box">
-        <div class="d-flex" id="restaurant-type-box-content">
-            <div>
+        <div class="d-flex overflow-scroll" id="restaurant-type-box-content">
+            <div v-for="category in categories">
                 <Button style="max-width: 6rem;" class="d-flex flex-column align-items-center resturant-type-btn justify-content-center px-0" text>
-                    <img class="w-75 img-thumbnail rounded-circle" src="images/italiana.png" alt="">
-                    <span class="restaurant-type-description">Italien</span>
+                    <img class="w-75 img-thumbnail rounded-circle" :src="`/images/categories/${category.image}`" alt="">
+                    <span class="restaurant-type-description">{{ category.name }}</span>
                 </Button>
             </div>
         </div>
@@ -12,7 +12,11 @@
 </template>
 <script>
 export default {
-    name: 'RestaurantTypeComponent'
+    name: 'RestaurantCategoryComponent',
+
+    props: {
+        categories: Object
+    },
 }
 </script>
 <style>

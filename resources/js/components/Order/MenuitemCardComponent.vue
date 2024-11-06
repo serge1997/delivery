@@ -1,10 +1,7 @@
 <template>
     <div class="col-sm-10">
         <div class="row mb-3 mobile-food-type-box">
-            <ListFoodTypeMobileComponent
-                :food-types="foodTypes"
-                @list-by-resraurant-food-type="listByResraurantFoodType"
-            />
+          <slot></slot>
         </div>
        <div class="row p-3 space-1 d-flex gap-2 mb-3">
             <div v-for="item in menuitems" @click="$emit('showMenuitem', item.id)" class="card col-sm-5 cursor-p food-card border-0 border-bottom">
@@ -38,44 +35,25 @@
     </div>
 </template>
 <script>
-import ListFoodTypeMobileComponent from './ListFoodTypeMobileComponent.vue';
 export default {
     name: 'MenuitemCardComponent',
     components: {
-        ListFoodTypeMobileComponent
     },
     props: {
         visibleShowMenuitemModal: Boolean,
         restaurantParamId: Number,
-        foodTypes: Object
+        foodTypes: Object,
+        menuitems: Object
     },
     data(){
         return {
-            menuitems: null
+
         }
     },
     methods: {
-        listActivesMenuitems(){
-            this.Api.get(`/v1/menuitem/list-active-by-restaurant/${this.restaurantParamId}`)
-            .then(async response => {
-                this.menuitems = await response.data.data;
-            })
-            .catch(error => {
-                this.Notity.error(error.response.data.message);
-            })
-        },
-        listByResraurantFoodType(id){
-            this.Api.get(`/v1/menuitem/list-by-restaurant-food-type/${id}`)
-            .then(async response => {
-                this.menuitems = await response.data.data;
-            })
-            .catch(error => {
-                this.Notity.error(error.response.data.message);
-            })
-        }
+
     },
     mounted(){
-        this.listActivesMenuitems()
     }
 }
 </script>

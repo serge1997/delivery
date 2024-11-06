@@ -11,4 +11,5 @@ interface RestaurantFoodTypeRepositoryInterface
     public function find(int $id);
     public function delete(RestaurantFoodType $restaurantFoodType);
     public function handleToggleIsActive(RestaurantFoodType $restaurantFoodType);
+    public function findAllByRestaurantHasMenuitems(int $restaurant_id);
 }

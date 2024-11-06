@@ -21,4 +21,11 @@ class RestaurantFoodTypeList
             $this->restaurantFoodTypeRepository->findByRestaurantId($id)
         );
     }
+
+    public function listAllByRestaurantHasMenuitems(int $restaurant_id)
+    {
+        return RestaurantFoodTypeResource::collection(
+            $this->restaurantFoodTypeRepository->findAllByRestaurantHasMenuitems($restaurant_id)
+        );
+    }
 }

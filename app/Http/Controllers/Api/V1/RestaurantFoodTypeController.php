@@ -78,4 +78,18 @@ class RestaurantFoodTypeController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
+    public function listAllByRestaurantHasMenuitems(int $restaurant_id)
+    {
+        try{
+            /** @var RestaurantFoodTypeList $restaurantFoodTypeList */
+            $restaurantFoodTypeList = $this->container->get(RestaurantFoodTypeList::class);
+            $response = $restaurantFoodTypeList->listAllByRestaurantHasMenuitems($restaurant_id);
+            $message = "list de tous vos type de plat avec au moin un menu";
+            return response()
+                ->json($this->successResponse($message, $response));
+        }catch(\Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
 }
