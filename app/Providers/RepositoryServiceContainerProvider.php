@@ -18,6 +18,8 @@ use App\Main\RestaurantCategory\Repository\RestaurantCategoryRepository;
 use App\Main\RestaurantCategory\Repository\RestaurantCategoryRepositoryInterface;
 use App\Main\RestaurantFoodType\Repository\RestaurantFoodTypeRepository;
 use App\Main\RestaurantFoodType\Repository\RestaurantFoodTypeRepositoryInterface;
+use App\Main\SideDish\Repository\SideDishRepository;
+use App\Main\SideDish\Repository\SideDishRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceContainerProvider extends ServiceProvider
@@ -35,6 +37,7 @@ class RepositoryServiceContainerProvider extends ServiceProvider
         $this->app->bind(RestaurantFoodTypeRepositoryInterface::class, RestaurantFoodTypeRepository::class);
         $this->app->bind(RestaurantCategoryRepositoryInterface::class, RestaurantCategoryRepository::class);
         $this->app->bind(MenuitemRepositoryInterface::class, MenuitemRepository::class);
+        $this->app->bind(SideDishRepositoryInterface::class, SideDishRepository::class);
     }
 
     /**

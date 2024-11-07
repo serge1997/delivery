@@ -6,9 +6,9 @@
                     <ul class="list-group border-0">
                         <li @click="selectCategory" v-for="category in categories" class="list-group-item list-category-item d-flex gap-3 align-items-center border-0" :data-id="category.id" :data-name="category.category">
                             <span class="w-25">
-                                <img class="w-50 rounded-circle" :src="`/images/categories/${category.image}`" alt="">
+                                <img style="width: 40px;" class="rounded-circle" :src="`/images/categories/${category.image}`" alt="">
                             </span>
-                            <span class="w-50">
+                            <span>
                                 {{category.category}}
                             </span>
                         </li>

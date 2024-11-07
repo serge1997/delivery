@@ -6,26 +6,29 @@
         <div class="show-menuitem-body mb-3 w-100">
             <div class="row">
                 <div class="col-md-4 image-box">
-                    <img class="w-75" :src="`/images/menuitems/${menuitem.image}`" alt="">
+                    <img class="w-50" :src="`/images/menuitems/${menuitem.image}`" alt="">
                 </div>
             </div>
         </div>
-        <div class="show-menuitem-footer w-100">
+        <div class="show-menuitem-footer">
             <div class="row">
-                <div class="col-md-4 m-auto">
-                    <div class="w-100 d-flex justify-content-between border rounded-pill">
-                        <div class="">
-                            <Button icon="pi pi-plus" text />
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <Chip label="1"/>
-                        </div>
-                        <div>
-                            <Button icon="pi pi-minus" text />
-                        </div>
-                        <div class="">
-                            <Button @click="addToCard" class="rounded-pill" label="Adicionner au panier" />
-                        </div>
+                <div class="col-md-4 d-flex justify-content-between">
+                    <div class="">
+                        <Button class="border rounded-circle" icon="pi pi-plus" text />
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <Chip class="border rounded-circle" label="1"/>
+                    </div>
+                    <div>
+                        <Button class="border rounded-circle" icon="pi pi-minus" text />
+                    </div>
+                    <div class="">
+                        <Button style="white-space: nowrap;"@click="addToCard" class="rounded-pill" label="Adicionner et continuer" />
+                    </div>
+                </div>
+                <div class="col-md-2 order-btn-box p-0">
+                    <div class="w-100">
+                        <Button @click="addToCard" class="rounded-pill border order-btn" label="commandez" text />
                     </div>
                 </div>
             </div>
@@ -56,3 +59,14 @@ export default {
     }
 }
 </script>
+<style>
+@media only screen and (max-width: 600px) {
+
+    .order-btn-box{
+        margin-top: 8px;
+    }
+    .order-btn{
+        width: 100%;
+    }
+}
+</style>

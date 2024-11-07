@@ -6,7 +6,7 @@
                     <ul class="list-group border-0">
                         <li @click="selectCategory" v-for="category in categories" class="list-group-item list-category-item d-flex gap-3 align-items-center border-0" :data-id="category.id" :data-name="category.category">
                             <span class="w-25">
-                                <img class="w-50 rounded-circle" :src="`/images/categories/${category.image}`" alt="">
+                                <img style="width: 40px;" class="rounded-circle" :src="`/images/categories/${category.image}`" alt="">
                             </span>
                             <span class="w-50">
                                 {{category.category}}
@@ -107,7 +107,6 @@ export default {
             isCategorySelect: false,
             overlay_category: ref(null),
             selectedCategoryName: null,
-            post_data: new FormData(),
             selected_food_type: null,
             category_id: null,
             imageUrl: null,
@@ -174,41 +173,7 @@ export default {
             )
             this.toggleOverlayCategory(event)
         },
-        createMenuitem(){
-           try{
-               this.post_data.append('restaurant_category_id', this.menuitem.category_id ?? '');
-               this.post_data.append('description', this.menuitem.description ?? '');
-               this.post_data.append('name', this.menuitem.name ?? '');
-               this.post_data.append('restaurant_food_type_id', this.menuitem.food_type_id != null ? this.menuitem.food_type_id.id : '');
-               this.post_data.append('price', this.menuitem.price ?? '');
-               this.post_data.append('image', this.menuitem.image);
-               this.post_data.append('restaurant_id', this.menuitem.restaurant_id ?? '');
-               this.post_data.append('is_active', this.menuitem.is_active == true ? 1 : '');
-
-               this.Api.post('/v1/menuitem', this.post_data)
-               .then(async response => {
-                    this.formErrors = null;
-                    this.clearInputs();
-                    this.Notify.success(await response.data.message);
-               })
-               .catch(error => {
-                    when(error.response.status == 500, this.Notify.error(error.response.data.message))
-                    this.formErrors = error.response.data.errors;
-               })
-           }catch(error){
-                console.log(error)
-           }
-        },
         clearInputs(){
-            this.menuitem.category_id = null;
-            this.menuitem.food_type_id = null;
-            this.menuitem.name = null;
-            this.menuitem.description = null;
-            this.menuitem.price = null;
-            this.isCategorySelect = false;
-            this.imageUrl = null;
-            this.menuitem.is_active = false;
-            this.post_data = new FormData();
         },
         onSelectFoodType(){
 
