@@ -4,11 +4,15 @@
             <div class="row mb-3">
                 <div class="col-md-10 m-auto">
                     <Button @click="visibleCreateMenuitemModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouveaux item de votre menu" />
+                    <Button @click="visibleCreateSideDishModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouveaux acompagnement" />
                 </div>
                 <Dialog v-model:visible="visibleCreateMenuitemModal" header="Nouveau item" modal maximizable :style="{ width: '75rem', borderRadius: '4rem' }">
                     <CreateMenuitemComponent
                         @list-menuitems-by-restaurant="listAuthMenuitens"
                     />
+                </Dialog>
+                <Dialog v-model:visible="visibleCreateSideDishModal" header="Nouveau acompagnement" modal maximizable :style="{ width: '75rem', borderRadius: '4rem' }">
+                    <CreateSideDishComponent />
                 </Dialog>
             </div>
             <div class="row">
@@ -33,13 +37,15 @@
 import CreateMenuitemComponent from '../../../components/Configuration/CreateMenuitemComponent.vue';
 import MenuitemsDatableComponent from '../../../components/datatables/MenuitemsDatableComponent.vue';
 import UpdateMenuitemComponent from '../../../components/Configuration/UpdateMenuitemComponent.vue';
+import CreateSideDishComponent from '../../../components/Configuration/CreateSideDishComponent.vue';
 export default {
     name: 'Menuitem',
 
     components: {
         CreateMenuitemComponent,
         MenuitemsDatableComponent,
-        UpdateMenuitemComponent
+        UpdateMenuitemComponent,
+        CreateSideDishComponent
     },
 
     data(){
@@ -47,7 +53,8 @@ export default {
             visibleCreateMenuitemModal: false,
             visibleUpdateMenuitemModal: false,
             menuitems: null,
-            menuitem: null
+            menuitem: null,
+            visibleCreateSideDishModal: false
         }
     },
     methods: {
