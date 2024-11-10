@@ -11,7 +11,7 @@ class SideDishRepository extends BaseRepository implements SideDishRepositoryInt
     {
         return SideDish::create($request->all());
     }
-    public function findAllByRestaurant(int $restaurant_id)
+    public function findAllByAuthRestaurant(int $restaurant_id)
     {
         return SideDish::where('restaurant_id', $restaurant_id)
             ->get();

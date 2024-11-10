@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
     Route::controller(SideDishController::class)->group(function(){
         Route::prefix('v1/side-dish')->name('sidedish.')->group(function(){
             Route::post('/', 'store')->name('store');
-            Route::get('/list-by-auth-restaurant/{restaurant_id}', 'getByAuthRestaurant')->name('list.by.auth.restaurant')->whereNumber('restaurant_id');
+            Route::get('/list-by-auth-restaurant', 'getAllByAuthRestaurant')->name('list.by.auth.restaurant');
         });
     });
     Route::controller(MenuitemController::class)->group(function(){

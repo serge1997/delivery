@@ -14,7 +14,7 @@
                         </li>
                     </ul>
                 </OverlayPanel>
-                <div class="col-md-10 d-flex gap-2">
+                <div class="col-md-12 d-flex flex-wrap gap-2">
                     <Button class="d-flex gap-2 align-items-center border-red-btn-white rounded-pill" text>
                         <span><i class="pi pi-box gold-btn-icon"></i></span>
                         <span class="btn-text-small">Faites une promotions sur cet item</span>
@@ -23,6 +23,9 @@
                         <span><i class="pi pi-table gold-btn-icon"></i></span>
                         <span class="btn-text-small">Actualiser la category de cet item</span>
                     </Button>
+                    <SideDishOverlayComponent
+                        open-button-label="Addicionez des acompagnements"
+                    />
                 </div>
             </div>
             <div class="row mb-3">
@@ -93,8 +96,14 @@
 <script>
 import { ref } from 'vue';
 import { isNull, when } from '../../core/Utilities';
+import SideDishOverlayComponent from '../Overlays/SideDishOverlayComponent.vue';
 export default {
     name: 'UpdateMenuitemComponent',
+
+    components: {
+        SideDishOverlayComponent
+    },
+
     props: {
         menuitem: Object
     },

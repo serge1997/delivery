@@ -44,13 +44,17 @@ class SideDishController extends Controller
         }
     }
 
-    public function getByAuthRestaurant()
+    public function getAllByAuthRestaurant()
     {
         try{
             /** @var SideDishList $sideDishList */
             $sideDishList = $this->container->get(SideDishList::class);
+            $response = $sideDishList->listAllByAuthRestaurant(session('auth_restaurant'));
+            return response()
+                ->json($this->successResponse("list des acompagnement par restaurants", $response));
         }catch(Exception $e){
-
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
 
