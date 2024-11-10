@@ -4,7 +4,7 @@ namespace App\Main\SideDish\Repository;
 use App\Models\Restaurant;
 use App\Models\SideDish;
 
-class SideDishRepositoryInterface
+interface SideDishRepositoryInterface
 {
 
     public function create($request) : SideDish;

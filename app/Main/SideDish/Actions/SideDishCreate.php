@@ -4,6 +4,7 @@ namespace App\Main\SideDish\Actions;
 use App\Http\Resources\SideDishResource;
 use App\Main\Restaurant\Repository\RestaurantRepositoryInterface;
 use App\Main\SideDish\Repository\SideDishRepositoryInterface;
+use App\Main\SideDish\Exception\SideDishException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SideDishCreate
@@ -17,8 +18,12 @@ class SideDishCreate
     public function run(FormRequest $request, $restaurant_id)
     {
         $restaurant = $this->restaurantRepository->find($restaurant_id);
-        return new SideDishResource(
-            $this->sideDishRepository->create($request, $restaurant)
-        );
+        $exists = $this->sideDishRepository->findByRestaurantAndName($request->name(), $restaurant);
+       if (!$exists){
+            return new SideDishResource(
+                $this->sideDishRepository->create($request, $restaurant)
+            );
+       }
+       throw new SideDishException("vous avez deja enregistré cet accompagnement dans le systeme");
     }
 }

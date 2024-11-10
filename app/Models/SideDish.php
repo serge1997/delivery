@@ -9,12 +9,13 @@ class SideDish extends Model
 {
     use HasFactory;
 
-    protected $table = 'side_dishes';
+    protected $table = 'sides_dishes';
 
     protected $fillable = [
         'id',
         'name',
         'description',
+        'portion_quantity',
         'price',
         'restaurant_id',
         'is_active'

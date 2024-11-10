@@ -23,6 +23,7 @@ import Dropdown from 'primevue/dropdown';
 import OverlayPanel from 'primevue/overlaypanel';
 import Tag from 'primevue/tag';
 import Chip from 'primevue/chip';
+import Toolbar from 'primevue/toolbar';
 
 const app = createApp(App);
 
@@ -57,6 +58,7 @@ app.component('Dropdown', Dropdown);
 app.component('OverlayPanel', OverlayPanel);
 app.component('Tag', Tag);
 app.component('Chip', Chip);
+app.component('Toolbar', Toolbar);
 app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)

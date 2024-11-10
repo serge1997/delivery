@@ -25,6 +25,7 @@ class SideDishRequest extends FormRequest
             return [
                 'id' => ['required'],
                 'name' => ['required', 'max:40'],
+                'portion_quantity' => ['required', 'integer'],
                 'description' => ['nullable'],
                 'price' => ['nullable', 'integer'],
                 'restaurant_id' => ['required'],
@@ -33,9 +34,10 @@ class SideDishRequest extends FormRequest
         }
         return [
             'name' => ['required', 'max:40'],
+            'portion_quantity' => ['required'],
             'description' => ['nullable'],
             'price' => ['nullable', 'integer'],
-            'restaurant_id',
+            'restaurant_id' => ['required'],
             'is_active' => ['nullable']
         ];
     }
@@ -48,6 +50,7 @@ class SideDishRequest extends FormRequest
             'name.max' => 'maximum 40 caractere',
             'price.integer' => 'sulement numero est accepté',
             'restaurant_id' => 'Votre numero ID non informé',
+            'portion_quantity.required' => 'la quantité en gramme est obligatoire ou type de donné invalide'
         ];
     }
 

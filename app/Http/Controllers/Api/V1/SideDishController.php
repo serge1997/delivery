@@ -30,11 +30,17 @@ class SideDishController extends Controller
     public function store(SideDishRequest $request)
     {
         try{
+            $request->validated();
             /** @var SideDishCreate $sideDishCreate */
             $sideDishCreate = $this->container->get(SideDishCreate::class);
+            $auth_restaurant = session('auth_restaurant');
+            $response = $sideDishCreate->run($request, $auth_restaurant);
+            return response()
+                ->json($this->successResponse('acompaghement enregistre avec succes', $response));
 
         }catch(Exception $e){
-
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
 

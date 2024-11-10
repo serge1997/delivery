@@ -7,16 +7,16 @@ use App\Models\Restaurant;
 class SideDishRepository extends BaseRepository implements SideDishRepositoryInterface
 {
 
-    public function create($request)
+    public function create($request) : SideDish
     {
-        return SideDish::created($request->all());
+        return SideDish::create($request->all());
     }
     public function findAllByRestaurant(int $restaurant_id)
     {
         return SideDish::where('restaurant_id', $restaurant_id)
             ->get();
     }
-    public function findByRestaurantAndName(string $name, Restaurant $restaurant)
+    public function findByRestaurantAndName(string $name, Restaurant $restaurant) : ?SideDish
     {
         return SideDish::where([['name', $name], ['restaurant_id', $restaurant->id]])
             ->first();

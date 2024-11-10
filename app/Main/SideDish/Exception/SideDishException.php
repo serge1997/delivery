@@ -1,5 +1,5 @@
 <?php
-namespace App\Main\SideDish;
+namespace App\Main\SideDish\Exception;;
 
 class SideDishException extends \Exception
 {

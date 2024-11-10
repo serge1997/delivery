@@ -52,4 +52,9 @@ export default{
 .cursor-p{
     cursor: pointer;
 }
+.toolbar-btn{
+    background-color: #e5e7eb;
+    color: #374151;
+    font-size: 0.8em;
+}
 </style>

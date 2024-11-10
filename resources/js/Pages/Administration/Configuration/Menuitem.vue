@@ -2,17 +2,25 @@
     <NavbarComponent>
         <div class="container-fluid">
             <div class="row mb-3">
-                <div class="col-md-10 m-auto">
-                    <Button @click="visibleCreateMenuitemModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouveaux item de votre menu" />
-                    <Button @click="visibleCreateSideDishModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouveaux acompagnement" />
-                </div>
+                <Toolbar>
+                    <template #start>
+                        <div class="w-100 d-flex gap-2">
+                            <Button @click="visibleCreateMenuitemModal = true" class="general-btn" icon="pi pi-plus-circle" label="Nouveaux" />
+                            <Button @click="visibleCreateSideDishModal = true" class="toolbar-btn border-0 rounded-pill" icon="pi pi-plus-circle" label="Nouveaux acompagnement" />
+                        </div>
+                    </template>
+                </Toolbar>
+            </div>
+            <div class="row mb-3">
                 <Dialog v-model:visible="visibleCreateMenuitemModal" header="Nouveau item" modal maximizable :style="{ width: '75rem', borderRadius: '4rem' }">
                     <CreateMenuitemComponent
                         @list-menuitems-by-restaurant="listAuthMenuitens"
                     />
                 </Dialog>
                 <Dialog v-model:visible="visibleCreateSideDishModal" header="Nouveau acompagnement" modal maximizable :style="{ width: '75rem', borderRadius: '4rem' }">
-                    <CreateSideDishComponent />
+                    <CreateSideDishComponent
+                        @close-modal="() => visibleCreateSideDishModal = false"
+                    />
                 </Dialog>
             </div>
             <div class="row">
