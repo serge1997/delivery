@@ -57,4 +57,8 @@ export default{
     color: #374151;
     font-size: 0.8em;
 }
+.simple-small-btn{
+    color: #6b7280;
+    font-size: 0.9em;
+}
 </style>

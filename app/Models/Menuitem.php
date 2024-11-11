@@ -25,6 +25,11 @@ class Menuitem extends Model
         'is_active'
     ];
 
+    public function restaurant() : BelongsTo
+    {
+        return $this->belongsTo(Restaurant::class, 'restaurant_id');
+    }
+
     public function restaurantFoodType() : BelongsTo
     {
         return $this->belongsTo(RestaurantFoodType::class, 'restaurant_food_type_id');

@@ -14,7 +14,7 @@ class MenuitemRepository extends BaseRepository implements MenuitemRepositoryInt
         $menuitem->save();
         return $menuitem;
     }
-    public function find(int $id)
+    public function find(int $id) : Menuitem
     {
         return Menuitem::find($id);
     }

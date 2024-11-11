@@ -32,11 +32,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         return Category::where('is_active', true)->get();
     }
-    public function find(int $id)
+    public function find(int $id) : Category
     {
         return Category::find($id);
     }
-    public function findByName(string $name)
+    public function findByName(string $name) : ?Category
     {
         return Category::where('name', $name)->first();
     }

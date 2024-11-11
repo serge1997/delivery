@@ -21,4 +21,9 @@ class SideDishRepository extends BaseRepository implements SideDishRepositoryInt
         return SideDish::where([['name', $name], ['restaurant_id', $restaurant->id]])
             ->first();
     }
+
+    public function find(int $id) : SideDish
+    {
+        return SideDish::find($id);
+    }
 }

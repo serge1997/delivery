@@ -7,7 +7,7 @@ use App\Models\RestaurantFoodType;
 interface MenuitemRepositoryInterface
 {
     public function create($request);
-    public function find(int $id);
+    public function find(int $id) : Menuitem;
     public function findAllByAuthRestaurant(int $restaurant_id);
     public function findAllActivesByRestaurant(int $restaurant_id);
     public function update(Menuitem $menuitem, $request);

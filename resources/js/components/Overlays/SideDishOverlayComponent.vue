@@ -7,12 +7,17 @@
         <OverlayPanel ref="overlay_side_dish">
             <div class="card border-0">
                 <div class="card-header bg-transparent border-0">
-                    <h6>Vos acompagnements</h6>
+                    <h6 class="d-none">Vos acompagnements</h6>
                 </div>
-                <div class="card-body p-1">
-                    <Button v-for="side in sideDishes" text class="rounded-pill border p-2 w-100">
-                        {{ side.name }}
-                    </Button>
+                <div class="card-body p-0">
+                    <ul class="list-group p-0 w-100">
+                        <li v-for="side in sideDishes"  class="list-group-item w-100 border-0 cursor-p d-flex align-items-center justify-content-between gap-4">
+                            <span class="simple-small-btn">{{ side.name }}</span>
+                            <span>
+                                <Button class="simple-small-btn" icon="pi pi-plus-circle" text/>
+                            </span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </OverlayPanel>
