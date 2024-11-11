@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AuthRestaurantController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\FoodTypeController;
 use App\Http\Controllers\Api\V1\MenuitemController;
+use App\Http\Controllers\Api\V1\MenuitemSideDishController;
 use App\Http\Controllers\Api\V1\PromotionController;
 use App\Http\Controllers\Api\V1\RestaurantCategoryController;
 use App\Http\Controllers\Api\V1\RestaurantController;
@@ -29,6 +30,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
+    Route::controller(MenuitemSideDishController::class)->group(function(){
+        Route::prefix('v1/menuitem-side-dish')->name('menuitem.side.dish')->group(function(){
+            Route::post('/', 'store')->name('store');
+            Route::delete('/{id}', 'delete')->name('delete')->whereNumber('id');
+        });
+    });
     Route::controller(SideDishController::class)->group(function(){
         Route::prefix('v1/side-dish')->name('sidedish.')->group(function(){
             Route::post('/', 'store')->name('store');

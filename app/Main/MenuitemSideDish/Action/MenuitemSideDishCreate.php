@@ -21,11 +21,10 @@ class MenuitemSideDishCreate
     public function run(FormRequest $request)
     {
         $menuitem = $this->menuitemRepository->find($request->menuitem());
-        $restaurant = $menuitem->restaurant;
         $sideDish = $this->sideDishRepository->find($request->sideDish());
 
-        if ($restaurant->is($sideDish->restaurant)){
-            $exists = $this->menuitemSideDishRepository->exists($menuitem, $restaurant);
+        if ($menuitem->restaurant->is($sideDish->restaurant)){
+            $exists = $this->menuitemSideDishRepository->exists($menuitem, $menuitem->restaurant);
             if (!$exists){
                 return new MenuitemSideDishResource(
                     $this->menuitemSideDishRepository->create($request)
