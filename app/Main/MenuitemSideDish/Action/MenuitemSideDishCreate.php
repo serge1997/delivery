@@ -27,7 +27,7 @@ class MenuitemSideDishCreate
             $exists = $this->menuitemSideDishRepository->exists($menuitem, $menuitem->restaurant);
             if (!$exists){
                 return new MenuitemSideDishResource(
-                    $this->menuitemSideDishRepository->create($request)
+                    $this->menuitemSideDishRepository->create($request, $menuitem)
                 );
             }
             throw new MenuitemSideDishException("l'accompagnement existe déja sur cet item");

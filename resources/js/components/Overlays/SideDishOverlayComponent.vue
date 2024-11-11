@@ -4,13 +4,14 @@
             <span><i class="pi pi-table gold-btn-icon"></i></span>
             <span class="btn-text-small">{{ openButtonLabel }}</span>
         </Button>
-        <OverlayPanel ref="overlay_side_dish">
+        <OverlayPanel ref="overlay_side_dish" style="width: 280px;">
             <div class="card border-0">
                 <div class="card-header bg-transparent border-0">
                     <h6 class="d-none">Vos acompagnements</h6>
                 </div>
                 <div class="card-body p-0">
-                    <ul class="list-group p-0 w-100">
+                    <MultiSelect @change="$emit('sharedData', post_data.side_dish_id)" v-model="post_data.side_dish_id" id="side_dishes" class="w-100" :options="sideDishes" option-label="name"/>
+                    <ul class="list-group p-0 w-100 d-none">
                         <li v-for="side in sideDishes"  class="list-group-item w-100 border-0 cursor-p d-flex align-items-center justify-content-between gap-4">
                             <span class="simple-small-btn">{{ side.name }}</span>
                             <span>
@@ -35,7 +36,10 @@ export default{
     data(){
         return {
             overlay_side_dish: ref(null),
-            sideDishes: null
+            sideDishes: null,
+            post_data: {
+                side_dish_id: []
+            }
         }
     },
     methods: {

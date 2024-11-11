@@ -7,6 +7,6 @@ use App\Models\SideDish;
 
 interface MenuitemSideDishRepositoryInterface
 {
-    public function create($request);
+    public function create($request, Menuitem $menuitem);
     public function exists(Menuitem $menuitem, SideDish $sideDish);
 }

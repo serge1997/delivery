@@ -32,7 +32,9 @@ class MenuitemRequest extends FormRequest
                 'restaurant_food_type_id' => ['required'],
                 'restaurant_category_id' => ['nullable'],
                 'restaurant_promotion_id' => ['nullable'],
-                'is_active' => ['boolean']
+                'is_active' => ['boolean'],
+                'side_dishes_id' => ['nullable'],
+                'menuitem_id' => ['nullable']
             ];
         }
         return [
@@ -44,7 +46,9 @@ class MenuitemRequest extends FormRequest
             'restaurant_food_type_id' => ['required'],
             'restaurant_category_id' => ['nullable'],
             'restaurant_promotion_id' => ['nullable'],
-            'is_active' => ['boolean']
+            'is_active' => ['boolean'],
+            'side_dishes_id' => ['nullable'],
+            'menuitem_id' => ['nullable']
         ];
     }
 

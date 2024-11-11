@@ -9,9 +9,19 @@ use App\Models\SideDish;
 class MenuitemSideDishRepository implements MenuitemSideDishRepositoryInterface
 {
 
-    public function create($request)
+    public function create($request, Menuitem $menuitem)
     {
-        return MenuitemSideDish::create($request->validated());
+        $sideDishes = [];
+        foreach($request->sideDish() as $side_dish){
+            if ($menuitem->menuitemSideDishes()->where('side_dish_id', $side_dish)->exists()){
+                continue;
+            }
+            $side_dish [] = [
+                'side_dish_id' => $side_dish
+            ];
+        }
+        $menuitem->menuitemSideDishes()->saveMany($sideDishes);
+        return $menuitem->menuitemSideDishes();
     }
     public function exists(Menuitem $menuitem, SideDish $sideDish)
     {

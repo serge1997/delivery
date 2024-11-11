@@ -25,6 +25,7 @@
                     </Button>
                     <SideDishOverlayComponent
                         open-button-label="Addicionez des acompagnements"
+                        @shared-data="selectedSideDishes"
                     />
                 </div>
             </div>
@@ -119,7 +120,9 @@ export default {
             selected_food_type: null,
             category_id: null,
             imageUrl: null,
-            put_data: null
+            put_data: null,
+            selected_sidishes: []
+
         }
     },
     methods: {
@@ -188,17 +191,21 @@ export default {
 
         },
         updateMenuitem() {
+            console.log(this.selected_sidishes);
+            return;
             let menuitem_price = document.getElementById('menuitem_price').value;
             let menuitem_is_active = document.getElementById('menuitem_is_active').checked ? true : false;
             this.put_data = {
                 id: this.menuitem.id,
+                menuitem_id: this.menuitem.id,
                 restaurant_id: this.menuitem.restaurant_id,
                 price: menuitem_price.replaceAll(/\D/g, ''),
                 name: document.getElementById('menuitem_name').value,
                 description: document.getElementById('menuitem_description').value,
                 restaurant_food_type_id: this.selected_food_type ? this.selected_food_type.id : this.menuitem.restaurant_food_type_id,
                 restaurant_category_id: this.category_id ?? this.menuitem.restaurant_category_id,
-                is_active: menuitem_is_active
+                is_active: menuitem_is_active,
+                side_dishes_id: this.selected_sidishes
             }
             this.Api.put('/v1/menuitem', null, this.put_data)
             .then(async response => {
@@ -208,6 +215,12 @@ export default {
             .catch(error => {
                 this.Notify.error(error.response.data.message)
             })
+        },
+        selectedSideDishes(data){
+            for(let dt of data){
+                this.selected_sidishes.push(dt.id)
+            }
+
         }
     },
     mounted(){

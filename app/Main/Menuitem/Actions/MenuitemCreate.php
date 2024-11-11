@@ -20,6 +20,9 @@ class MenuitemCreate
         if ($session_auth != $request->restaurant_id) {
             throw new MenuitemException("Action não realizable. rentrez en contact avec le support");
         }
+        if ($request->filled('')){
+
+        }
         return new MenuitemResource(
             $this->menuitemRepository->create($request)
         );
