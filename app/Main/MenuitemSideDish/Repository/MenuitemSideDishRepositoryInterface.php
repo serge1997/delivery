@@ -9,4 +9,5 @@ interface MenuitemSideDishRepositoryInterface
 {
     public function create($request, Menuitem $menuitem);
     public function exists(Menuitem $menuitem, SideDish $sideDish);
+    public function findAllByMenuitem(Menuitem $menuitem);
 }

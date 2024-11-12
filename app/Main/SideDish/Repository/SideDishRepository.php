@@ -4,6 +4,7 @@ namespace App\Main\SideDish\Repository;
 use App\Models\SideDish;
 use App\Service\Base\BaseRepository;
 use App\Models\Restaurant;
+use App\Models\Menuitem;
 class SideDishRepository extends BaseRepository implements SideDishRepositoryInterface
 {
 
@@ -25,5 +26,14 @@ class SideDishRepository extends BaseRepository implements SideDishRepositoryInt
     public function find(int $id) : SideDish
     {
         return SideDish::find($id);
+    }
+
+    public function findAllNotBelongsToMenuitem(Menuitem $menuitem)
+    {
+        return SideDish::whereNotIn('id', function($query) use($menuitem) {
+            $query->select('side_dishe_id')
+                ->from('menuitem_side_dishes')
+                    ->where('menuitem_id', $menuitem->id);
+        })->get();
     }
 }

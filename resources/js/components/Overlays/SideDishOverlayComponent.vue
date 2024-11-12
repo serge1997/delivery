@@ -30,7 +30,8 @@ import { ref } from 'vue';
 export default{
     name: 'SideDishOverlayComponent',
     props: {
-        openButtonLabel: String
+        openButtonLabel: String,
+        menuitem: Object
     },
 
     data(){
@@ -47,7 +48,7 @@ export default{
             this.overlay_side_dish.toggle(event);
         },
         listAllSideDish(){
-            this.Api.get('/v1/side-dish/list-by-auth-restaurant')
+            this.Api.get('/v1/side-dish/list-uncreated/by-menuitem/' + this.menuitem.id)
             .then(async response => {
                 this.sideDishes = await response.data.data;
             })

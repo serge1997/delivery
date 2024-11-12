@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
         Route::prefix('v1/side-dish')->name('sidedish.')->group(function(){
             Route::post('/', 'store')->name('store');
             Route::get('/list-by-auth-restaurant', 'getAllByAuthRestaurant')->name('list.by.auth.restaurant');
+            Route::get('list-uncreated/by-menuitem/{menuitem_id}', 'getAllNotBelongsToMenuitem')->name('lisall.uncreated.by.menuitem')->whereNumber('menuitem_id');
         });
     });
     Route::controller(MenuitemController::class)->group(function(){

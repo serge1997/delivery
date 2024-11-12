@@ -65,4 +65,9 @@ class MenuitemRequest extends FormRequest
             'restaurant_food_type_id.required' => 'type de plat est obligatoire'
         ];
     }
+
+    public function sideDishes()
+    {
+        return $this->side_dishes_id;
+    }
 }

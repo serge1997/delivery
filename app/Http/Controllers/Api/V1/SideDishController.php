@@ -64,7 +64,8 @@ class SideDishController extends Controller
             /** @var SideDishUpdate $sideDishUpdate */
             $sideDisUpdate = $this->container->get(SideDishUpdate::class);
         }catch(Exception $e){
-
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
 
@@ -75,6 +76,21 @@ class SideDishController extends Controller
             $sideDishDelete = $this->container->get(SideDishDelete::class);
         }catch(Exception $e){
 
+        }
+    }
+
+    public function getAllNotBelongsToMenuitem(int $menuitem_id)
+    {
+        try{
+            /** @var SideDishList $sideDishList */
+            $sideDishList = $this->container->get(SideDishList::class);
+            $data = $sideDishList->listAllNotBelongsToMenuitem($menuitem_id);
+
+            return response()
+                ->json($this->successResponse('list des acompagnement non additionné par item de menu', $data));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
         }
     }
 }

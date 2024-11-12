@@ -14,6 +14,12 @@ class MenuitemSideDishResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'menuitem_id' => $this->menuitem_id,
+            'side_dishe_id' => $this->side_dishe_id,
+            'side_dish_name' => $this->sideDishe->name,
+            'menuitem_name' => $this->menuitem->name
+        ];
     }
 }

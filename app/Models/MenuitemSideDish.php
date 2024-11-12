@@ -10,19 +10,19 @@ class MenuitemSideDish extends Model
 {
     use HasFactory;
 
-    protected $table = 'menuitems_sides_dishes';
+    protected $table = 'menuitem_side_dishes';
 
     protected $fillable = [
         'id',
         'menuitem_id',
-        'side_dish_id'
+        'side_dishe_id'
     ];
 
     public function menuitem() : BelongsTo
     {
         return $this->belongsTo(Menuitem::class, 'menuitem_id');
     }
-    public function sideDish() : BelongsTo
+    public function sideDishe() : BelongsTo
     {
         return $this->belongsTo(SideDish::class, 'side_dish_id');
     }

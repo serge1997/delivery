@@ -22,8 +22,6 @@ class MenuitemUpdate
             throw new MenuitemException("Identificateur du menu n'existe pas");
         }
         if ($request->filled('side_dishes_id')){
-            //check existence
-
             $this->menuitemSideDishRepository->create($request, $menuitem);
         }
         return new MenuitemResource(

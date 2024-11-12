@@ -26,12 +26,22 @@
                     <SideDishOverlayComponent
                         open-button-label="Addicionez des acompagnements"
                         @shared-data="selectedSideDishes"
+                        :menuitem="menuitem"
                     />
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-8" v-if="menuitem.category || isCategorySelect">
-                    <small class="btn-text-small">Category: </small>
+                    <small class="btn-text-small">Categories: </small>
+                    <Tag class="rounded-3" icon="pi pi-check"
+                        :severity="menuitem.category.includes('Non infor') && selectedCategoryName == null ? 'danger' : 'success'"
+                        :value="selectedCategoryName ?? menuitem.category"
+                    />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-8" v-if="menuitem.category || isCategorySelect">
+                    <small class="btn-text-small">Acompagnements: </small>
                     <Tag class="rounded-3" icon="pi pi-check"
                         :severity="menuitem.category.includes('Non infor') && selectedCategoryName == null ? 'danger' : 'success'"
                         :value="selectedCategoryName ?? menuitem.category"
@@ -191,8 +201,6 @@ export default {
 
         },
         updateMenuitem() {
-            console.log(this.selected_sidishes);
-            return;
             let menuitem_price = document.getElementById('menuitem_price').value;
             let menuitem_is_active = document.getElementById('menuitem_is_active').checked ? true : false;
             this.put_data = {
