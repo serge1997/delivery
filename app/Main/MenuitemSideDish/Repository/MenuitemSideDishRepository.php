@@ -20,6 +20,10 @@ class MenuitemSideDishRepository implements MenuitemSideDishRepositoryInterface
         $menuitem->menuitemSideDishes()->saveMany($sideDishes);
         return $menuitem->menuitemSideDishes();
     }
+    public function find(int $id) : MenuitemSideDish
+    {
+        return MenuitemSideDish::find($id);
+    }
     public function exists(Menuitem $menuitem, SideDish $sideDish)
     {
         return MenuitemSideDish::where([['menuitem_id', $menuitem->id], ['side_dish_id', $sideDish->id]])
@@ -30,6 +34,12 @@ class MenuitemSideDishRepository implements MenuitemSideDishRepositoryInterface
     {
         return MenuitemSideDish::where('menuitem_id', $menuitem->id)
             ->get();
+    }
+
+    public function delete(MenuitemSideDish $menuitemSideDish) : MenuitemSideDish
+    {
+        $menuitemSideDish->delete();
+        return $menuitemSideDish;
     }
 
 }

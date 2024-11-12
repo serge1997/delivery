@@ -2,6 +2,7 @@
 namespace App\Main\Menuitem\Actions;
 
 use App\Http\Resources\MenuitemResource;
+use App\Http\Resources\MenuitemUniqueResource;
 use App\Main\Menuitem\Repository\MenuitemRepositoryInterface;
 use App\Models\RestaurantFoodType;
 
@@ -26,7 +27,7 @@ class MenuitemList
     }
     public function listById(int $id)
     {
-        return new MenuitemResource(
+        return new MenuitemUniqueResource(
             $this->menuitemRepository->find($id)
         );
     }

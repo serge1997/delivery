@@ -24,6 +24,6 @@ class MenuitemSideDish extends Model
     }
     public function sideDishe() : BelongsTo
     {
-        return $this->belongsTo(SideDish::class, 'side_dish_id');
+        return $this->belongsTo(SideDish::class, 'side_dishe_id');
     }
 }

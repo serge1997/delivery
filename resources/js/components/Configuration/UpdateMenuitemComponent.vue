@@ -40,12 +40,18 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-8" v-if="menuitem.category || isCategorySelect">
-                    <small class="btn-text-small">Acompagnements: </small>
-                    <Tag class="rounded-3" icon="pi pi-check"
-                        :severity="menuitem.category.includes('Non infor') && selectedCategoryName == null ? 'danger' : 'success'"
-                        :value="selectedCategoryName ?? menuitem.category"
-                    />
+                <div class="col-md-8 d-flex gap-2" v-if="menuitem.side_dishes.length">
+                    <small class="btn-text-small d-flex align-items-center">Acompagnements: </small>
+                    <div class="w-75 gap-1 d-flex flex-wrap">
+                        <Tag v-for="sidedish of menuitem.side_dishes" class="rounded-3 d-flex gap-1 align-items-center bg-transparent border shadow-sm" icon="pi pi-check">
+                            <span><small>{{ sidedish.side_dish_name }}</small></span>
+                            <span>
+                                <Button @click="deleteMenuitemSideDishe(sidedish.id)" class="p-1 d-flex align-items-center" text>
+                                    <i class="pi pi-trash btn-text-small-danger text-danger"></i>
+                                </Button>
+                            </span>
+                        </Tag>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -229,6 +235,15 @@ export default {
                 this.selected_sidishes.push(dt.id)
             }
 
+        },
+        deleteMenuitemSideDishe(sidedish){
+            this.Api.delete(`/v1/menuitem-side-dish/${sidedish}`)
+            .then(async response => {
+                this.Notify.success(await response.data.message);
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
         }
     },
     mounted(){

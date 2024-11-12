@@ -49,6 +49,9 @@ export default{
     color: #4b5563;
     font-size: 0.9em;
 }
+.btn-text-small-danger{
+    font-size: 0.9em;
+}
 .cursor-p{
     cursor: pointer;
 }
