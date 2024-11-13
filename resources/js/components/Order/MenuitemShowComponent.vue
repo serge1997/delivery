@@ -5,8 +5,28 @@
         </div>
         <div class="show-menuitem-body mb-3 w-100">
             <div class="row">
-                <div class="col-md-4 image-box">
+                <div class="col-sm-4 image-box">
                     <img class="w-50" :src="`/images/menuitems/${menuitem.image}`" alt="">
+                </div>
+                <div v-if="menuitem.side_dishes.length" class="col-sm-7">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h6>Accompagnements</h6>
+                        </div>
+                        <div class="col-md-10 d-flex flex-column gap-2">
+                            <Tag v-for="side of menuitem.side_dishes" class="d-flex cursor-p justify-content-between border bg-transparent">
+                                <span>
+                                    <small>{{ side.side_dish_name }}</small>
+                                </span>
+                                <span class="d-flex align-items-center gap-2">
+                                    <small>{{ side.price }}</small>
+                                    <Button text>
+                                        <i class="pi pi-plus fw-bold" ></i>
+                                    </Button>
+                                </span>
+                            </Tag>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,7 +72,7 @@ export default {
             if(this.Auth.hasRole('restaurant')){
                 this.Notify.error('impossible de realiser une commande avec ce type de compte');
             }
-        }
+        },
     },
     mounted(){
 
