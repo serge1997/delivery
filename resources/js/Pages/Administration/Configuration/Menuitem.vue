@@ -35,6 +35,7 @@
                     <UpdateMenuitemComponent
                         :menuitem="menuitem"
                         @list-all-menuitem="listAuthMenuitens"
+                        @updateModalUi="findMenuitem"
                     />
                 </Dialog>
             </div>
@@ -77,7 +78,8 @@ export default {
             })
         },
         findMenuitem(param){
-            this.Api.get(`/v1/menuitem/${param.row.id}`)
+            let id = param.row ? param.row.id : param;
+            this.Api.get(`/v1/menuitem/${id}`)
             .then(async response => {
                 this.menuitem = await response.data.data
                 this.visibleUpdateMenuitemModal = true;

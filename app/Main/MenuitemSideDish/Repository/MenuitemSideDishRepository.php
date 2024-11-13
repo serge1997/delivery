@@ -13,7 +13,7 @@ class MenuitemSideDishRepository implements MenuitemSideDishRepositoryInterface
     {
         $sideDishes = [];
         foreach($request->sideDishes() as $side_dish){
-            if (!$menuitem->menuitemSideDishes()->where('side_dishe_id', $side_dish)->exists()){
+            if (!$menuitem->menuitemSideDishes()->where([['side_dishe_id', $side_dish], ['menuitem_id', $menuitem->id]])->exists()){
                 $sideDishes [] = new MenuitemSideDish(['side_dishe_id' => $side_dish]);
             }
         }

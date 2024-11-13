@@ -27,6 +27,7 @@
                         open-button-label="Addicionez des acompagnements"
                         @shared-data="selectedSideDishes"
                         :menuitem="menuitem"
+                        :side-dishes="sideDishes"
                     />
                 </div>
             </div>
@@ -46,7 +47,18 @@
                         <Tag v-for="sidedish of menuitem.side_dishes" class="rounded-3 d-flex gap-1 align-items-center bg-transparent border shadow-sm" icon="pi pi-check">
                             <span><small>{{ sidedish.side_dish_name }}</small></span>
                             <span>
-                                <Button @click="deleteMenuitemSideDishe(sidedish.id)" class="p-1 d-flex align-items-center" text>
+                                <el-popconfirm title="Etes vous sur de vouloir supprimer l'accompagnement?" width="320">
+                                    <template #reference>
+                                        <el-button class="p-1 d-flex align-items-center border-0">
+                                            <i class="pi pi-trash btn-text-small-danger text-danger"></i>
+                                        </el-button>
+                                    </template>
+                                    <template #actions="{confirm, cancel}">
+                                        <el-button @click="cancel">Non</el-button>
+                                        <el-button class="bg-secondary text-white" @click="deleteMenuitemSideDishe(sidedish.id)">Oui</el-button>
+                                    </template>
+                                </el-popconfirm>
+                                <Button @click="deleteMenuitemSideDishe(sidedish.id)" class="p-1 d-flex d-none align-items-center" text>
                                     <i class="pi pi-trash btn-text-small-danger text-danger"></i>
                                 </Button>
                             </span>
@@ -137,7 +149,8 @@ export default {
             category_id: null,
             imageUrl: null,
             put_data: null,
-            selected_sidishes: []
+            selected_sidishes: [],
+            sideDishes: null
 
         }
     },
@@ -232,14 +245,26 @@ export default {
         },
         selectedSideDishes(data){
             for(let dt of data){
-                this.selected_sidishes.push(dt.id)
+               if (!this.selected_sidishes.includes(dt.id)){
+                    this.selected_sidishes.push(dt.id)
+               }
             }
-
+        },
+        listAllSideDish(){
+            this.Api.get('/v1/side-dish/list-uncreated/by-menuitem/' + this.menuitem.id)
+            .then(async response => {
+                this.sideDishes = await response.data.data;
+            })
+            .catch(error => {
+                this.Notify.error(error.response.data.message)
+            })
         },
         deleteMenuitemSideDishe(sidedish){
             this.Api.delete(`/v1/menuitem-side-dish/${sidedish}`)
             .then(async response => {
                 this.Notify.success(await response.data.message);
+                this.$emit('updateModalUi', this.menuitem.id);
+                this.listAllSideDish();
             })
             .catch(error => {
                 this.Notify.error(error.response.data.message)
@@ -249,6 +274,7 @@ export default {
     mounted(){
         this.listRestaurantFoodTypes()
         this.listRestaurantCategoryByRestaurant();
+        this.listAllSideDish();
         this.overlay_category = this.$refs.overlay_category;
     },
     setup(){

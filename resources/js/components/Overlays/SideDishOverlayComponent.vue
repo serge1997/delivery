@@ -11,14 +11,6 @@
                 </div>
                 <div class="card-body p-0">
                     <MultiSelect @change="$emit('sharedData', post_data.side_dish_id)" v-model="post_data.side_dish_id" id="side_dishes" class="w-100" :options="sideDishes" option-label="name"/>
-                    <ul class="list-group p-0 w-100 d-none">
-                        <li v-for="side in sideDishes"  class="list-group-item w-100 border-0 cursor-p d-flex align-items-center justify-content-between gap-4">
-                            <span class="simple-small-btn">{{ side.name }}</span>
-                            <span>
-                                <Button class="simple-small-btn" icon="pi pi-plus-circle" text/>
-                            </span>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </OverlayPanel>
@@ -31,13 +23,13 @@ export default{
     name: 'SideDishOverlayComponent',
     props: {
         openButtonLabel: String,
-        menuitem: Object
+        menuitem: Object,
+        sideDishes: Object
     },
 
     data(){
         return {
             overlay_side_dish: ref(null),
-            sideDishes: null,
             post_data: {
                 side_dish_id: []
             }
@@ -47,19 +39,10 @@ export default{
         toggleOverlayCategory(event){
             this.overlay_side_dish.toggle(event);
         },
-        listAllSideDish(){
-            this.Api.get('/v1/side-dish/list-uncreated/by-menuitem/' + this.menuitem.id)
-            .then(async response => {
-                this.sideDishes = await response.data.data;
-            })
-            .catch(error => {
-                this.Notify.error(error.response.data.message)
-            })
-        }
+
     },
     mounted(){
         this.overlay_side_dish = this.$refs.overlay_side_dish;
-        this.listAllSideDish()
     }
 }
 </script>
