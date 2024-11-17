@@ -115,4 +115,19 @@ class MenuitemController extends Controller
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 404);
         }
     }
+
+    public function getAllCartItems(Request $request)
+    {
+        try{
+            /** @var MenuitemList $menuitemSideDishList */
+            $menuitemSideDishList = $this->container->get(MenuitemList::class);
+            $data = $menuitemSideDishList->listCartItems($request->cart_items);
+            return response()
+                ->json($this->successResponse('list panier de commande', $data));
+
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
 }

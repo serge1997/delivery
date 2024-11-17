@@ -13,4 +13,5 @@ interface MenuitemRepositoryInterface
     public function update(Menuitem $menuitem, $request);
     public function toggleIsActive(Menuitem $menuitem);
     public function findAllByRestaurantFoodType(RestaurantFoodType $restaurant_food_type);
+    public function findCartsItems(array $items);
 }

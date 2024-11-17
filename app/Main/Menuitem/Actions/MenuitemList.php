@@ -39,4 +39,11 @@ class MenuitemList
             $this->menuitemRepository->findAllByRestaurantFoodType($restaurantFoodType)
         );
     }
+
+    public function listCartItems(array $items)
+    {
+        return MenuitemResource::collection(
+            $this->menuitemRepository->findCartsItems($items)
+        );
+    }
 }

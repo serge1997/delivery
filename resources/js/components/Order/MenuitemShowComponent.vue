@@ -43,12 +43,12 @@
                         <Button class="border rounded-circle" icon="pi pi-minus" text />
                     </div>
                     <div class="">
-                        <Button style="white-space: nowrap;"@click="addToCard" class="rounded-pill" label="Adicionner et continuer" />
+                        <Button style="white-space: nowrap;" @click="$emit('addToCart', menuitem)" class="rounded-pill" label="Adicionner et continuer" />
                     </div>
                 </div>
                 <div class="col-md-2 order-btn-box p-0">
                     <div class="w-100">
-                        <Button @click="addToCard" class="rounded-pill border order-btn" label="commandez" text />
+                        <Button class="rounded-pill border order-btn" label="commandez" text />
                     </div>
                 </div>
             </div>
@@ -68,11 +68,7 @@ export default {
         }
     },
     methods: {
-        addToCard(){
-            if(this.Auth.hasRole('restaurant')){
-                this.Notify.error('impossible de realiser une commande avec ce type de compte');
-            }
-        },
+
     },
     mounted(){
 

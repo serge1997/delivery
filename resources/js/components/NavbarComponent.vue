@@ -19,7 +19,7 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="button-box cart-box-button">
-                        <Button text icon="pi pi-cart-arrow-down"/>
+                        <Button @click="cartVisibleSidebar = true" text icon="pi pi-cart-arrow-down" :label="cartItemQuantity ?? Cart.count()"/>
                     </div>
                     <div v-if="!isAuthenticated" class="button-box">
                         <Button class="d-flex gap-2" text>
@@ -34,6 +34,14 @@
                     </div>
                 </div>
             </el-menu>
+            <Sidebar class="cart_side_bar" v-model:visible="cartVisibleSidebar" header="Votre panier" position="right">
+                <CartSidebarComponent
+                    :menuitems="menuitems"
+                    @remove-from-cart="removeFromCart"
+                    @increment-cart-item-quantity="incrementCartItemQuantity"
+                    @reduce-cart-item-quantity="reduceCartItemQuantity"
+                />
+            </Sidebar>
         </div>
         <div class="w-100 mt-3">
             <slot></slot>
@@ -42,12 +50,19 @@
 </template>
 <script>
 import SidebarComponent from './SidebarComponent.vue';
+import CartSidebarComponent from './Order/CartSidebarComponent.vue';
 export default {
     inject: ['isAuthenticated'],
     name: 'NavbarComponent',
 
+    props: {
+        cartItemQuantity: Number,
+        menuitems: Object
+    },
+
     components: {
-        SidebarComponent
+        SidebarComponent,
+        CartSidebarComponent
     },
 
     data(){
@@ -62,7 +77,8 @@ export default {
                     label: 'Features',
                     icon: 'pi pi-star'
                 },
-            ]
+            ],
+            cartVisibleSidebar: false,
         }
     },
     methods: {
@@ -75,6 +91,15 @@ export default {
             .catch(error => {
                 this.Notify.error(error.response.data.message)
             })
+        },
+        removeFromCart(id){
+          this.$emit('removeItemFromCart', id);
+        },
+        incrementCartItemQuantity(item){
+            this.$emit('incrementCartItemQuantity', item);
+        },
+        reduceCartItemQuantity(item){
+            this.$emit('reduceCartItemQuantity', item);
         }
     },
     mounted(){
@@ -92,6 +117,14 @@ export default {
 @media only screen and (max-width: 600px){
     .el-menu-iem-box{
         width: 16rem;
+    }
+    .cart_side_bar{
+        width: 90%;
+    }
+}
+@media only screen and (min-width: 900px){
+    .cart_side_bar{
+        width: 40%;
     }
 }
 .cart-box-button{

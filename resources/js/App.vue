@@ -64,4 +64,11 @@ export default{
     color: #6b7280;
     font-size: 0.9em;
 }
+.small-btn-icon{
+    font-size: 0.8em;
+}
+.small-text {
+    color: #6b7280;
+    font-size: 0.9em;
+}
 </style>

@@ -56,4 +56,8 @@ class MenuitemRepository extends BaseRepository implements MenuitemRepositoryInt
             ->where('is_active', true)
                 ->get();
     }
+    public function findCartsItems(array $items)
+    {
+        return Menuitem::whereIn('id', $items)->get();
+    }
 }

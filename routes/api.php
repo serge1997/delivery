@@ -145,6 +145,7 @@ Route::controller(MenuitemController::class)->group(function(){
         Route::get('/list-active-by-restaurant/{restaurant_id}', 'getAllActivesByRestaurant')->name('list.active.by.restaurant')->whereNumber('restaurant_id');
         Route::get('/{id}', 'show')->name('show')->whereNumber('id');
         Route::get('/list-by-restaurant-food-type/{restaurant_food_type_id}', 'getAllByRestaurantFoodType')->name('list.by.restaurant.food.type')->whereNumber('restaurant_food_type_id');
+        Route::post('/cart-items', 'getAllCartItems')->name('list.cart.items');
     });
 });
 

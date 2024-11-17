@@ -1,5 +1,11 @@
 <template>
-   <NavbarComponent>
+   <NavbarComponent
+        :cart-item-quantity="cartItemQuantity"
+        :menuitems="cart_items"
+        @remove-item-from-cart="removeItemFromCart"
+        @increment-cart-item-quantity="addToCart"
+        @reduce-cart-item-quantity="reduceCartItemQuantity"
+   >
         <div class="container-fluid">
             <div class="row">
                 <RestaurantProfileSidebar
@@ -25,6 +31,7 @@
                 <Dialog v-model:visible="visibleShowMenuitemModal" :style="{ width: '85rem', borderRadius: '4rem' }">
                     <MenuitemShowComponent
                         :menuitem="menuitem"
+                        @add-to-cart="addToCart"
                     />
                 </Dialog>
             </div>
@@ -52,7 +59,9 @@ export default {
             visibleShowMenuitemModal: false,
             menuitem: null,
             foodTypes: null,
-            menuitems: null
+            menuitems: null,
+            cartItemQuantity: null,
+            cart_items: null
         }
     },
     methods: {
@@ -92,11 +101,31 @@ export default {
             .catch(error => {
                 this.Notity.error(error.response.data.message);
             })
+        },
+        addToCart(item){
+            this.Cart.save(item.id, 1, item.name, item.price, item.image);
+            this.cartItemQuantity = this.Cart.count();
+            this.getCartitems();
+        },
+        getCartitems(){
+            if (this.Cart.getItemsIds()){
+                this.cart_items = this.Cart.get();
+            }
+        },
+        removeItemFromCart(id){
+            this.Cart.remove(id);
+            this.getCartitems();
+            this.cartItemQuantity = this.Cart.count();
+        },
+        reduceCartItemQuantity(item){
+            this.Cart.save(item.id, 1, item.name, item.price, item.image, true);
+            this.getCartitems();
         }
     },
     mounted(){
         this.listRestaurantFoodTypes();
         this.listActivesMenuitems();
+        this.getCartitems();
     }
 }
 </script>
