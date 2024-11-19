@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\RestaurantFoodTypeController;
 use App\Http\Controllers\Api\V1\SideDishController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,5 +160,10 @@ Route::controller(RestaurantFoodTypeController::class)->group(function(){
 Route::controller(AuthRestaurantController::class)->group(function() {
     Route::prefix('v1/auth-restaurant')->name('auth,restaurant')->group(function(){
         Route::post('/auth', 'login')->name('login');
+    });
+});
+Route::controller(CustomerController::class)->group(function() {
+    Route::prefix('v1/customer')->name('customer.')->group(function() {
+        Route::post('/', 'store');
     });
 });

@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </el-menu>
-            <Sidebar class="cart_side_bar" v-model:visible="cartVisibleSidebar" header="Votre panier" position="right">
+            <Sidebar class="cart_side_bar p-0" v-model:visible="cartVisibleSidebar" header="Votre panier" position="right">
                 <CartSidebarComponent
                     :cart-item-quantity="cartItemQuantity"
                     :menuitems="menuitems"
