@@ -2,9 +2,7 @@
    <NavbarComponent
         :cart-item-quantity="cartItemQuantity"
         :menuitems="cart_items"
-        @remove-item-from-cart="removeItemFromCart"
-        @increment-cart-item-quantity="addToCart"
-        @reduce-cart-item-quantity="reduceCartItemQuantity"
+        @updateCartUi="getCartitems"
    >
         <div class="container-fluid">
             <div class="row">
@@ -32,6 +30,7 @@
                     <MenuitemShowComponent
                         :menuitem="menuitem"
                         @add-to-cart="addToCart"
+                        @add-menuitem-side-dish="addMenuitemSideDish"
                     />
                 </Dialog>
             </div>
@@ -61,10 +60,15 @@ export default {
             foodTypes: null,
             menuitems: null,
             cartItemQuantity: null,
-            cart_items: null
+            cart_items: null,
+            side_dihes: null
         }
     },
     methods: {
+        addMenuitemSideDish(item, sidedish){
+            this.side_dihes = sidedish;
+            document.getElementById('show_menuitem_add_and_next').classList.remove('p-disabled');
+        },
         showMenuitem(id){
             this.Api.get(`/v1/menuitem/${id}`)
             .then(async response => {
@@ -99,28 +103,22 @@ export default {
                 this.menuitems = await response.data.data;
             })
             .catch(error => {
-                this.Notity.error(error.response.data.message);
+                this.Notify.error(error.response.data.message);
             })
         },
         addToCart(item){
-            this.Cart.save(item.id, 1, item.name, item.price, item.image);
-            this.cartItemQuantity = this.Cart.count();
+            this.Cart.save(item.id, 1, item.name, item.price, item.image, this.side_dihes);
+            this.Cart.addSideDish(item, this.side_dihes);
             this.getCartitems();
+            this.visibleShowMenuitemModal = false;
+            this.side_dihes = null;
         },
         getCartitems(){
             if (this.Cart.getItemsIds()){
                 this.cart_items = this.Cart.get();
+                this.cartItemQuantity = this.Cart.count();
             }
         },
-        removeItemFromCart(id){
-            this.Cart.remove(id);
-            this.getCartitems();
-            this.cartItemQuantity = this.Cart.count();
-        },
-        reduceCartItemQuantity(item){
-            this.Cart.save(item.id, 1, item.name, item.price, item.image, true);
-            this.getCartitems();
-        }
     },
     mounted(){
         this.listRestaurantFoodTypes();

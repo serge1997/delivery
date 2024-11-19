@@ -1,46 +1,69 @@
 <template>
-    <div class="row mb-3">
-        <ul class="list-group">
-            <li v-for="menuitem of menuitems" class="list-group-item d-flex justify-content-between mb-3">
-                <div class="info-box d-flex align-items-center gap-1">
-                    <span class="d-flex align-items-center">
-                        <Button @click="$emit('removeFromCart', menuitem.id)" text>
-                            <i class="pi pi-trash text-danger small-btn-icon"></i>
-                        </Button>
-                    </span>
-                    <span class="d-flex align-items-center">
-                        <img style="width: 28px;" :src="`/images/menuitems/${menuitem.image}`" alt="">
-                    </span>
-                    <span class="d-flex align-items-center small-text d-flex gap-1">
-                        <span>
-                            {{ menuitem.name }}
-                        </span>
-                        <span>
-                            <Tag class="p-1" sevrity="warning">
-                                <span class="small-text">{{ menuitem.item_total }} FCFA</span>
-                            </Tag>
-                        </span>
-                    </span>
+    <div class="row d-flex flex-column justify-content-between mb-3 vh-100">
+        <ul class="list-group col-md-12">
+            <li v-for="menuitem of menuitems" class="list-group-item d-flex justify-content-between mb-4 p-0 border-0 shadow-sm">
+                <div class="d-flex flex-column">
+                    <div class="info-box d-flex align-items-center gap-1">
+                        <div class="d-flex">
+                            <span class="d-flex align-items-center">
+                                <Button @click="$emit('removeFromCart', menuitem.id)" text>
+                                    <i class="pi pi-trash text-danger small-btn-icon"></i>
+                                </Button>
+                            </span>
+                            <span class="d-flex align-items-center">
+                                <img style="width: 28px;" :src="`/images/menuitems/${menuitem.image}`" alt="">
+                            </span>
+                            <span class="d-flex align-items-center small-text d-flex gap-1">
+                                <span class="px-1">
+                                    {{ menuitem.name }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <ul class="list-group" v-if="menuitem.side_dishes">
+                            <li class="list-group-item border-0 d-flex gap-1" v-for="side of menuitem.side_dishes">
+                                <span class="d-flex align-items-center">
+                                    <small class="small-text">{{ side.name }}({{side.total}} FCFA)</small>
+                                </span>
+                                <span class="d-flex align-items-center">
+                                    <Chip>
+                                        <small class="small-text">{{ side.quantity }}</small>
+                                    </Chip>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="actions-box d-flex align-items-center gap-1">
-                    <div class="">
-                        <Button @click="$emit('incrementCartItemQuantity', menuitem)" class="border rounded-circle p-2" text>
-                            <i class="pi pi-plus small-text"></i>
-                        </Button>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <Chip class="border rounded-circle">
-                            <span class="small-text">{{ menuitem.quantity }}</span>
-                        </Chip>
-                    </div>
+                <div class="actions-box d-flex flex-column align-items-center justify-content-between gap-1">
                     <div>
-                        <Button  @click="$emit('reduceCartItemQuantity', menuitem)" class="border rounded-circle p-2" text>
-                            <i class="pi pi-minus small-text"></i>
-                        </Button>
+                        <span style="white-space: nowrap;" class="fw-bold">{{ menuitem.item_total }} FCFA</span>
+                    </div>
+                    <div v-if="isForCartActions" class="d-flex">
+                        <div class="">
+                            <Button @click="$emit('incrementCartItemQuantity', menuitem)" class="border rounded-circle p-2" text>
+                                <i class="pi pi-plus small-text"></i>
+                            </Button>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <Chip class="border rounded-circle">
+                                <span class="small-text">{{ menuitem.quantity }}</span>
+                            </Chip>
+                        </div>
+                        <div>
+                            <Button  @click="$emit('reduceCartItemQuantity', menuitem)" class="border rounded-circle p-2" text>
+                                <i class="pi pi-minus small-text"></i>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </li>
         </ul>
+        <div v-if="isForCartActions" class="row" style="margin-bottom: 100px;">
+           <div class="col-md-12">
+                <Button @click="saveOrderAndRedirect" id="confirm_order" class="rounded-pill w-100 border order-btn" label="commandez" text />
+           </div>
+        </div>
     </div>
 </template>
 <script>
@@ -48,7 +71,13 @@ export default {
     name: 'CartSidebarComponent',
 
     props: {
-        menuitems: Object
+        menuitems: Object,
+        isForCartActions: Boolean
+    },
+    methods: {
+        saveOrderAndRedirect(){
+            this.$router.push({name: 'Checkout'})
+        }
     }
 }
 </script>

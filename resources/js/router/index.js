@@ -9,6 +9,8 @@ import Establishment from "../Pages/Administration/Configuration/Establishment.v
 import RestaurantLogin from "../Pages/Auth/RestaurantLogin.vue";
 import RestaurantProfile from "../Pages/Order/RestaurantProfile.vue";
 import Menuitem from "../Pages/Administration/Configuration/Menuitem.vue";
+import Checkout from "../Pages/Order/Checkout.vue";
+import component from "element-plus/es/components/tree-select/src/tree-select-option.mjs";
 
 
 const routes = [
@@ -51,6 +53,11 @@ const routes = [
         path: '/order/profile/:id/:slug',
         name: 'RestaurantProfile',
         component: RestaurantProfile
+    },
+    {
+        path: '/order/checkout',
+        name: 'Checkout',
+        component: Checkout
     }
 ]
 

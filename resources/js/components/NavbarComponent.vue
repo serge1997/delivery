@@ -36,10 +36,12 @@
             </el-menu>
             <Sidebar class="cart_side_bar" v-model:visible="cartVisibleSidebar" header="Votre panier" position="right">
                 <CartSidebarComponent
+                    :cart-item-quantity="cartItemQuantity"
                     :menuitems="menuitems"
-                    @remove-from-cart="removeFromCart"
-                    @increment-cart-item-quantity="incrementCartItemQuantity"
+                    @remove-from-cart="removeItemFromCart"
+                    @increment-cart-item-quantity="addToCart"
                     @reduce-cart-item-quantity="reduceCartItemQuantity"
+                    :is-for-cart-actions="true"
                 />
             </Sidebar>
         </div>
@@ -56,8 +58,8 @@ export default {
     name: 'NavbarComponent',
 
     props: {
-        cartItemQuantity: Number,
-        menuitems: Object
+        menuitems: Object,
+        cartItemQuantity: Number
     },
 
     components: {
@@ -79,6 +81,7 @@ export default {
                 },
             ],
             cartVisibleSidebar: false,
+            cart_items: null
         }
     },
     methods: {
@@ -92,17 +95,31 @@ export default {
                 this.Notify.error(error.response.data.message)
             })
         },
-        removeFromCart(id){
-          this.$emit('removeItemFromCart', id);
+        addToCart(item){
+            this.Cart.save(item.id, 1, item.name, item.price, item.image, this.side_dihes);
+            this.Cart.addSideDish(item, this.side_dihes);
+            this.getCartitems();
+            this.visibleShowMenuitemModal = false;
+            this.side_dihes = null;
+            this.$emit('updateCartUi')
         },
-        incrementCartItemQuantity(item){
-            this.$emit('incrementCartItemQuantity', item);
+        getCartitems(){
+            if (this.Cart.getItemsIds()){
+                this.cart_items = this.Cart.get();
+            }
+        },
+        removeItemFromCart(id){
+            this.Cart.remove(id);
+            this.$emit('updateCartUi')
         },
         reduceCartItemQuantity(item){
-            this.$emit('reduceCartItemQuantity', item);
-        }
+            this.Cart.save(item.id, 1, item.name, item.price, item.image, true, true);
+            this.getCartitems();
+            this.$emit('updateCartUi')
+        },
     },
     mounted(){
+        this.getCartitems();
         window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.Auth.getToken()}`
     }
 }
@@ -119,7 +136,7 @@ export default {
         width: 16rem;
     }
     .cart_side_bar{
-        width: 90%;
+        width: 100%;
     }
 }
 @media only screen and (min-width: 900px){
