@@ -22,7 +22,7 @@
                         <Button @click="cartVisibleSidebar = true" text icon="pi pi-cart-arrow-down" :label="cartItemQuantity ?? Cart.count()"/>
                     </div>
                     <div v-if="!isAuthenticated" class="button-box">
-                        <Button class="d-flex gap-2" text>
+                        <Button @click="visibleCustomerLoginModal = true" class="d-flex gap-2" text>
                             <span><i class="pi pi-user"></i></span>
                             <span>Login</span>
                         </Button>
@@ -44,6 +44,9 @@
                     :is-for-cart-actions="true"
                 />
             </Sidebar>
+            <Dialog v-model:visible="visibleCustomerLoginModal" modal header="Bienvenue !" :style="{ width: '25rem' }">
+                <CustomerLoginComponent />
+            </Dialog>
         </div>
         <div class="w-100 mt-3">
             <slot></slot>
@@ -53,6 +56,7 @@
 <script>
 import SidebarComponent from './SidebarComponent.vue';
 import CartSidebarComponent from './Order/CartSidebarComponent.vue';
+import { defineAsyncComponent } from 'vue';
 export default {
     inject: ['isAuthenticated'],
     name: 'NavbarComponent',
@@ -64,7 +68,10 @@ export default {
 
     components: {
         SidebarComponent,
-        CartSidebarComponent
+        CartSidebarComponent,
+        CustomerLoginComponent: defineAsyncComponent(() => 
+            import('../Pages/Auth/CustomerLoginComponent.vue')
+        )
     },
 
     data(){
@@ -81,7 +88,8 @@ export default {
                 },
             ],
             cartVisibleSidebar: false,
-            cart_items: null
+            cart_items: null,
+            visibleCustomerLoginModal: false
         }
     },
     methods: {
