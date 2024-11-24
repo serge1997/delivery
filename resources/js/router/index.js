@@ -38,8 +38,8 @@ const routes = [
             },
             {
                 path: 'customer',
-                component: () => import("../Pages/Auth/CustomerLogin.vue"),
-                name: 'CustomerLogin'
+                component: () => import("../Pages/Register/CustomerRegister.vue"),
+                name: 'CustomerRegister'
             }
         ]
     },
@@ -66,11 +66,6 @@ const routes = [
                 path: '@auth-restaurant',
                 component: () => import("../Pages/Auth/RestaurantLogin.vue"),
                 name: 'RestaurantLogin'
-            },
-            {
-                path: '@auth-customer',
-                component: () => import("../Pages/Auth/CustomerLogin.vue"),
-                name: 'CustomerLogin'
             }
         ]
     },

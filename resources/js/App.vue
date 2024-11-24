@@ -71,4 +71,7 @@ export default{
     color: #6b7280;
     font-size: 0.9em;
 }
+.img-3d-box-text-content, .form-label{
+    color: #4b5563;
+}
 </style>

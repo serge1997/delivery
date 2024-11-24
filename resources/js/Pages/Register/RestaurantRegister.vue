@@ -241,9 +241,6 @@ export default {
 .img-3d-box{
     background-color: #eff6ff;
 }
-.img-3d-box-text-content, .form-label{
-    color: #4b5563;
-}
 .required-input{
     animation: shakeInput .3s .9s;
 }
