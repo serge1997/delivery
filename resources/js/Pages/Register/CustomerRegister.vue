@@ -23,26 +23,30 @@
                                 <div class="col-md-6 mb-3 d-flex flex-column">
                                     <label class="form-label" for="">Nom complet</label>
                                     <InputText v-model="customer.name" placeholder="votre nom complet" />
+                                    <small v-if="formErrors && formErrors.name" class="text-danger" v-text="formErrors.name.toString()"></small>
                                 </div>
                                 <div class="col-md-6 mb-3 d-flex flex-column">
                                     <label class="form-label" for="">Numero de telephone</label>
                                     <InputMask v-model="customer.phone" mask="99-99-99-99-99" placeholder="99-99-99-99-99" />
+                                    <small v-if="formErrors && formErrors.phone" class="text-danger" v-text="formErrors.phone.toString()"></small>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-3 d-flex flex-column">
                                     <label class="form-label" for="">E-mail</label>
                                     <InputText v-model="customer.email" placeholder="votre e-mail" />
+                                    <small v-if="formErrors && formErrors.email" class="text-danger" v-text="formErrors.email.toString()"></small>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-12 mb-3 d-flex flex-column">
                                     <label class="form-label" for="">Password</label>
                                     <InputText v-model="customer.password" type="password" placeholder="mot de passe" />
+                                    <small v-if="formErrors && formErrors.password" class="text-danger" v-text="formErrors.password.toString()"></small>
                                 </div>
                             </div>
                             <div class="row p-2 mb-3">
-                                <Button class="rounded-pill" label="Creez votre compte" />
+                                <Button @click="createCustomer" class="rounded-pill" label="Creez votre compte" />
                             </div>
                             <div class="row">
                                 <p class="mb-0">Vous avez déja un compte?
@@ -57,6 +61,7 @@
     </div>
 </template>
 <script>
+import { clearNumberMask, when } from './../../core/Utilities';
 export default {
 
     data(){
@@ -66,11 +71,25 @@ export default {
                 phone: null,
                 email: null,
                 password: null
-            }
+            },
+            formErrors: null
         }
     },
     methods: {
+        createCustomer(){
+            this.customer.phone = clearNumberMask(this.customer.phone);
+            this.Api.post('/v1/customer', this.customer)
+            .then(async response => {
 
+            })
+            .catch(error => {
+                if (error.response.status == 422){
+                    return this.formErrors = error.response.data.errors
+                }
+                this.Notify.error(error.response.data.message)
+
+            })
+        }
     }
 }
 </script>

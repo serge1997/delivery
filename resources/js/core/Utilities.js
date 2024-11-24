@@ -9,6 +9,7 @@ function when(condition, trueValue, defaultValue =  null){
         return is(typeof trueValue, "function") ?
         trueValue() : trueValue;
     }else{
+        alert("hey")
         if (defaultValue){
             return !isNull(defaultValue) && is(typeof defaultValue, "function")
             ? defaultValue() : defaultValue;
@@ -16,11 +17,15 @@ function when(condition, trueValue, defaultValue =  null){
         return null;
     }
 }
+function clearNumberMask(value = null){
+    return value ? value.replaceAll(/\D/g, '') : null;
+}
 
 export {
     isNull,
     isNullOrWhiteSpace,
     popUpConfirmMessage,
     when,
+    clearNumberMask,
     is
 }

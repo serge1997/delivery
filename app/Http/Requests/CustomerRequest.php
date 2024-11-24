@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CustomerRequest extends FormRequest
@@ -25,7 +26,7 @@ class CustomerRequest extends FormRequest
             return [
                 'name' => ['required', 'max:60'],
                 'phone' => ['required'],
-                'email' => ['nullable'],
+                'email' => ['nullable', new EmailValidation()],
                 'password' => ['required'],
             ];
         }
@@ -33,8 +34,19 @@ class CustomerRequest extends FormRequest
             'id' => ['required'],
             'name' => ['required', 'max:60'],
             'phone' => ['required'],
-            'email' => ['nullable'],
+            'email' => ['nullable', new EmailValidation()],
             'password' => ['required'],
+        ];
+    }
+
+    public function messages() : array
+    {
+        return [
+            'id.required' => 'votre identifiant est obligatoire',
+            'name.required' => 'nom est obligatoire',
+            'name.max' => '60 caractere maximum permis',
+            'phone.required' => 'numero telephone obligatoire',
+            'password.required' => 'mots de passe obligatoire'
         ];
     }
 
