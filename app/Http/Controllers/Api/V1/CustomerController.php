@@ -29,6 +29,9 @@ class CustomerController extends Controller
         try{
             /** @var CustomerCreate $customerCreate */
             $customerCreate = $this->container->get(CustomerCreate::class);
+            $response = $customerCreate->run($request);
+            return response()
+                ->json($this->successResponse('votre compte a été creer avec success', $response));
 
         }catch(Exception $e){
             return response()
