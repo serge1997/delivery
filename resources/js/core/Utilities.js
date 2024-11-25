@@ -9,7 +9,6 @@ function when(condition, trueValue, defaultValue =  null){
         return is(typeof trueValue, "function") ?
         trueValue() : trueValue;
     }else{
-        alert("hey")
         if (defaultValue){
             return !isNull(defaultValue) && is(typeof defaultValue, "function")
             ? defaultValue() : defaultValue;

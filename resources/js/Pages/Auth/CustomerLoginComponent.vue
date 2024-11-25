@@ -64,7 +64,18 @@ export default {
         customerAuth(){
             this.Api.post('/v1/customer/auth-login', this.login)
             .then(async response => {
-                this.formErrors = null;
+               try{
+                    const result = await response.data.data;
+                    this.Auth.attempt(
+                       result.token,
+                       result.id,
+                       result.name,
+                       result.role
+                    );
+                    this.formErrors = null;
+               }catch(error){
+                    this.Notify.error(error)
+               }
             })
             .catch(error => {
                 if(error.response.status == 422){
@@ -75,7 +86,6 @@ export default {
         }
     },
     mounted(){
-
     }
 }
 </script>
