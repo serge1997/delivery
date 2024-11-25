@@ -50,7 +50,7 @@
                             </div>
                             <div class="row">
                                 <p class="mb-0">Vous avez déja un compte?
-                                    <router-link :to="{name: 'CustomerRegister'}" class="fw-bold">Connectez vous!</router-link>
+                                    <router-link @click="visibleCustomerLoginModal = true;" to="#" class="fw-bold">Connectez vous!</router-link>
                                 </p>
                             </div>
                         </div>
@@ -58,12 +58,24 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+            <Dialog v-model:visible="visibleCustomerLoginModal" modal header="Bienvenue !" :style="{ width: '25rem' }">
+                <CustomerLoginComponent
+                    :register-success-message="message"
+                />
+            </Dialog>
+        </div>
     </div>
 </template>
 <script>
+import { defineAsyncComponent } from 'vue';
 import { clearNumberMask, when } from './../../core/Utilities';
 export default {
-
+    components: {
+        CustomerLoginComponent: defineAsyncComponent(() =>
+            import('./../Auth/CustomerLoginComponent.vue')
+        )
+    },
     data(){
         return{
             customer: {
@@ -72,7 +84,9 @@ export default {
                 email: null,
                 password: null
             },
-            formErrors: null
+            formErrors: null,
+            visibleCustomerLoginModal: false,
+            message: null
         }
     },
     methods: {
@@ -80,7 +94,10 @@ export default {
             this.customer.phone = clearNumberMask(this.customer.phone);
             this.Api.post('/v1/customer', this.customer)
             .then(async response => {
-
+                this.message = await response.data.message;
+                this.Notify.success(await response.data.message);
+                this.visibleCustomerLoginModal = true;
+                this.clearForm();
             })
             .catch(error => {
                 if (error.response.status == 422){
@@ -89,6 +106,12 @@ export default {
                 this.Notify.error(error.response.data.message)
 
             })
+        },
+        clearForm(){
+            this.customer.name = null;
+            this.customer.phone = null;
+            this.customer.email = null;
+            this.customer.password = null;
         }
     }
 }

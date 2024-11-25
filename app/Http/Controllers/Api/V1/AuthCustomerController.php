@@ -1,0 +1,32 @@
+<?php
+namespace App\Http\Controllers\Api\V1;
+
+use App\Traits\HttpResponse;
+use Illuminate\Http\Request;
+use Psr\Container\ContainerInterface;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthCustomerRequest;
+use App\Main\Auth\Customer\Actions\AuthCustomerLogin;
+use Exception;
+
+class AuthCustomerController extends Controller
+{
+    use HttpResponse;
+    public function __construct(
+        private ContainerInterface $container
+    ){}
+
+    public function login(AuthCustomerRequest $request)
+    {
+        try{
+            /** @var AuthCustomerLogin $authCustomerLogin */
+            $authCustomerLogin = $this->container->get(AuthCustomerLogin::class);
+            $response = $authCustomerLogin->auth($request);
+            return response()
+                ->json($this->successResponse('customer login', $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Erreur: {$e->getMessage()}"), 500);
+        }
+    }
+}

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AuthCustomerController;
 use App\Http\Controllers\Api\V1\AuthRestaurantController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\FoodTypeController;
@@ -29,6 +30,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['auth:sanctum', 'type.customer'])->group(function(){
+
+});
+Route::post('/v1/customer/auth-login', [AuthCustomerController::class, 'login'])->name('customer.auth.login');
 Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
     Route::controller(MenuitemSideDishController::class)->group(function(){

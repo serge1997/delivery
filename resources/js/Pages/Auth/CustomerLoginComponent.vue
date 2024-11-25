@@ -1,5 +1,12 @@
 <template>
     <div class="row">
+        <div v-if="registerSuccessMessage" class="row">
+            <div class="card p-0 border-0">
+                <div class="card-body">
+                    <Tag class="p-2" icon="pi pi-check-circle" :value="registerSuccessMessage" severity="success"/>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12">
             <div class="card border-0 text-dark mt-3">
                 <div class="card-header bg-transparent border-0 d-flex flex-wrap flex-column justify-content-center p-0">
@@ -12,17 +19,20 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-column gap-1 mb-4">
-                        <InputText class="w-100" />
+                        <small class="text-danger" v-if="typeof formErrors == 'string'">{{ formErrors }}</small>
+                        <small v-if="formErrors && formErrors.phone" class="text-danger" v-text="formErrors.phone.toString()"></small>
+                        <InputText v-model="login.phone" class="w-100" />
                         <label class="form-label" for="typeEmailX">Telephone</label>
                     </div>
                     <div class="form-outline">
-                        <InputText class="w-100" />
+                        <small v-if="formErrors && formErrors.password" class="text-danger" v-text="formErrors.password.toString()"></small>
+                        <InputText type="password" v-model="login.password" class="w-100" />
                         <label class="form-label" for="typeEmailX">Mot de passe</label>
                     </div>
                     <div class="row p-2 mb-4">
-                        <Button class="rounded-pill" label="se connecter"/>
+                        <Button @click="customerAuth" class="rounded-pill" label="se connecter"/>
                     </div>
-                    <div>
+                    <div v-if="!registerSuccessMessage">
                         <p class="mb-0">Vous n'avez pas de compte?
                             <router-link :to="{name: 'CustomerRegister'}" class="fw-bold">Creez-en !</router-link>
                         </p>
@@ -38,13 +48,31 @@ export default {
     components: {
 
     },
+    props: {
+        registerSuccessMessage: String
+    },
     data(){
         return {
-
+            login: {
+                phone: null,
+                password: null
+            },
+            formErrors: null
         }
     },
     methods: {
-
+        customerAuth(){
+            this.Api.post('/v1/customer/auth-login', this.login)
+            .then(async response => {
+                this.formErrors = null;
+            })
+            .catch(error => {
+                if(error.response.status == 422){
+                    return this.formErrors = error.response.data.errors
+                }
+                this.formErrors = error.response.data.message
+            })
+        }
     },
     mounted(){
 

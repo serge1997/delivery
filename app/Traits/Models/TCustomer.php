@@ -8,7 +8,7 @@ trait TCustomer
 
     public function emailExists(?string $email) : bool
     {
-        return Customer::where('email', $email)->exists();
+        return $email ? Customer::where('email', $email)->exists() : false;
     }
     public function phoneExists(string $phone) : bool
     {

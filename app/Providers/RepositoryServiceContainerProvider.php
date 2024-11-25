@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Main\Auth\Customer\Repository\AuthCustomerRepository;
+use App\Main\Auth\Customer\Repository\AuthCustomerRepositoryInterface;
 use App\Main\Auth\Restaurant\Repository\AuthRestaurantRepository;
 use App\Main\Auth\Restaurant\Repository\AuthRestaurantRepositoryInterface;
 use App\Main\Category\Repository\CategoryRepository;
@@ -44,6 +46,7 @@ class RepositoryServiceContainerProvider extends ServiceProvider
         $this->app->bind(SideDishRepositoryInterface::class, SideDishRepository::class);
         $this->app->bind(MenuitemSideDishRepositoryInterface::class, MenuitemSideDishRepository::class);
         $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
+        $this->app->bind(AuthCustomerRepositoryInterface::class, AuthCustomerRepository::class);
     }
 
     /**
