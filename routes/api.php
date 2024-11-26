@@ -31,9 +31,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum', 'type.customer'])->group(function(){
-
+    Route::post('/v1/auth-customer/auth-logout', [AuthCustomerController::class, 'logout'])->name('auth.customer.logout');
 });
-Route::post('/v1/customer/auth-login', [AuthCustomerController::class, 'login'])->name('customer.auth.login');
+Route::post('/v1/auth-customer/auth-login', [AuthCustomerController::class, 'login'])->name('auth.customer.login');
 Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
     Route::controller(MenuitemSideDishController::class)->group(function(){
@@ -61,17 +61,19 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
     Route::controller(AuthRestaurantController::class)->group(function() {
         Route::prefix('v1/auth-restaurant')->name('auth,restaurant')->group(function(){
-            Route::post('/logout', 'logout')->name('logout');
+            Route::post('/auth-logout', 'logout')->name('logout');
         });
     });
 
     Route::controller(PromotionController::class)->group(function() {
         Route::prefix('v1/promotion')->name('promotion.')->group(function () {
+            Route::post('/', 'onCreate')->name('create');
             Route::get('/actives', 'listAllActives')->name('listall.actives');
         });
     });
     Route::controller(CategoryController::class)->group(function(){
         Route::prefix('v1/category')->name('category.')->group(function () {
+            Route::post('/', 'store')->name('store');
             Route::get('/actives', 'listAllActives')->name('listall.actives');
             Route::get('/uncreated-by-restaurant/{restaurant_id}', 'getAllNotBelongsToCurrentRestaurant')->name('listall.uncreated')->whereNumber('restaurant_id');
         });
@@ -79,6 +81,7 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
     Route::controller(FoodTypeController::class)->group(function(){
         Route::prefix('v1/food-type')->name('food.type.')->group(function(){
+            Route::post('/', 'store')->name('store');
             Route::get('/uncreated-by-restaurant/{restaurant_id}', 'listAllUncreatedByRestaurant')->name('listall.uncreated')->whereNumber('restaurant_id');
         });
     });
@@ -108,7 +111,6 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
 Route::controller(PromotionController::class)->group(function() {
     Route::prefix('v1/promotion')->name('promotion.')->group(function () {
-        Route::post('/', 'onCreate')->name('create');
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'onUpdate')->name('update');
@@ -118,7 +120,6 @@ Route::controller(PromotionController::class)->group(function() {
 
 Route::controller(CategoryController::class)->group(function(){
     Route::prefix('v1/category')->name('category.')->group(function () {
-        Route::post('/', 'store')->name('store');
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');
@@ -129,7 +130,6 @@ Route::controller(CategoryController::class)->group(function(){
 
 Route::controller(FoodTypeController::class)->group(function(){
     Route::prefix('v1/food-type')->name('food.type.')->group(function(){
-        Route::post('/', 'store')->name('store');
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
         Route::put('/', 'update')->name('update');

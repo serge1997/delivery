@@ -26,6 +26,7 @@ final class AuthCustomerRepository implements AuthCustomerRepositoryInterface
     }
     public function logout($request)
     {
-
+        $request->session()->forget('auth_customer');
+        $request->user()->currentAccessToken()->delete();
     }
 }

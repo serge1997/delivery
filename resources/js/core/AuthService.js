@@ -54,4 +54,20 @@ export class AuthService{
     isAdmin(){
         return this.toJson().role === 'admin';
     }
+    getRole(){
+        return this.toJson().role;
+    }
+    logoutURL(){
+        let url = null;
+        switch(this.getRole()){
+            case 'customer':
+                url = '/v1/auth-customer/auth-logout';
+                break;
+            case 'restaurant' :
+                url = '/v1/auth-restaurant/auth-logout';
+                break;
+            default : throw new Error("guard doesnt exists");
+        }
+        return url;
+    }
 }

@@ -9,7 +9,7 @@
                 </template>
                 <div class="row">
                     <div class="w-100">
-                       <el-menu class="p-2">
+                        <el-menu id="menu-guest">
                             <el-menu-item v-if="!isAuthenticated" class="p-1 mt-3 mb-2" index="1">
                                 <Button severity="success" class="w-100 p-1 rounded-2" label="Enregistrer votre restaurant">
                                     <router-link class="text-decoration-none text-white w-100" :to="{ name: 'Register.Restaurant'} ">
@@ -17,8 +17,18 @@
                                     </router-link>
                                 </Button>
                             </el-menu-item>
+                        </el-menu>
+                        <el-menu id="menu-customer" v-if="isAuthenticated && Auth.isCustomer()">
+                            <el-menu-item index="2-1-2">
+                                <router-link class="text-dark text-decoration-none d-flex align-items-center gap-2" to="/administration/restaurant/category">
+                                    <i class="pi pi-truck"></i>
+                                    <span>Restaurants</span>
+                                </router-link>
+                            </el-menu-item>
+                        </el-menu>
+                       <el-menu id="menu-restaurant" class="p-2" v-if="isAuthenticated && Auth.isRestaurant()">
                             <el-menu-item index="1">Processing Center</el-menu-item>
-                            <el-sub-menu index="2" v-if="isAuthenticated">
+                            <el-sub-menu index="2">
                                 <template class="d-flex align-items-center" #title>
                                     <i class="pi pi-cog"></i>
                                     <span class="px-2">Configuation</span>

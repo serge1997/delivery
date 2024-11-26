@@ -69,7 +69,7 @@ export default {
     components: {
         SidebarComponent,
         CartSidebarComponent,
-        CustomerLoginComponent: defineAsyncComponent(() => 
+        CustomerLoginComponent: defineAsyncComponent(() =>
             import('../Pages/Auth/CustomerLoginComponent.vue')
         )
     },
@@ -94,7 +94,8 @@ export default {
     },
     methods: {
         logout(){
-            this.Api.post('/v1/auth-restaurant/logout')
+            const url = this.Auth.logoutURL();
+            this.Api.post(url)
             .then(async response => {
                 this.Auth.logout();
                 location.reload()

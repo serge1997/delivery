@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         customerAuth(){
-            this.Api.post('/v1/customer/auth-login', this.login)
+            this.Api.post('/v1/auth-customer/auth-login', this.login)
             .then(async response => {
                try{
                     const result = await response.data.data;
@@ -73,6 +73,7 @@ export default {
                        result.role
                     );
                     this.formErrors = null;
+                    location.assign('/');
                }catch(error){
                     this.Notify.error(error)
                }

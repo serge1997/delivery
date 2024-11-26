@@ -8,10 +8,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
 
 class Customer extends Authenticatable
 {
-    use HasApiTokens,HasFactory;
+    use HasApiTokens,HasFactory,Notifiable;
 
     protected $table = 'customers';
 
