@@ -7,6 +7,13 @@
                 </div>
             </div>
         </div>
+        <div v-if="mustBeConnected" class="row">
+            <div class="card p-0 border-0">
+                <div class="card-body d-flex justify-content-center">
+                    <Tag class="p-2" icon="pi pi-exclamation-triangle" value="Connectez vous pour continuer..." severity="warning"/>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12">
             <div class="card border-0 text-dark mt-3">
                 <div class="card-header bg-transparent border-0 d-flex flex-wrap flex-column justify-content-center p-0">
@@ -49,7 +56,8 @@ export default {
 
     },
     props: {
-        registerSuccessMessage: String
+        registerSuccessMessage: String,
+        mustBeConnected: Boolean
     },
     data(){
         return {

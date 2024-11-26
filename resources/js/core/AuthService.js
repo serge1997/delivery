@@ -70,4 +70,7 @@ export class AuthService{
         }
         return url;
     }
+    getAvatar(){
+        return this.toJson().name[0];
+    }
 }

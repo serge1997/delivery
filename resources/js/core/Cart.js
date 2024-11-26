@@ -69,6 +69,7 @@ export class Cart{
         if(this.get()){
             return this.get().length;
         }
+        return null;
     }
     getItemsIds(){
         const cartElements = this.get();

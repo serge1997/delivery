@@ -1,5 +1,9 @@
 <template>
-    <NavbarComponent>
+    <NavbarComponent
+        :menuitems="cart_items"
+        @updateCartUi="getCartitems"
+        :cart-item-quantity="cartItemQuantity"
+    >
         <div class="container-fluid mt-3">
             <RestaurantFilterComponent />
             <RestaurantCategoryComponent
@@ -22,7 +26,9 @@ export default{
     },
     data(){
         return {
-            categories: null
+            categories: null,
+            cart_items: null,
+            cartItemQuantity: null
         }
     },
     methods: {
@@ -35,9 +41,16 @@ export default{
                 this.Notify.error(error.response.data.message);
             })
         },
+        getCartitems(){
+            if (this.Cart.getItemsIds()){
+                this.cart_items = this.Cart.get();
+                this.cartItemQuantity = this.Cart.count();
+            }
+        },
     },
     mounted() {
-        this.listAllCategories()
+        this.listAllCategories();
+        this.getCartitems();
     }
 }
 </script>

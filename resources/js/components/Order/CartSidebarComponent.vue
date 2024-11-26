@@ -1,6 +1,6 @@
 <template>
     <div class="row d-flex flex-column justify-content-between mb-3 vh-100">
-        <ul class="list-group col-md-12">
+        <ul v-if="menuitems.length" class="list-group col-md-12">
             <li v-for="menuitem of menuitems" class="list-group-item d-flex justify-content-between mb-4 p-0 border-0 shadow-sm">
                 <div class="d-flex flex-column">
                     <div class="info-box d-flex align-items-center gap-1">
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="mt-1">
-                        <ul class="list-group" v-if="menuitem.side_dishes">
+                        <ul class="list-group" v-if="menuitem.side_dishes.length">
                             <li class="list-group-item border-0 d-flex gap-1" v-for="side of menuitem.side_dishes">
                                 <span class="d-flex align-items-center">
                                     <small class="small-text">{{ side.name }}({{side.total}} FCFA)</small>
@@ -59,23 +59,48 @@
                 </div>
             </li>
         </ul>
-        <div v-if="isForCartActions" class="row" style="margin-bottom: 100px;">
+        <div v-else class="d-flex justify-content-center p-3">
+            <h6>Votre pannier est vide</h6>
+        </div>
+        <div v-if="isForCartActions && Cart.count()" class="row" style="margin-bottom: 100px;">
            <div class="col-md-12">
                 <Button @click="saveOrderAndRedirect" id="confirm_order" class="rounded-pill w-100 border order-btn" label="commandez" text />
            </div>
         </div>
     </div>
+    <div class="row">
+        <Dialog v-model:visible="visibleCustomerLoginModal" modal header="Bienvenue !" :style="{ width: '25rem' }">
+            <CustomerLoginComponent
+                :must-be-connected="true"
+             />
+        </Dialog>
+    </div>
 </template>
 <script>
+import { defineAsyncComponent } from 'vue';
+import { Cart } from '../../core/Cart';
 export default {
     name: 'CartSidebarComponent',
 
+    components: {
+        CustomerLoginComponent: defineAsyncComponent(() =>
+            import('../../Pages/Auth/CustomerLoginComponent.vue')
+        )
+    },
     props: {
         menuitems: Object,
         isForCartActions: Boolean
     },
+    data(){
+        return {
+            visibleCustomerLoginModal: false
+        }
+    },
     methods: {
         saveOrderAndRedirect(){
+            if (!this.Auth.isAuthenticated()){
+                return this.visibleCustomerLoginModal = true;
+            }
             this.$router.push({name: 'Checkout'})
         }
     }

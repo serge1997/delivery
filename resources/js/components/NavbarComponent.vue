@@ -17,7 +17,7 @@
                         </el-menu-item>
                     </div>
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex gap-1 align-items-center">
                     <div class="button-box cart-box-button">
                         <Button @click="cartVisibleSidebar = true" text icon="pi pi-cart-arrow-down" :label="cartItemQuantity ?? Cart.count()"/>
                     </div>
@@ -27,10 +27,10 @@
                             <span>Login</span>
                         </Button>
                     </div>
-                    <div v-else class="button-box">
-                        <Button @click="logout" class="d-flex gap-2 text-danger" text>
-                            <span><i class="pi pi-sign-out"></i></span>
-                        </Button>
+                    <div v-else class="button-box p-2">
+                        <AuthAvatarOverlayComponent
+                            @logout="logout"
+                        />
                     </div>
                 </div>
             </el-menu>
@@ -56,6 +56,7 @@
 <script>
 import SidebarComponent from './SidebarComponent.vue';
 import CartSidebarComponent from './Order/CartSidebarComponent.vue';
+import AuthAvatarOverlayComponent from './Overlays/AuthAvatarOverlayComponent.vue';
 import { defineAsyncComponent } from 'vue';
 export default {
     inject: ['isAuthenticated'],
@@ -71,7 +72,8 @@ export default {
         CartSidebarComponent,
         CustomerLoginComponent: defineAsyncComponent(() =>
             import('../Pages/Auth/CustomerLoginComponent.vue')
-        )
+        ),
+        AuthAvatarOverlayComponent
     },
 
     data(){
@@ -122,7 +124,7 @@ export default {
             this.$emit('updateCartUi')
         },
         reduceCartItemQuantity(item){
-            this.Cart.save(item.id, 1, item.name, item.price, item.image, true, true);
+            this.Cart.save(item.id, 1, item.name, item.price, item.image, false, true);
             this.getCartitems();
             this.$emit('updateCartUi')
         },
