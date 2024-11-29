@@ -3,7 +3,7 @@ namespace App\Main\Neighbourhood\Repository;
 
 use App\Models\Neighbourhood;
 use App\Models\Municipality;
-
+use App\Models\City;
 class NeighbourhoodRepository implements NeighbourhoodRepositoryInterface
 {
     public function create(array $requests) : Neighbourhood
@@ -45,8 +45,12 @@ class NeighbourhoodRepository implements NeighbourhoodRepositoryInterface
         }
         return $find;
     }
-    public function findAllByMunicpality(Municipality $municipality)
+    public function findAllByMunicipality(Municipality $municipality)
     {
         return $municipality->neighborhoods;
+    }
+    public function findAllByCity(City $city)
+    {
+        return $city->neighbourhoods;
     }
 }

@@ -3,7 +3,7 @@
         <div class="col-md-8 col-lg-4 p-3">
             <div class="w-75 d-flex align-items-center gap-2 mb-4">
                 <Tag severity="secondary" value="Address" class="fs-6" />
-                <Button class="btn-text-small" icon="pi pi-pen-to-square" text/>
+                <Button @click="visibleCreateAddressModal = true" class="btn-text-small" icon="pi pi-pen-to-square" text/>
             </div>
             <ul class="list-group">
                 <li class="list-group-item mb-3 d-flex justify-content-between gap-3 border-0 border-bottom">
@@ -51,10 +51,27 @@
                 </li>
             </ul>
         </div>
+        <div class="row">
+             <Dialog v-model:visible="visibleCreateAddressModal" modal :style="{ width: '75rem'}">
+                <CreateAddressComponent />
+             </Dialog>
+        </div>
     </div>
 </template>
 <script>
+import { defineAsyncComponent } from 'vue';
 export default {
-    name: 'EstablishmentAddressComponent'
+    name: 'EstablishmentAddressComponent',
+
+    components: {
+        CreateAddressComponent: defineAsyncComponent(() =>
+            import('../CreateAddressComponent.vue')
+        )
+    },
+    data(){
+        return {
+            visibleCreateAddressModal: false
+        }
+    }
 }
 </script>

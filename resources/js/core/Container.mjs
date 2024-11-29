@@ -1,6 +1,7 @@
 import { ApiModule } from "./ApiModule";
 import { AuthService } from "./AuthService";
 import { Cart } from "./Cart";
+import { Geo } from "./Geo";
 import { Notify } from "./Notify";
 
 export class Container{
@@ -15,6 +16,7 @@ export class Container{
         this.bind("Notify", () => new Notify());
         this.bind('AuthService', () => new AuthService());
         this.bind('Cart', () => new Cart());
+        this.bind('Geo', () => new Geo());
     }
 
     bind(key, callback){

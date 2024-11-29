@@ -1,6 +1,7 @@
 <?php
 namespace App\Main\Neighbourhood\Repository;
 
+use App\Models\City;
 use App\Models\Municipality;
 use App\Models\Neighbourhood;
 
@@ -11,6 +12,7 @@ interface NeighbourhoodRepositoryInterface
     public function listAll();
     public function findByName(string $name) : ?Neighbourhood;
     public function findByNameAndMunicipality(string $name, int $municipality) : ?Neighbourhood;
-    public function findAllByMunicpality(Municipality $municipality);
+    public function findAllByMunicipality(Municipality $municipality);
     public function find(int $id) : ?Neighbourhood;
+    public function findAllByCity(City $city);
 }

@@ -54,14 +54,28 @@ class NeighbourhoodController extends Controller
         }
     }
 
-    public function listByMunicpality(int $municiapality_id)
+    public function listByMunicipality(int $municiapality_id)
     {
         try{
              /** @var NeighbourhoodList $neighbourhoodList */
-             $neighbourhoodList = $this->container->get(MunicipalityList::class);
-             $response = $neighbourhoodList->listAllByMunicpality($municiapality_id);
+             $neighbourhoodList = $this->container->get(NeighbourhoodList::class);
+             $response = $neighbourhoodList->listAllByMunicipality($municiapality_id);
              return response()
                  ->json($this->successResponse('monstrant les quartiers par communes', $response));
+        }catch(Exception $e){
+            return response()
+                ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);
+        }
+    }
+
+    public function listByCity(int $city_id)
+    {
+        try{
+             /** @var NeighbourhoodList $neighbourhoodList */
+             $neighbourhoodList = $this->container->get(NeighbourhoodList::class);
+             $response = $neighbourhoodList->listAllByCity($city_id);
+             return response()
+                 ->json($this->successResponse('monstrant les quartiers par ville', $response));
         }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Error: {$e->getMessage()}"), 500);

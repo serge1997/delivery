@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\MunicipalityController;
+use App\Http\Controllers\Api\V1\NeighbourhoodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,20 +38,6 @@ Route::middleware(['auth:sanctum', 'type.customer'])->group(function(){
 });
 Route::post('/v1/auth-customer/auth-login', [AuthCustomerController::class, 'login'])->name('auth.customer.login');
 Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
-
-    Route::controller(CityController::class)->group(function(){
-        Route::prefix('v1/city')->name('city.')->group(function() {
-            Route::get('/', 'index')->name('index');
-            Route::get('/{id}', 'show')->name('show')->whereNumber('id');
-        });
-    });
-    Route::controller(MunicipalityController::class)->group(function(){
-        Route::prefix('v1/municipality')->name('municipality.')->group(function() {
-            Route::get('/', 'index')->name('index');
-            Route::get('/{id}', 'show')->name('show');
-            Route::get('list-by-city/{city_id}', 'listByCity')->name('list.by.city')->whereNumber('city_id');
-        });
-    });
 
     Route::controller(MenuitemSideDishController::class)->group(function(){
         Route::prefix('v1/menuitem-side-dish')->name('menuitem.side.dish')->group(function(){
@@ -125,6 +112,25 @@ Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
 
 });
 
+Route::controller(NeighbourhoodController::class)->group(function() {
+    Route::prefix('v1/neighbourhood')->name('neighbourhood.')->group(function(){
+        Route::get('/list-by-municipality/{municpality_id}', 'listByMunicipality')->name('list.by.municpality')->whereNumber('municpality_id');
+        Route::get('/list-by-city/{city_id}', 'listByCity')->name('list.by.city')->whereNumber('city_id');
+    });
+});
+Route::controller(CityController::class)->group(function(){
+    Route::prefix('v1/city')->name('city.')->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show')->whereNumber('id');
+    });
+});
+Route::controller(MunicipalityController::class)->group(function(){
+    Route::prefix('v1/municipality')->name('municipality.')->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('list-by-city/{city_id}', 'listByCity')->name('list.by.city')->whereNumber('city_id');
+    });
+});
 Route::controller(PromotionController::class)->group(function() {
     Route::prefix('v1/promotion')->name('promotion.')->group(function () {
         Route::get('/', 'index')->name('index');

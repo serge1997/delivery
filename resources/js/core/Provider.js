@@ -9,5 +9,7 @@ export default {
         app.config.globalProperties.Notify = container.get('Notify');
         app.config.globalProperties.Auth = container.get('AuthService');
         app.config.globalProperties.Cart = container.get('Cart');
+        app.config.globalProperties.Geo = container.get('Geo');
+        app.config.globalProperties.latLng_url = "https://nominatim.openstreetmap.org/reverse?";
     }
 }

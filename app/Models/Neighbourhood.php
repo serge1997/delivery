@@ -10,10 +10,11 @@ class Neighbourhood extends Model
 {
     use HasFactory;
 
-    protected $table = "neghborhoods";
+    protected $table = "neighbourhoods";
     protected $fillable = [
         'id',
         'name',
+        'city_id',
         'municipality_id',
         'is_risked',
         'longitude',
@@ -25,8 +26,13 @@ class Neighbourhood extends Model
         return $this->belongsTo(Municipality::class, 'municipality_id');
     }
 
-    public function city() : BelongsTo
+    public function cityByMunicpality() : BelongsTo
     {
         return $this->municipality->city();
+    }
+
+    public function city() : BelongsTo
+    {
+        return $this->belongsTo(City::class, 'city_id');
     }
 }

@@ -23,6 +23,7 @@ import Tag from 'primevue/tag';
 import Chip from 'primevue/chip';
 import Toolbar from 'primevue/toolbar';
 import InputMask from 'primevue/inputmask';
+import AutoComplete from 'primevue/autocomplete';
 
 const app = createApp(App);
 
@@ -58,7 +59,8 @@ app.component('OverlayPanel', OverlayPanel);
 app.component('Tag', Tag);
 app.component('Chip', Chip);
 app.component('Toolbar', Toolbar);
-app.component('InputMask', InputMask)
+app.component('InputMask', InputMask);
+app.component('AutoComplete', AutoComplete);
 app.use(router)
     .use(VueAxios, axios)
     .use(PrimeVue)

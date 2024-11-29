@@ -74,4 +74,8 @@ export default{
 .img-3d-box-text-content, .form-label{
     color: #4b5563;
 }
+.dropdown-text {
+    color: #475569;
+    font-weight: 600;
+}
 </style>
