@@ -27,6 +27,6 @@ class City extends Model
 
     public function neighorhoods(): BelongsToMany
     {
-        return $this->belongsToMany(Neighborhood::class, 'municipalities', 'city_id', 'municipality_id');
+        return $this->belongsToMany(Neighbourhood::class, 'municipalities', 'city_id', 'municipality_id');
     }
 }

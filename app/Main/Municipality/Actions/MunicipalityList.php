@@ -2,13 +2,15 @@
 namespace App\Main\Municipality\Actions;
 
 use App\Http\Resources\MunicipalityResource;
+use App\Main\City\Repository\CityRepositoryInterface;
 use App\Main\Municipality\Repository\MunicipalityRepositoryInterface;
-use App\Main\Municpality\Exception\MunicipalityException;
+use App\Main\Municipality\Exception\MunicipalityException;
 
 class MunicipalityList
 {
     public function __construct(
-        private MunicipalityRepositoryInterface $municipalityRepository
+        private MunicipalityRepositoryInterface $municipalityRepository,
+        private CityRepositoryInterface $cityRepository
     )
     {}
 
@@ -19,7 +21,7 @@ class MunicipalityList
         );
     }
 
-    public function find(int $id)
+    public function listById(int $id)
     {
         $municpality = $this->municipalityRepository->find($id);
         if (!empty($municpality)){
@@ -27,6 +29,14 @@ class MunicipalityList
                 $municpality
             );
         }
-        throw new MunicipalityException("l'identificateur introuvale");
+        throw new MunicipalityException("l'identificateur de la commune introuvable");
+    }
+
+    public function listAllByCity(int $city_id)
+    {
+        $city = $this->cityRepository->find($city_id);
+        return MunicipalityResource::collection(
+            $this->municipalityRepository->findAllByCity($city)
+        );
     }
 }

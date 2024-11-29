@@ -1,7 +1,7 @@
 <?php
 namespace App\Main\Municipality\Repository;
 
-use App\Main\Municpality\Exception\MunicipalityException;
+use App\Main\Municipality\Exception\MunicipalityException;
 use App\Models\City;
 use App\Models\Municipality;
 use Exception;
@@ -42,5 +42,10 @@ class MunicipalityRepository implements MunicipalityRepositoryInterface
             return $municpality;
         }
         return $municipalityFinded;
+    }
+
+    public function findAllByCity(City $city)
+    {
+        return $city->municipalities;
     }
 }

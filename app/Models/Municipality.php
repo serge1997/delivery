@@ -22,7 +22,7 @@ class Municipality extends Model
 
     public function neighborhoods() : HasMany
     {
-        return $this->hasMany(Neighborhood::class, 'municipality_id');
+        return $this->hasMany(Neighbourhood::class, 'municipality_id');
     }
 
     public function city() : BelongsTo

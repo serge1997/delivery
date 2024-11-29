@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\V1\SideDishController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\CustomerController;
+use App\Http\Controllers\Api\V1\CityController;
+use App\Http\Controllers\Api\V1\MunicipalityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,20 @@ Route::middleware(['auth:sanctum', 'type.customer'])->group(function(){
 });
 Route::post('/v1/auth-customer/auth-login', [AuthCustomerController::class, 'login'])->name('auth.customer.login');
 Route::middleware(['auth:sanctum', 'type.restaurant'])->group(function () {
+
+    Route::controller(CityController::class)->group(function(){
+        Route::prefix('v1/city')->name('city.')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{id}', 'show')->name('show')->whereNumber('id');
+        });
+    });
+    Route::controller(MunicipalityController::class)->group(function(){
+        Route::prefix('v1/municipality')->name('municipality.')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{id}', 'show')->name('show');
+            Route::get('list-by-city/{city_id}', 'listByCity')->name('list.by.city')->whereNumber('city_id');
+        });
+    });
 
     Route::controller(MenuitemSideDishController::class)->group(function(){
         Route::prefix('v1/menuitem-side-dish')->name('menuitem.side.dish')->group(function(){

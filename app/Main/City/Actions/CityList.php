@@ -16,7 +16,7 @@ class CityList
             $this->cityRepository->listAll()
         );
     }
-    public function findById(int $id)
+    public function listById(int $id)
     {
         return new CityResource(
             $this->cityRepository->find($id)

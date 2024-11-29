@@ -8,7 +8,7 @@
                         <el-menu-item @click="componentIs='EstablishmentFoodTypeComponent'" index="2" class="fw-bold">Vos type de plats</el-menu-item>
                         <el-menu-item @click="componentIs='EstablishmentPromotionComponent'" index="4" class="fw-bold">Vos promotions</el-menu-item>
                         <el-menu-item @click="componentIs='EstablishmentImagesComponent'" index="5" class="fw-bold">Images</el-menu-item>
-                        <el-menu-item index="3" class="fw-bold">Address et ouverture-fermeture</el-menu-item>
+                        <el-menu-item @click="componentIs = 'EstablishmentAddressComponent'" index="3" class="fw-bold">Address et ouverture-fermeture</el-menu-item>
                     </el-menu>
                 </div>
                 <div class="col-md-8">
@@ -19,18 +19,26 @@
     </NavbarComponent>
 </template>
 <script>
-import EstablishmentCategoryComponent from '../../../components/Configuration/EstablishmentCategoryComponent.vue';
-import EstablishmentFoodTypeComponent from '../../../components/Configuration/EstablishmentFoodTypeComponent.vue';
-import EstablishmentPromotionComponent from '../../../components/Configuration/EstablishmentPromotionComponent.vue';
-import EstablishmentImagesComponent from '../../../components/Configuration/EstablishmentImagesComponent.vue';
+import { defineAsyncComponent } from 'vue';
 export default{
     name: 'Config.Establishement',
 
     components: {
-        EstablishmentCategoryComponent,
-        EstablishmentFoodTypeComponent,
-        EstablishmentPromotionComponent,
-        EstablishmentImagesComponent
+        EstablishmentCategoryComponent: defineAsyncComponent(() =>
+            import('../../../components/Configuration/EstablishmentCategoryComponent.vue')
+        ),
+        EstablishmentFoodTypeComponent: defineAsyncComponent(() =>
+            import('../../../components/Configuration/EstablishmentFoodTypeComponent.vue')
+        ),
+        EstablishmentPromotionComponent: defineAsyncComponent(() =>
+            import('../../../components/Configuration/EstablishmentPromotionComponent.vue')
+        ),
+        EstablishmentImagesComponent: defineAsyncComponent(() =>
+            import('../../../components/Configuration/EstablishmentImagesComponent.vue')
+        ),
+        EstablishmentAddressComponent: defineAsyncComponent(() =>
+            import('../../../components/Configuration/EstablishmentAddressComponent.vue')
+        )
     },
     data(){
         return {

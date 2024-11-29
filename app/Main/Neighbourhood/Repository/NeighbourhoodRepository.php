@@ -45,4 +45,8 @@ class NeighbourhoodRepository implements NeighbourhoodRepositoryInterface
         }
         return $find;
     }
+    public function findAllByMunicpality(Municipality $municipality)
+    {
+        return $municipality->neighborhoods;
+    }
 }
