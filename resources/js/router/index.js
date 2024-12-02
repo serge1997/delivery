@@ -60,6 +60,17 @@ const routes = [
         ]
     },
     {
+        path: '/administration/address',
+        meta: {requiresAuth: true},
+        children: [
+            {
+                path: 'adm-address',
+                component: () => import('./../Pages/Administration/Address/Address.view.vue'),
+                name: 'Administration.Address'
+            },
+        ]
+    },
+    {
         path: '/login',
         children: [
             {

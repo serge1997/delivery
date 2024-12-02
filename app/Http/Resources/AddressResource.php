@@ -14,6 +14,15 @@ class AddressResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'street_reference' => "$this->street_reference - {$this->municipality->name} - {$this->neighbourhood->name}",
+            'city' => $this->city,
+            'municipality' => $this->municipality,
+            'neighbourhood' => $this->neighbourhood,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'zip_code' => $this->zip_code
+        ];
     }
 }

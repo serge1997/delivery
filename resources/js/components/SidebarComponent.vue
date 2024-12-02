@@ -69,6 +69,12 @@
                                         <router-link class="text-dark text-decoration-none" :to="{ name: 'Administration.FoodType' }">Type de plats</router-link>
                                     </el-menu-item>
                                 </el-sub-menu>
+                                <el-sub-menu index="4-1">
+                                    <template #title>Address</template>
+                                    <el-menu-item index="4-1-1">
+                                        <router-link class="text-dark text-decoration-none" :to="{ name: 'Administration.Address'}">Consulter</router-link>
+                                    </el-menu-item>
+                                </el-sub-menu>
                             </el-sub-menu>
                        </el-menu>
                     </div>

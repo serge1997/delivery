@@ -34,6 +34,9 @@ class AddressController extends Controller
         try{
             /** @var AddressCreate $addressCreate */
             $addressCreate = $this->container->get(AddressCreate::class);
+            $response = $addressCreate->run($request);
+            return response()
+                ->json($this->successResponse("l'address enregistrée avec success", $response));
         }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Erreur: {$e->getMessage()}"), 500);
@@ -56,6 +59,9 @@ class AddressController extends Controller
         try{
             /** @var AddressList $addressList */
             $addressList = $this->container->get(AddressList::class);
+            $response = $addressList->listSearch($request);
+            return response()
+                ->json($this->successResponse("recherche d'address", $response));
         }catch(Exception $e){
             return response()
                 ->json($this->errorResponse("Erreur: {$e->getMessage()}"), 500);

@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="form-group col-md-4 mb-3">
                     <label for="">Rue ou reference</label>
-                    <AutoComplete />
+                    <AutoComplete @complete="searchAddress" v-model="address.street_reference" />
                 </div>
                 <div class="form-group col-md-2 mb-3">
                     <label for="">Numero</label>
@@ -71,7 +71,8 @@ export default {
                 municipality: null,
                 neighbourhood: null,
                 complement: null,
-                number: null
+                number: null,
+                street_reference: null
             },
             cities: null,
             municipalities: null,
@@ -79,6 +80,9 @@ export default {
         }
     },
     methods: {
+        searchAddress(){
+            axios.get(`${this.Adress_ApiUrl}${this.address.city.name}+${this.address.municipality.name}+${this.address.street_reference}&format=json`)
+        },
         getAllCities(){
             this.Api.get('/v1/city')
             .then(async response => {

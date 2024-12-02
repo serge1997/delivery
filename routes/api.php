@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\MunicipalityController;
 use App\Http\Controllers\Api\V1\NeighbourhoodController;
+use App\Http\Controllers\Api\V1\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -147,6 +148,12 @@ Route::controller(CategoryController::class)->group(function(){
         Route::put('/', 'update')->name('update');
         Route::post('/update/image', 'updateImage')->name('update.image');
         Route::put('/status/{id}','updateIsActive')->name('update.status');
+    });
+});
+Route::controller(AddressController::class)->group(function(){
+    Route::prefix('v1/address')->name('address.')->group(function(){
+        Route::post('/', 'store');
+        Route::get('/search', 'search')->name('search');
     });
 });
 

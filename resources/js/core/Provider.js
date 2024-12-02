@@ -11,5 +11,6 @@ export default {
         app.config.globalProperties.Cart = container.get('Cart');
         app.config.globalProperties.Geo = container.get('Geo');
         app.config.globalProperties.latLng_url = "https://nominatim.openstreetmap.org/reverse?";
+        app.config.globalProperties.Adress_ApiUrl = "https://nominatim.openstreetmap.org/search?q=";
     }
 }

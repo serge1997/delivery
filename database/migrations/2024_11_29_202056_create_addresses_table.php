@@ -15,8 +15,18 @@ return new class extends Migration
             $table->increments('id');
             $table->string('street_reference');
             $table->integer('city_id')->unsigned();
-            $table->integer('municipality_id')->unsigned();
+            $table->integer('municipality_id')->unsigned()->nullable();
             $table->integer('neighbourhood_id')->unsigned();
+            $table->double('longitude')->nullable();
+            $table->double('latitude');
+            $table->boolean('is_street');
+            $table->string('zip_code', 15)->nullable();
+            $table->foreign('city_id')->references('id')
+                ->on('cities');
+            $table->foreign('municipality_id')->references('id')
+                ->on('municipalities');
+            $table->foreign('neighbourhood_id')->references('id')
+                ->on('neighbourhoods');
             $table->timestamps();
         });
     }

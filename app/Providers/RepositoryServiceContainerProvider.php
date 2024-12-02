@@ -33,6 +33,8 @@ use App\Main\RestaurantFoodType\Repository\RestaurantFoodTypeRepositoryInterface
 use App\Main\SideDish\Repository\SideDishRepository;
 use App\Main\SideDish\Repository\SideDishRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use App\Main\Address\Repository\AddressRepository;
+use App\Main\Address\Repository\AddressRepositoryInterface;
 
 class RepositoryServiceContainerProvider extends ServiceProvider
 {
@@ -56,6 +58,7 @@ class RepositoryServiceContainerProvider extends ServiceProvider
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
         $this->app->bind(MunicipalityRepositoryInterface::class, MunicipalityRepository::class);
         $this->app->bind(NeighbourhoodRepositoryInterface::class, NeighbourhoodRepository::class);
+        $this->app->bind(AddressRepositoryInterface::class, AddressRepository::class);
     }
 
     /**
