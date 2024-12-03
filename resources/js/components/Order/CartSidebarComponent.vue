@@ -1,8 +1,8 @@
 <template>
     <div class="row d-flex flex-column justify-content-between mb-3 vh-100">
         <ul v-if="menuitems.length" class="list-group col-md-12">
-            <li v-for="menuitem of menuitems" class="list-group-item d-flex justify-content-between mb-4 p-0 border-0 shadow-sm">
-                <div class="d-flex flex-column">
+            <li style="background-color: #e5e7eb;" v-for="menuitem of menuitems" class="list-group-item d-flex justify-content-between mb-4 p-0 border-0 shadow-sm">
+                <div class="d-flex flex-column justify-content-center">
                     <div class="info-box d-flex align-items-center gap-1">
                         <div class="d-flex">
                             <span class="d-flex align-items-center">
@@ -10,7 +10,7 @@
                                     <i class="pi pi-trash text-danger small-btn-icon"></i>
                                 </Button>
                             </span>
-                            <span class="d-flex align-items-center">
+                            <span class="d-flex align-items-center bg-transparent">
                                 <img style="width: 28px;" :src="`/images/menuitems/${menuitem.image}`" alt="">
                             </span>
                             <span class="d-flex align-items-center small-text d-flex gap-1">
@@ -22,7 +22,7 @@
                     </div>
                     <div class="mt-1">
                         <ul class="list-group" v-if="menuitem.side_dishes.length">
-                            <li class="list-group-item border-0 d-flex gap-1" v-for="side of menuitem.side_dishes">
+                            <li class="list-group-item border-0 d-flex gap-1" style="background-color: #e5e7eb;" v-for="side of menuitem.side_dishes">
                                 <span class="d-flex align-items-center">
                                     <small class="small-text">{{ side.name }}({{side.total}} FCFA)</small>
                                 </span>

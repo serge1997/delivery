@@ -6,9 +6,7 @@
                     <Button @click="goToHome" class="rounded-circle border-0 p-3 btn-restaurant-sidebar-back">
                         <i class="pi pi-angle-left fw-bold"></i>
                     </Button>
-                    <Button class="rounded-circle text-white border-0 p-3 btn-restaurant-sidebar-info">
-                        <i class="pi pi-info-circle fw-bold"></i>
-                    </Button>
+                    <AddressInfoOverlayComponent />
                </div>
             </div>
         </div>
@@ -28,8 +26,16 @@
     </div>
 </template>
 <script>
+import { defineAsyncComponent } from 'vue';
+
 export default {
     name: 'RestaurantProfileSidebar',
+
+    components: {
+        AddressInfoOverlayComponent: defineAsyncComponent(() =>
+            import('../Overlays/AddressInfoOverlayComponent.vue')
+        )
+    },
 
     props: {
         name: String,
