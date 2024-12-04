@@ -8,10 +8,11 @@ export class AuthService{
         this.id = null;
         this.longitude = null;
         this.latitude = null;
+        this.address_id = null;
 
     }
 
-    attempt(token, id, name, role){
+    attempt(token, id, name, role, address_id = null){
         when(
             isNullOrWhiteSpace(token) ||
             isNullOrWhiteSpace(name) ||
@@ -25,6 +26,7 @@ export class AuthService{
         this.role = role;
         this.token = token;
         this.id = id;
+        this.address_id = address_id;
         localStorage.setItem('auth', JSON.stringify(this));
     }
     isAuthenticated() {
@@ -72,5 +74,8 @@ export class AuthService{
     }
     getAvatar(){
         return this.toJson().name[0];
+    }
+    hasAddress(){
+        return this.toJson().address_id;
     }
 }

@@ -64,7 +64,7 @@
         </div>
         <div v-if="isForCartActions && Cart.count()" class="row" style="margin-bottom: 100px;">
            <div class="col-md-12">
-                <Button @click="saveOrderAndRedirect" id="confirm_order" class="rounded-pill w-100 border order-btn" label="commandez" text />
+                <Button @click="redirectToCheckout" id="confirm_order" class="rounded-pill w-100 border order-btn" label="commandez" text />
            </div>
         </div>
     </div>
@@ -72,6 +72,11 @@
         <Dialog v-model:visible="visibleCustomerLoginModal" modal header="Bienvenue !" :style="{ width: '25rem' }">
             <CustomerLoginComponent
                 :must-be-connected="true"
+             />
+        </Dialog>
+        <Dialog v-model:visible="visibleCustomerAddressModal" modal header="informez le lieu de livraison !" :style="{ width: '35rem' }">
+            <CustomerAddressSearchComponent
+                
              />
         </Dialog>
     </div>
@@ -85,6 +90,9 @@ export default {
     components: {
         CustomerLoginComponent: defineAsyncComponent(() =>
             import('../../Pages/Auth/CustomerLoginComponent.vue')
+        ),
+        CustomerAddressSearchComponent: defineAsyncComponent(() => 
+            import('./CustomerAddressSearchComponent.vue')
         )
     },
     props: {
@@ -93,13 +101,17 @@ export default {
     },
     data(){
         return {
-            visibleCustomerLoginModal: false
+            visibleCustomerLoginModal: false,
+            visibleCustomerAddressModal: false,
         }
     },
     methods: {
-        saveOrderAndRedirect(){
+        redirectToCheckout(){
             if (!this.Auth.isAuthenticated()){
                 return this.visibleCustomerLoginModal = true;
+            }
+            if (!this.Auth.hasAddress()){
+                return this.visibleCustomerAddressModal = true;
             }
             this.$router.push({name: 'Checkout'})
         }

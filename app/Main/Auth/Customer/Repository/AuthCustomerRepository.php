@@ -20,7 +20,8 @@ final class AuthCustomerRepository implements AuthCustomerRepositoryInterface
             'id' => $customer->id,
             'token' => $token,
             'name' => $customer->name,
-            'role' => 'customer'
+            'role' => 'customer',
+            'address_id' => $customer->address_id
         ];
         return $data;
     }

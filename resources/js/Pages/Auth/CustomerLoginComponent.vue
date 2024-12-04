@@ -78,7 +78,8 @@ export default {
                        result.token,
                        result.id,
                        result.name,
-                       result.role
+                       result.role,
+                       result.address_id
                     );
                     this.formErrors = null;
                     location.assign('/');

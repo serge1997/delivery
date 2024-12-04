@@ -3,7 +3,7 @@ export class Geo {
         this.latitude = null;
         this.longitude = null;
     }
-    getLatLng(){
+    async getLatLng(){
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.latitude = position.coords.latitude;
@@ -11,7 +11,7 @@ export class Geo {
             });
         }
     }
-    getAddress(url){
-        axios.get(`${url}lat=${this.latitude}&lon=${this.longitude}`)
+    getGeoAddress(url){
+        return axios.get(`${url}lat=5.295636&lon=-3.988541&format=json`)
     }
 }
